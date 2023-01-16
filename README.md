@@ -3,8 +3,8 @@
 <!-- Title -->
 
 <p align="center">
-  <a href="https://github.com/expo/examples">
-    <img alt="create-react-native-app" src="./.gh-assets/banner.svg">
+  <a href="https://centangle.com/">
+    <!-- <img alt="create-react-native-app" src="./.gh-assets/banner.svg"> -->
     <h1 align="center">Torrance App</h1>
   </a>
 </p>
@@ -44,21 +44,6 @@
 - `yarn android` -- (`expo run:android`) Build the Android App.
 - `yarn web` -- (`expo start:web`) Run the website in your browser.
 
-### Templates
-
-By default you create a [bare-workflow React](https://docs.expo.io/bare/exploring-bare-workflow/) project with support for iOS, Android, and web. You can opt to use an example project instead by selecting the "Templates from ..." option. Custom templates can be used with `--template <Example Name or GitHub URL>` option.
-
-- Use an [example](https://github.com/expo/examples): `npx create-react-native-app -t with-typescript`
-- Use a custom template: `npx create-react-native-app --template https://github.com/someone/my-react-starter` -- Only works with GitHub repos on the master branch.
-- All examples can be modified in the [expo/examples](https://github.com/expo/examples) repo.
-
-## Sections
-
-- [Usage with Expo Client App](#usage-with-expo-client-app)
-- [Support and Contact](#support-and-contact)
-- [FAQs](#faqs)
-- [Contributing](#contributing)
-
 ## Usage with Expo Client App
 
 Expo Client enables you to work with all of the [Components and APIs](https://facebook.github.io/react-native/docs/getting-started) in `react-native`, as well as the [JavaScript APIs](https://docs.expo.io/versions/latest) that the are bundled with the Expo App.
@@ -81,18 +66,6 @@ If you're having issues with Create React Native App, please make sure:
 - There is not already an [open issue](https://github.com/expo/expo-cli/issues) for your particular problem
 
 If you've checked the documentation and currently open issues, please either [open a new GitHub issue](https://github.com/expo/create-react-native-app/issues/new) or ask a question on [Expo forums](https://forums.expo.io/c/help).
-
-## Contributing
-
-Please see [Contributing guide](https://github.com/expo/expo-cli/blob/master/CONTRIBUTING.md) in the Expo CLI monorepo for instructions on contributing to Expo CLI.
-
-### Attribution
-
-The examples feature was inspired by the `templates` system of [create-next-app](https://github.com/zeit/next.js/tree/canary/packages/create-next-app) by the [Vercel](https://vercel.com/) team.
-
-## Related
-
-CRNA is focused on being the fastest way to bootstrap a React Native app without worrying about the native platforms or bundlers required for developing and shipping apps. Other tools provide both an init script (which is slower) and a suite of other tools that can be used for interacting with the project. CRNA is meant to be used with any of the following tools:
 
 - [Expo CLI](https://github.com/expo/expo-cli) by [Expo team](https://expo.io)
 - [React Native Community CLI](https://github.com/react-native-community/cli) by members of [the React Native community](https://github.com/orgs/react-native-community/people)
