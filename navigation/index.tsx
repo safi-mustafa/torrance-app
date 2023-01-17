@@ -91,6 +91,7 @@ function BottomTabNavigator() {
         component={DashboardScreen}
         options={({ navigation }: RootTabScreenProps<"TapDashboard">) => ({
           title: "Dashboard",
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="home" color={color} />
           ),
