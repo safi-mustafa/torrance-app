@@ -1,18 +1,18 @@
 import {
-  Formik,
-  FormikHelpers,
-  FormikProps,
-  Form,
-  Field,
-  FieldProps,
+  Formik
 } from "formik";
-import { StyleSheet, TextInput, Text, View, Button } from "react-native";
+import { useState } from "react";
+import { StyleSheet, View, Button, Pressable, Text } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import RNPickerSelect from "react-native-picker-select";
+import appStyles from "../app-styles";
 
-export default function TotRequestScreen({
-  navigation,
-}) {
+import FormLoop from "../components/form/FormLoop";
+import Loader from "../components/Loader";
+import { totFields } from "../fields/tot.fields";
+
+export default function TotRequestScreen({ navigation }) {
+
+  const [loading, setLoading] = useState(false)
   const onSubmit = async (values, { setSubmitting }) => {
     console.log(
       "🚀 ~ file: TotRequestScreen.tsx ~ line 18 ~ onSubmit ~ values",
@@ -22,7 +22,7 @@ export default function TotRequestScreen({
 
   return (
     <>
-      {/* <Loader show={loading} size="large" overlay="true" color="white" /> */}
+      <Loader show={loading} size="large" overlay="true" color="white" />
       <KeyboardAwareScrollView>
         <View style={styles.container}>
           <Formik
@@ -41,28 +41,16 @@ export default function TotRequestScreen({
               setFieldValue,
             }) => (
               <>
-                <View>
-                  <Text>Email</Text>
-                  <TextInput
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    value={values.email}
-                  />
-                </View>
-                <View>
-                  <Text>Department</Text>
-                  <RNPickerSelect
-                    onValueChange={(value) =>
-                      setFieldValue("department", value)
-                    }
-                    items={[
-                      { label: "Football", value: "football" },
-                      { label: "Baseball", value: "baseball" },
-                      { label: "Hockey", value: "hockey" },
-                    ]}
-                  />
-                </View>
-                <Button onPress={handleSubmit} title="Submit" />
+                <FormLoop
+                  fields={totFields}
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
+                  setFieldValue={setFieldValue}
+                  values={values}
+                  errors={errors}
+                  handleSubmit={handleSubmit}
+                />
+                <Pressable style={[appStyles.btn, appStyles.btnPrimary]} onPress={handleSubmit}><Text style={[appStyles.btnText, appStyles.btnTextPrimary]}>Submit Request</Text></Pressable>
               </>
             )}
           </Formik>
@@ -74,9 +62,6 @@ export default function TotRequestScreen({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
     padding: 20,
   },
 });
