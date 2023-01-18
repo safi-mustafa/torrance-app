@@ -60,10 +60,11 @@ export default function FormLoop({
 const styles = StyleSheet.create({
   label: {
     fontSize: 16,
-    marginBottom: 3,
+    marginBottom: 4,
+    color: '#333'
   },
   inputWrapper: {
-    marginBottom: 10
+    marginBottom: 15
   },
 });
 

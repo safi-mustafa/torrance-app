@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import RNPickerSelect from "react-native-picker-select";
 import { FontAwesome } from "@expo/vector-icons";
 import { Text } from "react-native";
+import appStyles from "../../app-styles";
 // import getData from "../../services/getData";
 
 export default function SelectInput({
@@ -59,20 +60,17 @@ export default function SelectInput({
       style={{
         inputIOS: {
           color: "#333",
-          padding: 10,
           backgroundColor: "#fff",
-          borderRadius: 5,
           minHeight: 20,
+          ...appStyles.input,
         },
         placeholder: {
           color: "#999",
         },
         inputAndroid: {
           color: "#333",
-          padding: 10,
-          backgroundColor: "#fff",
-          borderRadius: 5,
           minHeight: 20,
+          ...appStyles.input,
         },
       }}
       {...otherProps}

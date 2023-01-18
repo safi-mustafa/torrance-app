@@ -30,8 +30,8 @@ const appStyles = StyleSheet.create({
   h5: {
     fontSize: defaultFontSize * 1.2,
   },
-  my1:{
-    marginVertical: 2
+  my1: {
+    marginVertical: 2,
   },
   title: {
     fontSize: 20,
@@ -52,23 +52,31 @@ const appStyles = StyleSheet.create({
     margin: 0,
     padding: 0,
   },
-  btn:{
-    backgroundColor: '#ccc',
+  btn: {
+    backgroundColor: "#ccc",
     borderWidth: 1,
     borderRadius: 4,
     padding: 10,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
   },
-  btnText:{
+  btnText: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
   },
-  btnPrimary:{
+  btnPrimary: {
     backgroundColor: primaryColor,
-    borderColor: primaryColor
+    borderColor: primaryColor,
   },
-  btnTextPrimary:{
-    color: lightColor
-  }
+  btnTextPrimary: {
+    color: lightColor,
+  },
+  input: {
+    backgroundColor: "#fff",
+    borderColor: "#ccc",
+    fontSize: 16,
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 6,
+  },
 });
 export default appStyles;
