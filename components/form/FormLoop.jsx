@@ -39,15 +39,20 @@ export default function FormLoop({
           <View key={elementAttribs?.name}>
             {!elementAttribs?.hidden && (
               <View>
-                <Text style={styles.label}>{elementAttribs?.label}</Text>
-                <View style={styles.inputWrapper}>
-                  <Putin {..._props} />
-                </View>
-                {errors[elementAttribs?.name] && (
-                  <Text marginBottom={2} fontSize="sm" color="danger.500">
-                    {errors[elementAttribs?.name]}
+                {elementAttribs?.label && (
+                  <Text
+                    style={{ ...styles.label, ...elementAttribs?.labelStyle }}
+                  >
+                    {elementAttribs?.label}
                   </Text>
                 )}
+                <View style={styles.inputWrapper}>
+                  <Putin {..._props} />
+
+                  <Text style={styles.inputError}>
+                    {errors[elementAttribs?.name]}
+                  </Text>
+                </View>
               </View>
             )}
           </View>
@@ -61,10 +66,16 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginBottom: 4,
-    color: '#333'
+    color: "#333",
   },
   inputWrapper: {
-    marginBottom: 15
+    marginBottom: 0,
+  },
+  inputError: {
+    color: "red",
+    minHeight: 20,
+    marginTop: 1
+    // position: "absolute"
   },
 });
 

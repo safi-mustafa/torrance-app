@@ -1,28 +1,23 @@
 export const loginFields = [
-    {
-        name: 'email',
-        placeholder: 'email-address',
-        label: 'email-address',
-        w: '100%',
-        size: "xl",
-        marginBottom: 2
-    },
-    {
-        name: 'password',
-        placeholder: 'password',
-        label: 'password',
-        w: '100%',
-        size: "xl",
-        type:"password",
-        marginBottom: 2,
-    },
-    {
-        inputType: 'button',
-        name: 'submit',
-        children: "login",
-        size: "md",
-        colorScheme:"success",
-        marginBottom: 12,
-        marginTop: 3
-    },
-]
+  {
+    name: "email",
+    placeholder: "Enter Email Address",
+    label: "Email Address",
+    type: "email",
+    labelStyle: { color: "#fff" },
+  },
+  {
+    name: "password",
+    placeholder: "Enter Password",
+    label: "Password",
+    secureTextEntry: true,
+    labelStyle: { color: "#fff" },
+  },
+  {
+    inputType: "button",
+    name: "submit",
+    title: "Login",
+    titleStyle: { fontSize: 16 },
+    style: { marginTop: 5 },
+  },
+];

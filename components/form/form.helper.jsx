@@ -1,5 +1,6 @@
-import { TextInput, Text, Button } from "react-native";
+import { Text, Pressable } from "react-native";
 import { DateTimePicker } from "../DateTimePicker";
+import Buttonx from "./Buttonx";
 import Input from "./Input";
 import SelectInput from "./SelectInput";
 import SwitchInput from "./SwitchInput";
@@ -11,7 +12,7 @@ export const inputTypes = {
   heading: <Text></Text>,
   datetime: <DateTimePicker />,
   switch: <SwitchInput />,
-  button: <Button />,
+  button: <Buttonx />,
   select: <SelectInput />,
   textarea: <TextArea />,
 };

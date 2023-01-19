@@ -18,6 +18,7 @@ import SubmissionsScreen from "../screens/SubmissionsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import TotRequestScreen from "../screens/TotRequestScreen";
 import WrrRequestScreen from "../screens/WrrRequestScreen";
+import LoginScreen from "../screens/LoginScreen";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -36,6 +37,11 @@ function RootNavigator() {
     <Stack.Navigator>
       <Stack.Screen
         name="Root"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="BottomTabNav"
         component={BottomTabNavigator}
         options={{ headerShown: false }}
       />
