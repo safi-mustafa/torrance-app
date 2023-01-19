@@ -5,7 +5,9 @@ import {
   Text,
   View,
   Platform,
+  TouchableOpacity,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 import appStyles from "../app-styles";
 import useColorScheme from "../hooks/useColorScheme";
@@ -26,6 +28,7 @@ export default function ProfileScreen({ navigation }) {
         <View
           style={[appStyles.clear, { paddingTop: 80, paddingHorizontal: 30 }]}
         >
+          <TouchableOpacity onPress={()=>navigation.replace('Root')}><Ionicons name="exit-outline" size={32} color="white" style={styles.exitBtn}/></TouchableOpacity>
           <Text style={{ color: Colors[colorScheme].lightText }}>Hello,</Text>
           <Text
             style={[
@@ -57,4 +60,9 @@ const styles = StyleSheet.create({
     height: "100%",
     padding: 30,
   },
+  exitBtn:{
+    position: 'absolute',
+    top: -60,
+    right: 0
+  }
 });

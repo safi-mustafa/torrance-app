@@ -19,6 +19,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import TotRequestScreen from "../screens/TotRequestScreen";
 import WrrRequestScreen from "../screens/WrrRequestScreen";
 import LoginScreen from "../screens/LoginScreen";
+import SubmissionContentScreen from "../screens/SubmissionContentScreen";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -59,6 +60,11 @@ function RootNavigator() {
         name="WrrRequest"
         component={WrrRequestScreen}
         options={{ title: "New WRR Request" }}
+      />
+      <Stack.Screen
+        name="SubmissionContent"
+        component={SubmissionContentScreen}
+        options={{ title: "Content" }}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />

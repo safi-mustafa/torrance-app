@@ -57,7 +57,7 @@ export default function DashboardScreen({ navigation }) {
             icon={WRR_IMAGE}
             onPress={() => navigation.push("WrrRequest")}
           />
-          <DashboardMenu />
+          <DashboardMenu navigation={navigation}/>
         </View>
       </View>
     </View>

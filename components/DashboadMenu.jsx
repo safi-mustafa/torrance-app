@@ -1,4 +1,11 @@
-import { Image, ScrollView, StyleSheet, TouchableOpacity,  Text, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
+} from "react-native";
 
 import appStyles from "../app-styles";
 
@@ -7,58 +14,64 @@ const items = [
     title: "Submit Override",
     subtitle: "Overtime Request",
     icon: require("./../assets/images/journal-book.png"),
-    link: 'main'
+    link: "main",
   },
   {
     title: "Unlocked WRRs",
     subtitle: "Update WWR Returns",
     icon: require("./../assets/images/welding.png"),
-    link: 'main'
+    link: "main",
   },
   {
     title: "Maps",
     subtitle: "View Maps",
     icon: require("./../assets/images/maps.png"),
-    link: 'main'
+    link: "main",
   },
   {
     title: "Badge Room",
     subtitle: "View Files",
     icon: require("./../assets/images/worker.png"),
-    link: 'main'
+    link: "main",
   },
   {
     title: "Delivery",
     subtitle: "View Files",
     icon: require("./../assets/images/delivery.png"),
-    link: 'main'
+    link: "main",
   },
   {
     title: "Passport",
     subtitle: "View Files",
     icon: require("./../assets/images/passport.png"),
-    link: 'main'
+    link: "main",
   },
   {
     title: "Vehicle Pass",
     subtitle: "View Pass",
     icon: require("./../assets/images/pass.png"),
-    link: 'main'
+    link: "main",
   },
   {
     title: "Dropbox",
     subtitle: "Dropbox Link",
     icon: require("./../assets/images/dropbox.png"),
-    link: 'main'
+    link: "main",
   },
 ];
 
-export function DashboardMenu(props) {
+export function DashboardMenu({ navigation }) {
   return (
     <ScrollView>
       <View style={styles.section}>
         {items.map(({ title, subtitle, icon }, index) => (
-          <TouchableOpacity key={index} style={styles.btnWrapper}>
+          <TouchableOpacity
+            key={index}
+            style={styles.btnWrapper}
+            onPress={() =>
+              navigation.push("SubmissionContent", { title })
+            }
+          >
             <View style={styles.innerBtnWrapper}>
               <View>
                 <Text style={[appStyles.fw500, appStyles.my1]}>{title}</Text>

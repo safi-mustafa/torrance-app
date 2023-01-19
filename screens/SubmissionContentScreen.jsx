@@ -2,11 +2,17 @@ import { StyleSheet, View, Text } from "react-native";
 
 export default function SubmissionContentScreen({
   navigation,
-  params = {}}) {
+  params = {},
+  route = {},
+  ...otherParams
+}) {
+
   const { title = "" } = params;
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{title} Submissions</Text>
+      <Text style={styles.title}>
+        {route.params?.title ? route.params.title : title} Submissions
+      </Text>
     </View>
   );
 }

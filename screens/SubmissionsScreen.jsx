@@ -28,6 +28,7 @@ export default function SubmissionsScreen() {
     <Tab.Navigator>
       {tabs.map(({ name, params, tabTitle, component, options = {} }) => (
         <Tab.Screen
+          key={name}
           name={name}
           children={() =>
             component ? component : <SubmissionContentScreen params={params} />
