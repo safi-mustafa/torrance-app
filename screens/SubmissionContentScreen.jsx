@@ -1,9 +1,12 @@
-import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import { StyleSheet, View, Text } from "react-native";
 
-export default function SubmissionContentScreen({ navigation }) {
+export default function SubmissionContentScreen({
+  navigation,
+  params = {}}) {
+  const { title = "" } = params;
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>This screen doesn't exist.</Text>
+      <Text style={styles.title}>{title} Submissions</Text>
     </View>
   );
 }
@@ -11,13 +14,13 @@ export default function SubmissionContentScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 20,
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    // fontWeight: "bold",
   },
   link: {
     marginTop: 15,
@@ -25,6 +28,6 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontSize: 14,
-    color: '#2e78b7',
+    color: "#2e78b7",
   },
 });

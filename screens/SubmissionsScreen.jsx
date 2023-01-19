@@ -1,34 +1,40 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import SubmissionContentScreen from "./SubmissionContentScreen";
 
 export default function SubmissionsScreen() {
   const Tab = createMaterialTopTabNavigator();
+
+  const tabs = [
+    {
+      name: "tot",
+      tabTitle: "Time on Tools",
+      params: { title: "Time on Tools" },
+      component: null,
+    },
+    {
+      name: "WeldingRods",
+      tabTitle: "Welding Rods",
+      params: { title: "Welding Rods" },
+    },
+    {
+      name: "Override",
+      tabTitle: "Override",
+      params: { title: "Override" },
+    },
+  ];
+
   return (
-    <View style={styles.container}>
-      <Text>hello</Text>
-      <Tab.Navigator>
-        <Tab.Screen name="TOT" component={SubmissionContentScreen} />
-        {/* <Tab.Screen name="WeldingRods" component={SubmissionContentScreen} /> */}
-      </Tab.Navigator>
-      <Text>New hello</Text>
-    </View>
+    <Tab.Navigator>
+      {tabs.map(({ name, params, tabTitle, component, options = {} }) => (
+        <Tab.Screen
+          name={name}
+          children={() =>
+            component ? component : <SubmissionContentScreen params={params} />
+          }
+          options={{ title: tabTitle, ...options }}
+        />
+      ))}
+    </Tab.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});

@@ -1,6 +1,5 @@
 import {
   StyleSheet,
-  Dimensions,
   ImageBackground,
   StatusBar,
   Platform,
@@ -12,14 +11,11 @@ import useColorScheme from "../hooks/useColorScheme";
 import Colors, { primaryColor } from "../constants/Colors";
 import { DashButton } from "../components/DashButton";
 import { DashboardMenu } from "../components/DashboadMenu";
+import Layout from "../constants/Layout";
 
 const TOT_IMAGE = require("./../assets/images/journal-book.png");
 const WRR_IMAGE = require("./../assets/images/welding.png");
 const BG_IMAGE = require("./../assets/images/bg-blue.png");
-const DIMENSIONS = {
-  width: Dimensions.get("window").width,
-  height: Dimensions.get("window").height,
-};
 
 export default function DashboardScreen({ navigation }) {
   const colorScheme = useColorScheme();
@@ -75,7 +71,7 @@ const styles = StyleSheet.create({
   },
   expandSection: {
     backgroundColor: "#fff",
-    width: DIMENSIONS.width,
+    width: Layout.window.width,
     height: "100%",
     paddingHorizontal: 20,
   },

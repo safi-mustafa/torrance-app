@@ -117,6 +117,7 @@ function BottomTabNavigator() {
         component={ProfileScreen}
         options={{
           title: "My Profile",
+          headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="user-o" color={color} />,
         }}
       />
