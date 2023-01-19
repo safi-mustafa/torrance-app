@@ -59,7 +59,7 @@ export default function DashboardScreen({ navigation }) {
             title="Submit WRR Request"
             subtitle="Welding Rod Record"
             icon={WRR_IMAGE}
-            onPress={() => console.log("hello")}
+            onPress={() => navigation.push("WrrRequest")}
           />
           <DashboardMenu />
         </View>

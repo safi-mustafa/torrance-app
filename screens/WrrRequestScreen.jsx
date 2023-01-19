@@ -2,26 +2,26 @@ import {
   Formik
 } from "formik";
 import { useState } from "react";
-import { StyleSheet, View, Button, Pressable, Text } from "react-native";
+import { StyleSheet, View, Pressable, Text } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from 'react-native-toast-message';
 
 import appStyles from "../app-styles";
 import FormLoop from "../components/form/FormLoop";
 import Loader from "../components/Loader";
-import { totFields } from "../fields/tot.fields";
+import { wrrFields } from "../fields/wrr.fields";
 
-export default function TotRequestScreen({ navigation }) {
+export default function WrrRequestScreen({ navigation }) {
 
   const [loading, setLoading] = useState(false)
   const onSubmit = async (values, { setSubmitting }) => {
     console.log(
-      "🚀 ~ file: TotRequestScreen.tsx ~ line 18 ~ onSubmit ~ values",
+      "🚀 ~ file: WrrRequestScreen.tsx ~ line 18 ~ onSubmit ~ values",
       values
     );
     Toast.show({
       type: 'success',
-      text1: 'TOT Request',
+      text1: 'WRR Request',
       text2: 'Form submitted successfully ✅'
     });
     navigation.pop()
@@ -47,7 +47,7 @@ export default function TotRequestScreen({ navigation }) {
             }) => (
               <>
                 <FormLoop
-                  fields={totFields}
+                  fields={wrrFields}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
                   setFieldValue={setFieldValue}

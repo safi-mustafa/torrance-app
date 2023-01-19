@@ -1,8 +1,3 @@
-/**
- * If you are not familiar with React Navigation, refer to the "Fundamentals" guide:
- * https://reactnavigation.org/docs/getting-started
- *
- */
 import * as React from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -22,6 +17,7 @@ import DashboardScreen from "../screens/DashboardScreen";
 import SubmissionsScreen from "../screens/SubmissionsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import TotRequestScreen from "../screens/TotRequestScreen";
+import WrrRequestScreen from "../screens/WrrRequestScreen";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -33,10 +29,6 @@ export default function Navigation({ colorScheme }) {
   );
 }
 
-/**
- * A root stack navigator is often used for displaying modals on top of all other content.
- * https://reactnavigation.org/docs/modal
- */
 const Stack = createNativeStackNavigator();
 
 function RootNavigator() {
@@ -56,6 +48,11 @@ function RootNavigator() {
         name="TotRequest"
         component={TotRequestScreen}
         options={{ title: "New TOT Request" }}
+      />
+      <Stack.Screen
+        name="WrrRequest"
+        component={WrrRequestScreen}
+        options={{ title: "New WRR Request" }}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
