@@ -1,8 +1,9 @@
 import { Formik } from "formik";
 import { useState } from "react";
-import { ImageBackground, Platform, StyleSheet, View } from "react-native";
+import { ImageBackground, Platform, StyleSheet, View, Text } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
+import appStyles from "../app-styles";
 
 import FormLoop from "../components/form/FormLoop";
 import Loader from "../components/Loader";
@@ -37,6 +38,7 @@ export default function LoginScreen({ navigation }) {
       >
         <KeyboardAwareScrollView>
           <View style={styles.container}>
+            <Text style={{...appStyles.h3, ...appStyles.btnTextPrimary, marginBottom: 30, textAlign: "center"}}>Torrance App</Text>
             <Formik
               initialValues={{}}
               onSubmit={onSubmit}

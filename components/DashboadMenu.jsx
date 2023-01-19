@@ -8,6 +8,7 @@ import {
 } from "react-native";
 
 import appStyles from "../app-styles";
+import Layout from "../constants/Layout";
 
 const items = [
   {
@@ -57,12 +58,12 @@ const items = [
     subtitle: "Dropbox Link",
     icon: require("./../assets/images/dropbox.png"),
     link: "main",
-  },
+  }
 ];
 
 export function DashboardMenu({ navigation }) {
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{ height: Layout.window.height}}>
       <View style={styles.section}>
         {items.map(({ title, subtitle, icon }, index) => (
           <TouchableOpacity
@@ -75,7 +76,7 @@ export function DashboardMenu({ navigation }) {
             <View style={styles.innerBtnWrapper}>
               <View>
                 <Text style={[appStyles.fw500, appStyles.my1]}>{title}</Text>
-                <Text style={{ color: "#999", fontSize: 12 }}>{subtitle}</Text>
+                <Text style={{ color: "#999", fontSize: 11 }}>{subtitle}</Text>
               </View>
               <Image style={styles.icon} source={icon} />
             </View>
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 6,
   },
-  icon: { height: 35, width: 35, marginLeft: 10 },
+  icon: { height: 32, width: 32, marginLeft: 10 },
   innerBtnWrapper: {
     flexDirection: "row",
     alignItems: "center",

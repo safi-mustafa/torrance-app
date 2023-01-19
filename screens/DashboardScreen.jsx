@@ -3,7 +3,9 @@ import {
   ImageBackground,
   StatusBar,
   Platform,
-  Text, View
+  Text,
+  View,
+  ScrollView,
 } from "react-native";
 
 import appStyles from "../app-styles";
@@ -57,7 +59,7 @@ export default function DashboardScreen({ navigation }) {
             icon={WRR_IMAGE}
             onPress={() => navigation.push("WrrRequest")}
           />
-          <DashboardMenu navigation={navigation}/>
+          <DashboardMenu navigation={navigation} />
         </View>
       </View>
     </View>
@@ -72,7 +74,7 @@ const styles = StyleSheet.create({
   expandSection: {
     backgroundColor: "#fff",
     width: Layout.window.width,
-    height: "100%",
-    paddingHorizontal: 20,
+    height: Layout.window.height,
+    paddingHorizontal: 10,
   },
 });
