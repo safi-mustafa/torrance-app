@@ -43,7 +43,7 @@ export function DateTimePicker(props) {
           marginBottom={1}
           title="Select Date"
         />
-        <Text marginLeft={2} fontWeight="bold">
+        <Text style={{marginLeft: 4}}>
           {selectedDate}
         </Text>
       </View>

@@ -1,10 +1,17 @@
 import { Formik } from "formik";
 import { useState } from "react";
-import { ImageBackground, Platform, StyleSheet, View, Text } from "react-native";
+import {
+  ImageBackground,
+  Platform,
+  StyleSheet,
+  View,
+  Text,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
-import appStyles from "../app-styles";
+// import { Picker } from "@react-native-picker/picker";
 
+import appStyles from "../app-styles";
 import FormLoop from "../components/form/FormLoop";
 import Loader from "../components/Loader";
 import { lightColor } from "../constants/Colors";
@@ -28,6 +35,8 @@ export default function LoginScreen({ navigation }) {
     navigation.replace("BottomTabNav");
   };
 
+  const [selectedLanguage, setSelectedLanguage] = useState();
+
   return (
     <>
       <Loader show={loading} size="large" overlay="true" color="white" />
@@ -38,9 +47,27 @@ export default function LoginScreen({ navigation }) {
       >
         <KeyboardAwareScrollView>
           <View style={styles.container}>
-            <Text style={{...appStyles.h3, ...appStyles.btnTextPrimary, marginBottom: 30, textAlign: "center"}}>Torrance App</Text>
+            <Text
+              style={{
+                ...appStyles.h3,
+                ...appStyles.btnTextPrimary,
+                marginBottom: 30,
+                textAlign: "center",
+              }}
+            >
+              Torrance App
+            </Text>
+            {/* <Picker
+              selectedValue={selectedLanguage}
+              onValueChange={(itemValue, itemIndex) =>
+                setSelectedLanguage(itemValue)
+              }
+            >
+              <Picker.Item label="Java" value="java" />
+              <Picker.Item label="JavaScript" value="js" />
+            </Picker> */}
             <Formik
-              initialValues={{}}
+              initialValues={{ email: "abc@xyz.com", password: "123" }}
               onSubmit={onSubmit}
               validationSchema={LoginSchema}
               // valueOnChange={(a) => console.log(a)}

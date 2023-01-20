@@ -12,6 +12,8 @@ export const totFields = [
     ],
     placeholder: "Select Department",
     label: "Department",
+    zIndex: 3000,
+    // zIndexInverse: 1000,
   },
   {
     name: "startOfWork",
@@ -22,6 +24,8 @@ export const totFields = [
     ],
     placeholder: "Select Work",
     label: "Start of Work",
+    zIndex: 2000,
+    // zIndexInverse: 2000,
   },
   {
     name: "permittingIssue",
@@ -32,6 +36,8 @@ export const totFields = [
     ],
     placeholder: "Select Issue",
     label: "Permitting Issue",
+    zIndex: 1000,
+    // zIndexInverse: 1000,
   },
   {
     name: "shiftDelays",
@@ -42,6 +48,7 @@ export const totFields = [
     ],
     placeholder: "Select Delay",
     label: "Shift Delays",
+    zIndex: 999,
   },
   {
     name: "reworkDelays",
@@ -52,6 +59,7 @@ export const totFields = [
     ],
     placeholder: "Select Delay",
     label: "Rework Delays",
+    zIndex: 998,
   },
   {
     name: "comment",
@@ -68,6 +76,7 @@ export const totFields = [
     ],
     placeholder: "Select Shift",
     label: "Shift",
+    zIndex: 997,
   },
   {
     name: "unit",
@@ -78,6 +87,7 @@ export const totFields = [
     ],
     placeholder: "Select Unit",
     label: "Unit",
+    zIndex: 996,
   },
   {
     name: "description",
@@ -106,6 +116,7 @@ export const totFields = [
     ],
     placeholder: "Select Permit Type",
     label: "Permit Type",
+    zIndex: 995,
   },
   {
     name: "company",
@@ -116,6 +127,7 @@ export const totFields = [
     ],
     placeholder: "Select Company",
     label: "Company",
+    zIndex: 994,
   },
   {
     name: "forman",

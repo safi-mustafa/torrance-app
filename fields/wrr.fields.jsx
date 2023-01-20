@@ -8,6 +8,7 @@ export const wrrFields = [
     ],
     placeholder: "Select Department",
     label: "Department",
+    zIndex: 3000,
   },
   {
     name: "unit",
@@ -18,6 +19,7 @@ export const wrrFields = [
     ],
     placeholder: "Select Unit",
     label: "Unit",
+    zIndex: 2000,
   },
   {
     name: "company",
@@ -28,6 +30,7 @@ export const wrrFields = [
     ],
     placeholder: "Select Company",
     label: "Company",
+    zIndex: 1000,
   },
   {
     name: "location",
@@ -38,6 +41,7 @@ export const wrrFields = [
     ],
     placeholder: "Select Location",
     label: "Location",
+    zIndex: 999,
   },
   {
     name: "twr_wo",
@@ -61,6 +65,7 @@ export const wrrFields = [
     ],
     placeholder: "Select Rod",
     label: "Welding Rod Type",
+    zIndex: 998,
   },
   {
     name: "weldingMethod",
@@ -71,6 +76,7 @@ export const wrrFields = [
     ],
     placeholder: "Select Method",
     label: "Welding Method",
+    zIndex: 997,
   },
   {
     name: "controlUsed",
@@ -81,6 +87,7 @@ export const wrrFields = [
     ],
     placeholder: "Select Control",
     label: "HEPA Fume Control Used?",
+    zIndex: 996,
   },
   {
     name: "checkout_date",

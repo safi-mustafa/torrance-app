@@ -9,25 +9,26 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@react-native-picker/picker": "2.4.8",
     "@react-navigation/bottom-tabs": "^6.5.3",
     "@react-navigation/material-top-tabs": "^6.5.2",
     "@react-navigation/native": "^6.1.2",
     "@react-navigation/native-stack": "^6.9.8",
     "expo": "~47.0.12",
+    "expo-dev-client": "~2.0.1",
     "expo-status-bar": "~1.4.2",
+    "expo-updates": "~0.15.6",
     "formik": "^2.2.9",
     "react": "18.1.0",
     "react-native": "0.70.5",
+    "react-native-axios": "^0.17.1",
+    "react-native-dropdown-picker": "^5.4.4",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-modal-datetime-picker": "^14.0.1",
     "react-native-pager-view": "6.0.1",
     "react-native-picker-select": "^8.0.4",
     "react-native-tab-view": "^3.3.4",
     "react-native-toast-message": "^2.1.5",
-    "yup": "^0.32.11",
-    "expo-updates": "~0.15.6",
-    "expo-dev-client": "~2.0.1"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
