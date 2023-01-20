@@ -13,7 +13,7 @@ export const totFields = [
     placeholder: "Select Department",
     label: "Department",
     zIndex: 3000,
-    // zIndexInverse: 1000,
+    zIndexInverse: 1000,
   },
   {
     name: "startOfWork",
