@@ -1,10 +1,8 @@
-import {
-  Formik
-} from "formik";
+import { Formik } from "formik";
 import { useState } from "react";
-import { StyleSheet, View, Pressable, Text } from "react-native";
+import { StyleSheet, View, Pressable, Text, ScrollView } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import Toast from 'react-native-toast-message';
+import Toast from "react-native-toast-message";
 
 import appStyles from "../app-styles";
 import FormLoop from "../components/form/FormLoop";
@@ -12,19 +10,18 @@ import Loader from "../components/Loader";
 import { totFields } from "../fields/tot.fields";
 
 export default function TotRequestScreen({ navigation }) {
-
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const onSubmit = async (values, { setSubmitting }) => {
     console.log(
       "🚀 ~ file: TotRequestScreen.tsx ~ line 18 ~ onSubmit ~ values",
       values
     );
     Toast.show({
-      type: 'success',
-      text1: 'TOT Request',
-      text2: 'Form submitted successfully ✅'
+      type: "success",
+      text1: "TOT Request",
+      text2: "Form submitted successfully ✅",
     });
-    navigation.pop()
+    // navigation.pop();
   };
 
   return (
@@ -32,6 +29,7 @@ export default function TotRequestScreen({ navigation }) {
       <Loader show={loading} size="large" overlay="true" color="white" />
       <KeyboardAwareScrollView>
         <View style={styles.container}>
+          {/* <ScrollView> */}
           <Formik
             initialValues={{}}
             onSubmit={onSubmit}
@@ -55,10 +53,18 @@ export default function TotRequestScreen({ navigation }) {
                   errors={errors}
                   handleSubmit={handleSubmit}
                 />
-                <Pressable style={[appStyles.btn, appStyles.btnPrimary]} onPress={handleSubmit}><Text style={[appStyles.btnText, appStyles.btnTextPrimary]}>Submit Request</Text></Pressable>
+                <Pressable
+                  style={[appStyles.btn, appStyles.btnPrimary]}
+                  onPress={handleSubmit}
+                >
+                  <Text style={[appStyles.btnText, appStyles.btnTextPrimary]}>
+                    Submit Request
+                  </Text>
+                </Pressable>
               </>
             )}
           </Formik>
+          {/* </ScrollView> */}
         </View>
       </KeyboardAwareScrollView>
     </>
@@ -68,6 +74,6 @@ export default function TotRequestScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: "#f9f9f9",
   },
 });

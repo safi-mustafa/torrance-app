@@ -6,10 +6,7 @@ export const totFields = [
   {
     name: "department",
     inputType: "select",
-    options: [
-      { value: 1, label: "Department 1" },
-      { value: 2, label: "Department 2" },
-    ],
+    url: "/Department",
     placeholder: "Select Department",
     label: "Department",
     zIndex: 3000,
@@ -17,15 +14,10 @@ export const totFields = [
   },
   {
     name: "startOfWork",
-    inputType: "select",
-    options: [
-      { value: 1, label: "Option 1" },
-      { value: 2, label: "Option 2" },
-    ],
+    inputType: "datetime",
+    value: new Date(),
     placeholder: "Select Work",
     label: "Start of Work",
-    zIndex: 2000,
-    // zIndexInverse: 2000,
   },
   {
     name: "permittingIssue",
@@ -42,10 +34,7 @@ export const totFields = [
   {
     name: "shiftDelays",
     inputType: "select",
-    options: [
-      { value: 1, label: "Option 1" },
-      { value: 2, label: "Option 2" },
-    ],
+    url: "/ShiftDelay",
     placeholder: "Select Delay",
     label: "Shift Delays",
     zIndex: 999,
@@ -53,10 +42,7 @@ export const totFields = [
   {
     name: "reworkDelays",
     inputType: "select",
-    options: [
-      { value: 1, label: "Option 1" },
-      { value: 2, label: "Option 2" },
-    ],
+    url: "/ReworkDelay",
     placeholder: "Select Delay",
     label: "Rework Delays",
     zIndex: 998,
@@ -70,10 +56,7 @@ export const totFields = [
   {
     name: "shift",
     inputType: "select",
-    options: [
-      { value: 1, label: "Option 1" },
-      { value: 2, label: "Option 2" },
-    ],
+    url: "/Shift",
     placeholder: "Select Shift",
     label: "Shift",
     zIndex: 997,
@@ -81,10 +64,7 @@ export const totFields = [
   {
     name: "unit",
     inputType: "select",
-    options: [
-      { value: 1, label: "Option 1" },
-      { value: 2, label: "Option 2" },
-    ],
+    url: "/Unit",
     placeholder: "Select Unit",
     label: "Unit",
     zIndex: 996,
@@ -110,10 +90,7 @@ export const totFields = [
   {
     name: "permit_type",
     inputType: "select",
-    options: [
-      { value: 1, label: "Option 1" },
-      { value: 2, label: "Option 2" },
-    ],
+    url: "/PermitType",
     placeholder: "Select Permit Type",
     label: "Permit Type",
     zIndex: 995,
@@ -137,16 +114,18 @@ export const totFields = [
   {
     name: "time_requested",
     inputType: "datetime",
-    value: new Date(),
+    // value: new Date(),
     label: "Time Requested",
     placeholder: "Time Requested",
+    mode:"time"
   },
   {
     name: "time_signed",
     inputType: "datetime",
-    value: new Date(),
+    // value: new Date(),
     label: "Time Signed",
     placeholder: "Time Signed",
+    mode:"time"
   },
   {
     name: "hour_delayed",

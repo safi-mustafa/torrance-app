@@ -3,13 +3,16 @@ import React, { useState } from "react";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { FontAwesome } from "@expo/vector-icons";
 import { Button, Text, View } from "react-native";
+import { DATE_TIME_MODE } from "../constants/Misc";
 
 export function DateTimePicker(props) {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const mode = props?.mode ? props?.mode : DATE_TIME_MODE.DATE;
 
   const getFormatedDate = (date) => {
-    if (!date) return;
-    return new Date(date).toISOString().substring(0, 10);
+    return mode == DATE_TIME_MODE.DATE
+      ? new Date(date).toISOString().substring(0, 10)
+      : new Date(date).toLocaleTimeString();
   };
 
   const formatedDate = getFormatedDate(props.value);
@@ -24,7 +27,7 @@ export function DateTimePicker(props) {
   };
 
   const handleConfirm = (date) => {
-    // console.log("A date has been picked: ", date);
+    console.log("A date has been picked: ", date);
     setSelectedDate(getFormatedDate(date));
     props.setFieldValue(props.name, getFormatedDate(date));
     hideDatePicker();
@@ -32,20 +35,18 @@ export function DateTimePicker(props) {
   return (
     <View>
       <View flexDirection="row" alignItems="center">
+        <FontAwesome
+          name={mode == DATE_TIME_MODE.TIME ? "clock-o" : "calendar-o"}
+          size="18"
+          color={"#333"}
+          style={{ marginLeft: 2 }}
+        />
         <Button
           onPress={() => showDatePicker()}
-          variant="outline"
-          leftIcon={<FontAwesome name="calendar-o" size="md"/>}
           width="160"
-          size="sm"
-          padding={2}
-          colorScheme="success"
-          marginBottom={1}
-          title="Select Date"
+          title={`Select ${mode}`}
         />
-        <Text style={{marginLeft: 4}}>
-          {selectedDate}
-        </Text>
+        <Text style={{ marginLeft: 4 }}>{selectedDate}</Text>
       </View>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}

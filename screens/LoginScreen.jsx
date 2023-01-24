@@ -1,5 +1,4 @@
-import { Formik } from "formik";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ImageBackground,
   Platform,
@@ -9,14 +8,20 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
-// import { Picker } from "@react-native-picker/picker";
+import {
+  CodeField,
+  Cursor,
+  useBlurOnFulfill,
+  useClearByFocusCell,
+} from "react-native-confirmation-code-field";
 
+import postData from "./../api-services/postData";
 import appStyles from "../app-styles";
 import FormLoop from "../components/form/FormLoop";
 import Loader from "../components/Loader";
-import { lightColor } from "../constants/Colors";
 import Layout from "../constants/Layout";
 import { loginFields } from "../fields/login.fields";
+import { saveKey } from "../utility";
 
 const BG_IMAGE = require("./../assets/images/bg-blue.png");
 
@@ -26,16 +31,38 @@ const LoginSchema = Yup.object().shape({
 });
 
 export default function LoginScreen({ navigation }) {
+  const CELL_COUNT = 4;
   const [loading, setLoading] = useState(false);
-  const onSubmit = async (values, { setSubmitting }) => {
-    console.log(
-      "🚀 ~ file: LoginScreen.jsx ~ line 18 ~ onSubmit ~ values",
-      values
+  const [value, setValue] = useState(null);
+  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+    value,
+    setValue,
+  });
+
+  const onSubmit = () => {
+    setLoading(true);
+    postData(
+      { url: `/Account/Login?pincode=${value}` },
+      ({ data }) => {
+        setLoading(false);
+        saveKey("user", JSON.stringify(data));
+        navigation.replace("BottomTabNav");
+      },
+      () => {
+        setLoading(false);
+      }
     );
-    navigation.replace("BottomTabNav");
   };
 
-  const [selectedLanguage, setSelectedLanguage] = useState();
+  const onValueChange = (value) => {
+    setValue(value);
+  };
+
+  useEffect(() => {
+    if (value && value.length === 4) {
+      onSubmit();
+    }
+  }, [value]);
 
   return (
     <>
@@ -57,42 +84,25 @@ export default function LoginScreen({ navigation }) {
             >
               Torrance App
             </Text>
-            {/* <Picker
-              selectedValue={selectedLanguage}
-              onValueChange={(itemValue, itemIndex) =>
-                setSelectedLanguage(itemValue)
-              }
-            >
-              <Picker.Item label="Java" value="java" />
-              <Picker.Item label="JavaScript" value="js" />
-            </Picker> */}
-            <Formik
-              initialValues={{ email: "abc@xyz.com", password: "123" }}
-              onSubmit={onSubmit}
-              validationSchema={LoginSchema}
-              // valueOnChange={(a) => console.log(a)}
-            >
-              {({
-                values,
-                errors,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                setFieldValue,
-              }) => (
-                <>
-                  <FormLoop
-                    fields={loginFields}
-                    handleChange={handleChange}
-                    handleBlur={handleBlur}
-                    setFieldValue={setFieldValue}
-                    values={values}
-                    errors={errors}
-                    handleSubmit={handleSubmit}
-                  />
-                </>
-              )}
-            </Formik>
+            <View style={styles.formWrapper}>
+              <CodeField
+                value={value}
+                onChangeText={onValueChange}
+                cellCount={CELL_COUNT}
+                rootStyle={styles.codeFieldRoot}
+                keyboardType="number-pad"
+                textContentType="oneTimeCode"
+                renderCell={({ index, symbol, isFocused }) => (
+                  <Text
+                    key={index}
+                    style={[styles.cell, isFocused && styles.focusCell]}
+                    onLayout={getCellOnLayoutHandler(index)}
+                  >
+                    {symbol || (isFocused ? <Cursor /> : null)}
+                  </Text>
+                )}
+              />
+            </View>
           </View>
         </KeyboardAwareScrollView>
       </ImageBackground>
@@ -103,8 +113,29 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    // backgroundColor: lightColor,
     justifyContent: "center",
     height: Layout.window.height,
+  },
+  formWrapper: {
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  codeFieldRoot: {
+    marginVertical: 0,
+  },
+  cell: {
+    width: 55,
+    height: 70,
+    lineHeight: 60,
+    fontSize: 30,
+    borderWidth: 2,
+    borderColor: "#cccccc",
+    color: "#cccccc",
+    textAlign: "center",
+    marginRight: 10
+  },
+  focusCell: {
+    borderColor: "#ffffff",
+    color: "#ffffff",
   },
 });

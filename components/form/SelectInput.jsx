@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import RNPickerSelect from "react-native-picker-select";
 import DropDownPicker from "react-native-dropdown-picker";
-import { FontAwesome } from "@expo/vector-icons";
 import { Platform, View } from "react-native";
 import appStyles from "../../app-styles";
-// import getData from "../../services/getData";
+import getData from "../../api-services/getData";
 
 export default function SelectInput({
   errors,
@@ -29,23 +28,29 @@ export default function SelectInput({
   }, [url]);
 
   const getLookups = (url) => {
-    // getData(url).then(
-    //   ({ data }) => {
-    //     if (data && Array.isArray(data)) {
-    //       let compiledData = data.map((item) => ({
-    //         label: item[labelAttributes],
-    //         value: item[valueAttribute],
-    //       }));
-    //       setFilteredList(compiledData);
-    //     }
-    //   },
-    //   (error) => {
-    //     console.log(
-    //       "🚀 ~ file: SelectInput.tsx ~ line 46 ~ getData ~ error",
-    //       error
-    //     );
-    //   }
-    // );
+    getData(
+      { url },
+      (response) => {
+        // console.log(
+        //   "🚀 ~ file: SelectInput.jsx ~ line 33 ~ getLookups ~ response",
+        //   response
+        // );
+        const data = response?.data?.items;
+        if (data && Array.isArray(data)) {
+          let compiledData = data.map((item) => ({
+            label: item[labelAttributes],
+            value: item[valueAttribute],
+          }));
+          setFilteredList(compiledData);
+        }
+      },
+      (error) => {
+        console.log(
+          "🚀 ~ file: SelectInput.jsx ~ line 44 ~ getData ~ error",
+          error
+        );
+      }
+    );
   };
 
   const onValChange = (value) => {
