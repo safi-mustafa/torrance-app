@@ -37,6 +37,7 @@ export default function SelectInput({
         //   response
         // );
         const data = response?.data?.items;
+        // console.log("🚀 ~ file: SelectInput.jsx ~ line 40 ~ getLookups ~ data",name, data)
         if (data && Array.isArray(data)) {
           let compiledData = data.map((item) => ({
             label: item[labelAttributes],
@@ -54,10 +55,10 @@ export default function SelectInput({
     );
   };
 
-  const onValChange = (value) => {
+  const onValChange = (value, index) => {
     // setOption(value);
-    setFieldValue(name, { id: value });
-  };
+    setFieldValue(name, { id: value, name: filteredList[index]?.label });
+  }
 
   const [open, setOpen] = useState(false);
   const [fieldValue, setValue] = useState(null);
@@ -73,7 +74,7 @@ export default function SelectInput({
           items={filteredList}
           setOpen={setOpen}
           setValue={setValue}
-          setItems={(value) => console.log(value)}
+          // setItems={(value) => console.log(value)}
           onSelectItem={({ value }) => onValChange(value)}
           style={appStyles.input}
           {...otherProps}
@@ -81,7 +82,7 @@ export default function SelectInput({
       ) : (
         <RNPickerSelect
           useNativeAndroidPickerStyle={true}
-          onValueChange={(value) => onValChange(value)}
+          onValueChange={(value, index) => onValChange(value, index)}
           items={filteredList}
           itemKey="value"
           value={value?.id}

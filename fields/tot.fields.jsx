@@ -15,21 +15,30 @@ export const totFields = [
   {
     name: "startOfWork",
     inputType: "datetime",
-    value: new Date(),
+    // value: new Date(),
     placeholder: "Select Work",
     label: "Start of Work",
   },
+  // {
+  //   name: "permittingIssue",
+  //   inputType: "select",
+  //   options: [
+  //     { value: 1, label: "Option 1" },
+  //     { value: 2, label: "Option 2" },
+  //   ],
+  //   placeholder: "Select Issue",
+  //   label: "Permitting Issue",
+  //   zIndex: 1000,
+  //   // zIndexInverse: 1000,
+  // },
   {
-    name: "permittingIssue",
+    name: "contractor",
     inputType: "select",
-    options: [
-      { value: 1, label: "Option 1" },
-      { value: 2, label: "Option 2" },
-    ],
-    placeholder: "Select Issue",
-    label: "Permitting Issue",
-    zIndex: 1000,
-    // zIndexInverse: 1000,
+    url: "/Contractor",
+    placeholder: "Select Contractor",
+    label: "Contractor",
+    zIndex: 3000,
+    zIndexInverse: 1000,
   },
   {
     name: "shiftDelay",
@@ -48,9 +57,9 @@ export const totFields = [
     zIndex: 998,
   },
   {
-    name: "comment",
-    placeholder: "Enter Comments",
-    label: "Comments",
+    name: "delayReason",
+    placeholder: "Enter Delay Reason",
+    label: "Delay Reason",
     inputType: "textarea",
   },
   {
@@ -95,38 +104,33 @@ export const totFields = [
     label: "Permit Type",
     zIndex: 995,
   },
-  {
-    name: "company",
-    inputType: "select",
-    options: [
-      { value: 1, label: "Option 1" },
-      { value: 2, label: "Option 2" },
-    ],
-    placeholder: "Select Company",
-    label: "Company",
-    zIndex: 994,
-  },
-  {
-    name: "foreman",
-    placeholder: "Enter Forman Name",
-    label: "Forman",
-  },
-  {
-    name: "timeRequested",
-    inputType: "datetime",
-    label: "Time Requested",
-    placeholder: "Time Requested",
-    value: new Date(),
-    mode:"time"
-  },
-  {
-    name: "timeSigned",
-    inputType: "datetime",
-    label: "Time Signed",
-    placeholder: "Time Signed",
-    value: new Date(),
-    mode:"time"
-  },
+  // {
+  //   name: "company",
+  //   inputType: "select",
+  //   options: [
+  //     { value: 1, label: "Option 1" },
+  //     { value: 2, label: "Option 2" },
+  //   ],
+  //   placeholder: "Select Company",
+  //   label: "Company",
+  //   zIndex: 994,
+  // },
+  // {
+  //   name: "timeRequested",
+  //   inputType: "datetime",
+  //   label: "Time Requested",
+  //   placeholder: "Time Requested",
+  //   value: new Date(),
+  //   mode:"time"
+  // },
+  // {
+  //   name: "timeSigned",
+  //   inputType: "datetime",
+  //   label: "Time Signed",
+  //   placeholder: "Time Signed",
+  //   value: new Date(),
+  //   mode:"time"
+  // },
   {
     name: "hoursDelayed",
     placeholder: "Enter Hours",
@@ -138,4 +142,27 @@ export const totFields = [
     placeholder: "Enter Man Power",
     label: "Man Power",
   },
+  {
+    name: "manHours",
+    placeholder: "Enter Man Hours",
+    label: "Man Hours",
+  },
+  {
+    name: "foreman",
+    inputType: "select",
+    url: "/Account/getAllUsers?role=foreman",
+    placeholder: "Select Foreman",
+    labelAttributes: "userName",
+    label: "Foreman",
+    zIndex: 993,
+  }, 
+  {
+    name: "approver",
+    inputType: "select",
+    url: "/Account/getAllUsers",
+    placeholder: "Select Approver",
+    labelAttributes: "userName",
+    label: "Approver",
+    zIndex: 993,
+  }, 
 ];
