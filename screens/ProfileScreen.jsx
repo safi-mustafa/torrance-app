@@ -28,10 +28,10 @@ export default function ProfileScreen({ navigation }) {
   const getUserMeta = async () => {
     let userMeta = await getKey("user");
     const { userDetail } = JSON.parse(userMeta);
-    console.log(
-      "🚀 ~ file: ProfileScreen.jsx ~ line 31 ~ getUserMeta ~ userDetail",
-      userDetail
-    );
+    // console.log(
+    //   "🚀 ~ file: ProfileScreen.jsx ~ line 31 ~ getUserMeta ~ userDetail",
+    //   JSON.parse(userMeta)
+    // );
     setUser(userDetail);
   };
 

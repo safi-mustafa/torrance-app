@@ -1,4 +1,10 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { FlashList } from "@shopify/flash-list";
+
+import getData from "../api-services/getData";
+import ListCell from "../components/ListCell";
+import Layout from "../constants/Layout";
+import { useState, useEffect } from "react";
 
 export default function SubmissionContentScreen({
   navigation,
@@ -6,23 +12,59 @@ export default function SubmissionContentScreen({
   route = {},
   ...otherParams
 }) {
+  const [data, setData] = useState([]);
 
-  const { title = "" } = params;
+  useEffect(() => {
+    if (params?.url) getListData(params?.url);
+
+    return () => {
+      setData([]);
+    };
+  }, [params?.url]);
+
+  const getListData = (url = "") => {
+    getData(
+      { url },
+      (response) => {
+        const { items = [] } = response?.data;
+        console.log(
+          "🚀 ~ file: SubmissionContentScreen.jsx ~ line 55 ~ getListData ~ items",
+          items
+        );
+        setData(items);
+      },
+      (error) => {
+        console.log(
+          "🚀 ~ file: SelectInput.jsx ~ line 44 ~ getData ~ error",
+          error
+        );
+      }
+    );
+  };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
+      {/* <Text style={styles.title}>
         {route.params?.title ? route.params.title : title} Submissions
-      </Text>
+      </Text> */}
+      <ScrollView style={styles.scrollView}>
+        <FlashList
+          renderItem={({ item }) => {
+            return <ListCell item={item} />;
+          }}
+          estimatedItemSize={10}
+          data={data}
+        />
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
     padding: 20,
+  },
+  scrollView: {
+    height: Layout.window.height,
   },
   title: {
     fontSize: 20,

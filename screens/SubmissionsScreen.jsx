@@ -9,18 +9,18 @@ export default function SubmissionsScreen() {
     {
       name: "tot",
       tabTitle: "Time on Tools",
-      params: { title: "Time on Tools" },
+      params: { title: "Time on Tools", url: '/TOTLog' },
       component: null,
     },
     {
       name: "WeldingRods",
       tabTitle: "Welding Rods",
-      params: { title: "Welding Rods" },
+      params: { title: "Welding Rods", url: '/WRRLog' },
     },
     {
       name: "Override",
       tabTitle: "Override",
-      params: { title: "Override" },
+      params: { title: "Override", url: '/TOTLog' },
     },
   ];
 
