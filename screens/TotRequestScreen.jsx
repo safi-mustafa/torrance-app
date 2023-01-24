@@ -8,20 +8,32 @@ import appStyles from "../app-styles";
 import FormLoop from "../components/form/FormLoop";
 import Loader from "../components/Loader";
 import { totFields } from "../fields/tot.fields";
+import postData from "./../api-services/postData";
 
 export default function TotRequestScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
-  const onSubmit = async (values, { setSubmitting }) => {
+  const onSubmit = async (params, { setSubmitting }) => {
     console.log(
-      "🚀 ~ file: TotRequestScreen.tsx ~ line 18 ~ onSubmit ~ values",
-      values
+      "🚀 ~ file: TotRequestScreen.tsx ~ line 18 ~ onSubmit ~ params",
+      params
     );
-    Toast.show({
-      type: "success",
-      text1: "TOT Request",
-      text2: "Form submitted successfully ✅",
-    });
-    // navigation.pop();
+
+    postData(
+      { url: `/TOTLog`, params },
+      ({ data }) => {
+        setLoading(false);
+        Toast.show({
+          type: "success",
+          text1: "TOT Request",
+          text2: "Form submitted successfully ✅",
+        });
+        // navigation.pop();
+      },
+      (error) => {
+        console.log("🚀 ~ file: TotRequestScreen.jsx ~ line 33 ~ onSubmit ~ error", error.response.data.errors)
+        setLoading(false);
+      }
+    );
   };
 
   return (

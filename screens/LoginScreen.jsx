@@ -17,18 +17,11 @@ import {
 
 import postData from "./../api-services/postData";
 import appStyles from "../app-styles";
-import FormLoop from "../components/form/FormLoop";
 import Loader from "../components/Loader";
 import Layout from "../constants/Layout";
-import { loginFields } from "../fields/login.fields";
 import { saveKey } from "../utility";
 
 const BG_IMAGE = require("./../assets/images/bg-blue.png");
-
-const LoginSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string().required("Required"),
-});
 
 export default function LoginScreen({ navigation }) {
   const CELL_COUNT = 4;

@@ -12,7 +12,7 @@ export function DateTimePicker(props) {
   const getFormatedDate = (date) => {
     return mode == DATE_TIME_MODE.DATE
       ? new Date(date).toISOString().substring(0, 10)
-      : new Date(date).toLocaleTimeString();
+      : new Date(date).toLocaleTimeString().substring(0, 5);
   };
 
   const formatedDate = getFormatedDate(props.value);

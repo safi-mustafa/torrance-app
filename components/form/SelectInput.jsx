@@ -14,6 +14,7 @@ export default function SelectInput({
   valueAttribute = "id",
   labelAttributes = "name",
   placeholder = "Select",
+  value,
   ...otherProps
 }) {
   // console.log("🚀 ~ file: SelectInput.tsx ~ line 16 ~ otherProps", otherProps);
@@ -55,11 +56,11 @@ export default function SelectInput({
 
   const onValChange = (value) => {
     // setOption(value);
-    setFieldValue(name, value);
+    setFieldValue(name, { id: value });
   };
 
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [fieldValue, setValue] = useState(null);
   const [zIndexValue, setZIndexValue] = useState(0);
   // DropDownPicker.setMode("BADGE");
   const zIndex = new Date().getTime() / 1000000000;
@@ -83,6 +84,7 @@ export default function SelectInput({
           onValueChange={(value) => onValChange(value)}
           items={filteredList}
           itemKey="value"
+          value={value?.id}
           style={{
             inputIOS: {
               color: "#333",
