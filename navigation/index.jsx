@@ -20,6 +20,7 @@ import TotRequestScreen from "../screens/TotRequestScreen";
 import WrrRequestScreen from "../screens/WrrRequestScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SubmissionContentScreen from "../screens/SubmissionContentScreen";
+import SingleSubmissionScreen from "../screens/SingleSubmissionScreen";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -66,6 +67,9 @@ function RootNavigator() {
         component={SubmissionContentScreen}
         options={{ title: "Content" }}
       />
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Screen name="SingleSubmission" component={SingleSubmissionScreen} options={{ title: "Submission" }}/>
+      </Stack.Group>
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>

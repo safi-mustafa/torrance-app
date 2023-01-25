@@ -2,25 +2,25 @@ import { StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import SubmissionContentScreen from "./SubmissionContentScreen";
 
-export default function SubmissionsScreen() {
+export default function SubmissionsScreen({ navigation }) {
   const Tab = createMaterialTopTabNavigator();
 
   const tabs = [
     {
       name: "tot",
       tabTitle: "Time on Tools",
-      params: { title: "Time on Tools", url: '/TOTLog' },
+      params: { title: "Time on Tools", url: "/TOTLog" },
       component: null,
     },
     {
       name: "WeldingRods",
       tabTitle: "Welding Rods",
-      params: { title: "Welding Rods", url: '/WRRLog' },
+      params: { title: "Welding Rods", url: "/WRRLog" },
     },
     {
       name: "Override",
       tabTitle: "Override",
-      params: { title: "Override", url: '/TOTLog' },
+      params: { title: "Override", url: "/TOTLog" },
     },
   ];
 
@@ -31,7 +31,13 @@ export default function SubmissionsScreen() {
           key={name}
           name={name}
           children={() =>
-            component ? component : <SubmissionContentScreen params={params} />
+            component ? (
+              component
+            ) : (
+              <SubmissionContentScreen
+                params={{...params, navigation}}
+              />
+            )
           }
           options={{ title: tabTitle, ...options }}
         />

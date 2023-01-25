@@ -19,7 +19,7 @@ const styles = {
     position: "absolute",
     height: Layout.window.height,
     width: "100%",
-    backgroundColor: "rgba(0,0,0,0.4)",
+    backgroundColor: "rgba(0,0,0,0.3)",
     justifyContent: "center",
     alignItems: "center",
     zIndex: 9,

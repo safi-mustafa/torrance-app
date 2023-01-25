@@ -3,16 +3,16 @@ import { FlashList } from "@shopify/flash-list";
 
 import getData from "../api-services/getData";
 import ListCell from "../components/ListCell";
-import Layout from "../constants/Layout";
 import { useState, useEffect } from "react";
+import Loader from "../components/Loader";
 
 export default function SubmissionContentScreen({
-  navigation,
   params = {},
   route = {},
   ...otherParams
 }) {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (params?.url) getListData(params?.url);
@@ -23,9 +23,11 @@ export default function SubmissionContentScreen({
   }, [params?.url]);
 
   const getListData = (url = "") => {
+    setLoading(true);
     getData(
       { url },
       (response) => {
+        setLoading(false);
         const { items = [] } = response?.data;
         console.log(
           "🚀 ~ file: SubmissionContentScreen.jsx ~ line 55 ~ getListData ~ items",
@@ -34,6 +36,7 @@ export default function SubmissionContentScreen({
         setData(items);
       },
       (error) => {
+        setLoading(false);
         console.log(
           "🚀 ~ file: SelectInput.jsx ~ line 44 ~ getData ~ error",
           error
@@ -46,10 +49,11 @@ export default function SubmissionContentScreen({
       {/* <Text style={styles.title}>
         {route.params?.title ? route.params.title : title} Submissions
       </Text> */}
+      <Loader show={loading} size="large" overlay="true" color="white" />
       <ScrollView style={styles.scrollView}>
         <FlashList
           renderItem={({ item }) => {
-            return <ListCell item={item} />;
+            return <ListCell item={item} navigation={params?.navigation} />;
           }}
           estimatedItemSize={10}
           data={data}
@@ -61,10 +65,13 @@ export default function SubmissionContentScreen({
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    width: "100%",
+    // backgroundColor: '#fff'
   },
   scrollView: {
-    height: Layout.window.height,
+    padding: 10,
+    marginTop: 8,
+    // minHeight: Layout.window.height,
   },
   title: {
     fontSize: 20,

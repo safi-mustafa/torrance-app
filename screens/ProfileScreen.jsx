@@ -1,7 +1,5 @@
 import {
   StyleSheet,
-  ImageBackground,
-  StatusBar,
   Text,
   View,
   Platform,
@@ -10,15 +8,12 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 import appStyles from "../app-styles";
-import useColorScheme from "../hooks/useColorScheme";
-import Colors, { lightColor } from "../constants/Colors";
+import { lightColor } from "../constants/Colors";
 import { useEffect, useState } from "react";
 import { getKey } from "../utility";
-
-const BG_IMAGE = require("./../assets/images/bg-blue.png");
+import ProfileCard from "../components/ProfileCard";
 
 export default function ProfileScreen({ navigation }) {
-  const colorScheme = useColorScheme();
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -28,22 +23,13 @@ export default function ProfileScreen({ navigation }) {
   const getUserMeta = async () => {
     let userMeta = await getKey("user");
     const { userDetail } = JSON.parse(userMeta);
-    // console.log(
-    //   "🚀 ~ file: ProfileScreen.jsx ~ line 31 ~ getUserMeta ~ userDetail",
-    //   JSON.parse(userMeta)
-    // );
     setUser(userDetail);
   };
 
   return (
     <View style={[styles.innerContainer]}>
-      <ImageBackground
-        source={BG_IMAGE}
-        imageStyle={{ resizeMode: "stretch", marginRight: -5 }}
-      >
-        <View
-          style={[appStyles.clear, { paddingTop: 80, paddingHorizontal: 30 }]}
-        >
+      <ProfileCard
+        header={
           <TouchableOpacity onPress={() => navigation.replace("Root")}>
             <Ionicons
               name="exit-outline"
@@ -52,17 +38,8 @@ export default function ProfileScreen({ navigation }) {
               style={styles.exitBtn}
             />
           </TouchableOpacity>
-          <Text style={{ color: Colors[colorScheme].lightText }}>Hello,</Text>
-          <Text
-            style={[
-              appStyles.h4,
-              { color: Colors[colorScheme].lightText, marginBottom: 25 },
-            ]}
-          >
-            {user?.name} {StatusBar.currentHeight}
-          </Text>
-        </View>
-      </ImageBackground>
+        }
+      />
       <View style={styles.expandSection}>
         <View style={[appStyles.my1, styles.section]}>
           <Text style={styles.label}>Email:</Text>
@@ -90,7 +67,14 @@ export default function ProfileScreen({ navigation }) {
         </View>
         <View style={[appStyles.my1, styles.section]}>
           <Text style={styles.label}>Active Status:</Text>
-          <Text style={styles.values}>{user?.activeStatus}</Text>
+          <Text
+            style={[
+              styles.values,
+              user?.activeStatus == "Active" && { color: "green" },
+            ]}
+          >
+            {user?.activeStatus}
+          </Text>
         </View>
       </View>
     </View>
@@ -113,16 +97,19 @@ const styles = StyleSheet.create({
     top: -60,
     right: -10,
   },
-  section:{
-    marginBottom: 10,
-    flexDirection: 'row'
+  section: {
+    marginBottom: 15,
+    flexDirection: "row",
+    borderBottomColor: "#ddd",
+    borderBottomWidth: 1,
+    paddingBottom: 5,
   },
   label: {
     width: 70,
     marginRight: 10,
-    color: "#666"
+    color: "#666",
   },
-  values:{
+  values: {
     // fontWeight: "bold",
-  }
+  },
 });
