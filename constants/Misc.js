@@ -3,3 +3,8 @@ export const DATE_TIME_MODE = {
     DATE: 'date',
     TIME: 'time'
 }
+
+export const LOGIN_TYPE = {
+    PIN: 'PIN',
+    FORM: 'FORM',
+}

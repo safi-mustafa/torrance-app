@@ -1,61 +1,54 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   ImageBackground,
   Platform,
   StyleSheet,
   View,
   Text,
+  Pressable,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import * as Yup from "yup";
-
-import {
-  CodeField,
-  Cursor,
-  useClearByFocusCell,
-} from "react-native-confirmation-code-field";
 
 import postData from "./../api-services/postData";
 import appStyles from "../app-styles";
 import Loader from "../components/Loader";
 import Layout from "../constants/Layout";
 import { saveKey } from "../utility";
+import LoginForm from "../components/LoginForm";
+import LoginPin from "../components/LoginPin";
+import { LOGIN_TYPE } from "../constants/Misc";
 
 const BG_IMAGE = require("./../assets/images/bg-blue.png");
 
 export default function LoginScreen({ navigation }) {
-  const CELL_COUNT = 4;
   const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState(null);
-  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
-    value,
-    setValue,
-  });
+  const [loginType, setLoginType] = useState(LOGIN_TYPE.FORM);
 
-  const onSubmit = () => {
+  const onSubmit = (values) => {
     setLoading(true);
+    const url =
+      loginType === LOGIN_TYPE.PIN
+        ? `/Account/LoginUsingPincode?pincode=${values}`
+        : `/Account/Login`;
+    const params = loginType !== LOGIN_TYPE.PIN ? values : {};
+
     postData(
-      { url: `/Account/Login?pincode=${value}` },
+      { url, params },
       ({ data }) => {
         setLoading(false);
         saveKey("user", JSON.stringify(data));
         navigation.replace("BottomTabNav");
       },
-      () => {
+      (error) => {
+        // console.log("🚀 ~ file: LoginScreen.jsx ~ line 43 ~ onSubmit ~ error", JSON.stringify(error))
         setLoading(false);
       }
     );
   };
 
-  const onValueChange = (value) => {
-    setValue(value);
+  const toggleLoginType = () => {
+    setLoginType(loginType === "PIN" ? "FORM" : "PIN");
   };
-
-  useEffect(() => {
-    if (value && value.length === 4) {
-      onSubmit();
-    }
-  }, [value]);
 
   return (
     <>
@@ -78,23 +71,19 @@ export default function LoginScreen({ navigation }) {
               Torrance App
             </Text>
             <View style={styles.formWrapper}>
-              <CodeField
-                value={value}
-                onChangeText={onValueChange}
-                cellCount={CELL_COUNT}
-                rootStyle={styles.codeFieldRoot}
-                keyboardType="number-pad"
-                textContentType="oneTimeCode"
-                renderCell={({ index, symbol, isFocused }) => (
-                  <Text
-                    key={index}
-                    style={[styles.cell, isFocused && styles.focusCell]}
-                    onLayout={getCellOnLayoutHandler(index)}
-                  >
-                    {symbol || (isFocused ? <Cursor /> : null)}
-                  </Text>
-                )}
-              />
+              {loginType == LOGIN_TYPE.FORM ? (
+                <LoginForm onSubmit={onSubmit} />
+              ) : (
+                <LoginPin onSubmit={onSubmit} />
+              )}
+              <Pressable
+                onPress={() => toggleLoginType()}
+                style={({ pressed }) => ({
+                  opacity: pressed ? 0.5 : 1,
+                })}
+              >
+                <Text style={styles.loginViaText}>Login via {loginType == LOGIN_TYPE.FORM ? 'Pin' : 'Email'}</Text>
+              </Pressable>
             </View>
           </View>
         </KeyboardAwareScrollView>
@@ -110,25 +99,13 @@ const styles = StyleSheet.create({
     height: Layout.window.height,
   },
   formWrapper: {
-    justifyContent: 'center',
-    alignSelf: 'center',
+    justifyContent: "center",
+    alignSelf: "center",
+    width: '85%'
   },
-  codeFieldRoot: {
-    marginVertical: 0,
-  },
-  cell: {
-    width: 55,
-    height: 70,
-    lineHeight: 60,
-    fontSize: 30,
-    borderWidth: 2,
-    borderColor: "#cccccc",
-    color: "#cccccc",
+  loginViaText: {
+    color: "#fff",
     textAlign: "center",
-    marginRight: 10
-  },
-  focusCell: {
-    borderColor: "#ffffff",
-    color: "#ffffff",
+    marginVertical: 15,
   },
 });
