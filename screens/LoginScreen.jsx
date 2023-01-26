@@ -11,7 +11,6 @@ import * as Yup from "yup";
 import {
   CodeField,
   Cursor,
-  useBlurOnFulfill,
   useClearByFocusCell,
 } from "react-native-confirmation-code-field";
 
