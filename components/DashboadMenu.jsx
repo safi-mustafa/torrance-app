@@ -5,77 +5,104 @@ import {
   TouchableOpacity,
   Text,
   View,
+  Linking,
 } from "react-native";
 
 import appStyles from "../app-styles";
 import Layout from "../constants/Layout";
+
+const MENU_TYPE = {
+  EXTERNAL_LINK: "EXTERNAL_LINK",
+  ROUTE_REDIRECT: "ROUTE_REDIRECT",
+};
 
 const items = [
   {
     title: "Submit Override",
     subtitle: "Overtime Request",
     icon: require("./../assets/images/journal-book.png"),
-    link: "main",
+    url: "NotFound",
+    type: MENU_TYPE.ROUTE_REDIRECT
   },
   {
     title: "Unlocked WRRs",
     subtitle: "Update WWR Returns",
     icon: require("./../assets/images/welding.png"),
-    link: "main",
+    url: "NotFound",
+    type: MENU_TYPE.ROUTE_REDIRECT
   },
   {
     title: "Maps",
     subtitle: "View Maps",
     icon: require("./../assets/images/maps.png"),
-    link: "main",
+    url: "/WRRLog",
+    cellOptions: { titleField: "wrr", subtitleField: "date" },
   },
   {
     title: "Badge Room",
     subtitle: "View Files",
     icon: require("./../assets/images/worker.png"),
-    link: "main",
+    url: "/WRRLog",
   },
   {
     title: "Delivery",
     subtitle: "View Files",
     icon: require("./../assets/images/delivery.png"),
-    link: "main",
+    url: "/WRRLog",
   },
   {
     title: "Passport",
     subtitle: "View Files",
     icon: require("./../assets/images/passport.png"),
-    link: "main",
+    url: "/WRRLog",
   },
   {
     title: "Vehicle Pass",
     subtitle: "View Pass",
     icon: require("./../assets/images/pass.png"),
-    link: "main",
+    url: "/WRRLog",
   },
   {
     title: "Dropbox",
     subtitle: "Dropbox Link",
     icon: require("./../assets/images/dropbox.png"),
-    link: "main",
-  }
+    url: "https://dropbox.com/",
+    type: MENU_TYPE.EXTERNAL_LINK,
+  },
 ];
 
 export function DashboardMenu({ navigation }) {
+  const onMenuPress = ({ type = null, ...item }) => {
+    if (type === MENU_TYPE.ROUTE_REDIRECT) {
+      navigation.push(
+        item?.url,
+        item?.params && {
+          ...item?.params,
+        }
+      );
+    } else if (type === MENU_TYPE.EXTERNAL_LINK) {
+      Linking.openURL(item?.url).catch((err) => console.error("Error", err));
+    } else {
+      navigation.push("SubmissionContent", {
+        ...item,
+      });
+    }
+  };
+
   return (
-    <ScrollView contentContainerStyle={{ height: Layout.window.height}}>
+    <ScrollView contentContainerStyle={{ height: Layout.window.height }}>
       <View style={styles.section}>
-        {items.map(({ title, subtitle, icon }, index) => (
+        {items.map(({ subtitle, icon, ...item }, index) => (
           <TouchableOpacity
             key={index}
             style={styles.btnWrapper}
-            onPress={() =>
-              navigation.push("SubmissionContent", { title })
-            }
+            onPress={() => onMenuPress(item)}
           >
             <View style={styles.innerBtnWrapper}>
               <View>
-                <Text style={[appStyles.fw500, appStyles.my1]}>{title}</Text>
+                <Text style={[appStyles.fw500, appStyles.my1]}>
+                  {item?.title}
+                </Text>
                 <Text style={{ color: "#999", fontSize: 11 }}>{subtitle}</Text>
               </View>
               <Image style={styles.icon} source={icon} />

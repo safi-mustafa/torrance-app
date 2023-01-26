@@ -7,11 +7,17 @@ import { useState, useEffect } from "react";
 import Loader from "../components/Loader";
 
 export default function SubmissionContentScreen({
-  params = {},
   route = {},
   ...otherParams
 }) {
-  const [data, setData] = useState([]);
+  const { params } = route;
+  // console.log(
+  //   "🚀 ~ file: SubmissionContentScreen.jsx ~ line 14 ~ params",
+  //   params
+  // );
+  const { template = null, cellOptions = {} } = params;
+
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -51,13 +57,22 @@ export default function SubmissionContentScreen({
       </Text> */}
       <Loader show={loading} size="large" overlay="true" color="white" />
       <ScrollView style={styles.scrollView}>
-        <FlashList
-          renderItem={({ item }) => {
-            return <ListCell item={item} navigation={params?.navigation} />;
-          }}
-          estimatedItemSize={10}
-          data={data}
-        />
+        {data && (
+          <FlashList
+            renderItem={({ item }) => {
+              return (
+                <ListCell
+                  item={item}
+                  navigation={params?.navigation}
+                  cellOptions={cellOptions}
+                />
+              );
+            }}
+            estimatedItemSize={10}
+            data={data}
+            template={template}
+          />
+        )}
       </ScrollView>
     </View>
   );

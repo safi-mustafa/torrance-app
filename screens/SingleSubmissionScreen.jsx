@@ -12,8 +12,8 @@ export default function SingleSubmissionScreen({
     <View style={styles.container}>
       <ScrollView>
         {values &&
-          Object.entries(values).map(([key, value]) => (
-            <View style={[appStyles.my1, styles.section]}>
+          Object.entries(values).map(([key, value], index) => (
+            <View key={index} style={[appStyles.my1, styles.section]}>
               <Text style={styles.label}>{key}</Text>
               <Text style={styles.value}>{value ? value : "-"}</Text>
             </View>
