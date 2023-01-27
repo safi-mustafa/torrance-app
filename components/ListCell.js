@@ -1,20 +1,22 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { FontAwesome } from "@expo/vector-icons";
 
 import appStyles from '../app-styles';
-import { getFormatedDate } from '../utility';
 import { primaryColor } from '../constants/Colors';
 
-export default function ListCell({ item = {}, navigation, template = null, cellOptions = {} }) {
-    // console.log("🚀 ~ file: ListCell.js ~ line 10 ~ ListCell ~ cellOptions", cellOptions)
+export default function ListCell({ item = {}, navigation, template = null, cellOptions = {}, ...otherProps }) {
     const { titleField = 'name', subTitleField = '' } = cellOptions;
+    const TemplateComponent = React.cloneElement(
+        template,
+        { item, cellOptions }
+    );
+
     return (
         <View style={styles.section}>
-            {template ? template :
+            {template ? TemplateComponent :
                 <>
                     <View>
-
                         <Text style={[appStyles.fw500, appStyles.my1]}>{item[titleField]}</Text>
                         {subTitleField && <Text style={{ color: '#999' }}>{item[subTitleField]}</Text>}
                     </View>

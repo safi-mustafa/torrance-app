@@ -11,19 +11,19 @@ export default function SubmissionsScreen({ navigation }) {
       tabTitle: "Time on Tools",
       params: { title: "Time on Tools", url: "/TOTLog" },
       component: null,
-      cellOptions: { titleField: "wrr", subtitleField: "date" },
+      cellOptions: { titleField: "twr", subTitleField: "jobDescription" },
     },
     {
       name: "WeldingRods",
       tabTitle: "Welding Rods",
       params: { title: "Welding Rods", url: "/WRRLog" },
-      cellOptions: { titleField: "wrr", subtitleField: "date" },
+      cellOptions: { titleField: "email", subTitleField: "activeStatus" },
     },
     {
       name: "Override",
       tabTitle: "Override",
       params: { title: "Override", url: "/TOTLog" },
-      cellOptions: { titleField: "wrr", subtitleField: "date" },
+      cellOptions: { titleField: "twr", subTitleField: "jobDescription" },
     },
   ];
 

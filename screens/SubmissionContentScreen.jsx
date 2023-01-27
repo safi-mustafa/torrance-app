@@ -11,16 +11,17 @@ export default function SubmissionContentScreen({
   ...otherParams
 }) {
   const { params } = route;
-  // console.log(
-  //   "🚀 ~ file: SubmissionContentScreen.jsx ~ line 14 ~ params",
-  //   params
-  // );
+
   const { template = null, cellOptions = {} } = params;
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    console.log(
+      "🚀 ~ file: SubmissionContentScreen.jsx ~ line 22 ~ useEffect ~ params",
+      params
+    );
     if (params?.url) getListData(params?.url);
 
     return () => {
@@ -34,12 +35,16 @@ export default function SubmissionContentScreen({
       { url },
       (response) => {
         setLoading(false);
-        const { items = [] } = response?.data;
+        const { items = [], attachments = [] } = response?.data;
         console.log(
-          "🚀 ~ file: SubmissionContentScreen.jsx ~ line 55 ~ getListData ~ items",
-          items
+          "🚀 ~ file: SubmissionContentScreen.jsx ~ line 38 ~ getListData ~ response?.data",
+          response?.data
         );
-        setData(items);
+        // console.log(
+        //   "🚀 ~ file: SubmissionContentScreen.jsx ~ line 55 ~ getListData ~ items",
+        //   items
+        // );
+        setData(attachments ? attachments : items);
       },
       (error) => {
         setLoading(false);
@@ -65,12 +70,12 @@ export default function SubmissionContentScreen({
                   item={item}
                   navigation={params?.navigation}
                   cellOptions={cellOptions}
+                  template={template}
                 />
               );
             }}
             estimatedItemSize={10}
             data={data}
-            template={template}
           />
         )}
       </ScrollView>

@@ -22,7 +22,7 @@ const BG_IMAGE = require("./../assets/images/bg-blue.png");
 
 export default function LoginScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
-  const [loginType, setLoginType] = useState(LOGIN_TYPE.FORM);
+  const [loginType, setLoginType] = useState(LOGIN_TYPE.PIN);
 
   const onSubmit = (values) => {
     setLoading(true);
@@ -40,7 +40,7 @@ export default function LoginScreen({ navigation }) {
         navigation.replace("BottomTabNav");
       },
       (error) => {
-        // console.log("🚀 ~ file: LoginScreen.jsx ~ line 43 ~ onSubmit ~ error", JSON.stringify(error))
+        console.log("🚀 ~ file: LoginScreen.jsx ~ line 43 ~ onSubmit ~ error", JSON.stringify(error.response.data.errors))
         setLoading(false);
       }
     );
