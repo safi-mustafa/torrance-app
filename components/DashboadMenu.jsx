@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 6,
   },
-  icon: { height: 32, width: 32, marginLeft: 10 },
+  icon: { height: 40, width: 40, marginLeft: 10 },
   innerBtnWrapper: {
     flexDirection: "row",
     alignItems: "center",
