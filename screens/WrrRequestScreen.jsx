@@ -40,32 +40,45 @@ export default function WrrRequestScreen({ navigation }) {
   };
 
   const initValues = {
-    unit: {
-      id: 1,
-      name: "Unit B",
+    "unit": {
+        "id": 1,
+        "name": "Unit B"
     },
-    department: {
-      id: 1,
-      name: "Finance Department",
+    "department": {
+        "id": 1,
+        "name": "Finance Department"
     },
-    employee: {
-      id: 4,
-      name: "John Sameul",
+    "employee": {
+        "id": 4,
+        "name": "John Sameul"
     },
-    weldingMethod: {
-      id: 1,
+    "weldingMethod": {
+        "id": 1
     },
-    weldingRod: {
-      id: 1,
-      name: "Plastic rod",
+    "weldingRod": {
+        "id": 1,
+        "name": "Plastic rod"
     },
-    fumeControlUsed: "12",
-    twr: "3",
-    email: "Abc@zs.com",
-    location: "Isb",
-    rodCheckedOutLbs: "12",
-    rodReturnedWasteLbs: "3",
-  };
+    "fumeControlUsed": "12",
+    "twr": "3",
+    "email": "Abc@zs.com",
+    "location": {
+        "id": 1
+    },
+    "rodCheckedOutLbs": "12",
+    "rodReturnedWasteLbs": "3",
+    "contractor": {
+        "id": 1,
+        "name": "Waseem Safdar"
+    },
+    "weldMethod": {
+        "id": 1
+    },
+    "rodType": {
+        "id": 1,
+        "name": "Plastic rod"
+    }
+};
 
   return (
     <>
@@ -73,7 +86,7 @@ export default function WrrRequestScreen({ navigation }) {
       <KeyboardAwareScrollView>
         <View style={styles.container}>
           <Formik
-            initialValues={{}}
+            initialValues={initValues}
             onSubmit={onSubmit}
             valueOnChange={(a) => console.log(a)}
           >

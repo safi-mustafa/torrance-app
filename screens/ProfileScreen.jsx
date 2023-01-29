@@ -26,11 +26,16 @@ export default function ProfileScreen({ navigation }) {
     setUser(userDetail);
   };
 
+  const onLogOut = () => {
+    alert('Logout')
+    navigation.replace("Root")
+  }
+
   return (
     <View style={[styles.innerContainer]}>
       <ProfileCard
         header={
-          <TouchableOpacity onPress={() => navigation.replace("Root")}>
+          <TouchableOpacity onPress={() => onLogOut()}>
             <Ionicons
               name="exit-outline"
               size={32}

@@ -143,10 +143,23 @@ export const totFields = [
     label: "Man Power",
   },
   {
+    name: "manPowerAffected",
+    placeholder: "Enter Affected Number",
+    label: "Number of Man Power Affected",
+  },
+  {
     name: "manHours",
     placeholder: "Enter Man Hours",
     label: "Man Hours",
   },
+  {
+    name: "permittingIssue",
+    inputType: "select",
+    url: "/PermittingIssue",
+    placeholder: "Select Issue",
+    label: "Permitting Issue",
+    zIndex: 993,
+  }, 
   {
     name: "foreman",
     inputType: "select",

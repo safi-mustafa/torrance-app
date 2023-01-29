@@ -57,7 +57,8 @@ export default function SelectInput({
 
   const onValChange = (value, index) => {
     // setOption(value);
-    setFieldValue(name, { id: value, name: filteredList[index]?.label });
+    console.log("🚀 ~ file: SelectInput.jsx ~ line 61 ~ onValChange ~ filteredList", filteredList, index)
+    setFieldValue(name, { id: value, name: filteredList[index-1]?.label });
   }
 
   const [open, setOpen] = useState(false);

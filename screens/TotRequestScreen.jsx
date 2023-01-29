@@ -28,6 +28,7 @@ export default function TotRequestScreen({ navigation }) {
 
   const onSubmit = async (formValues, { setSubmitting }) => {
     const params = { ...formValues };
+    console.log("🚀 ~ file: TotRequestScreen.jsx ~ line 31 ~ onSubmit ~ params", params)
     postData(
       {
         url: `/TOTLog`,
@@ -53,25 +54,21 @@ export default function TotRequestScreen({ navigation }) {
   };
 
   const initVal = {
+    "shift": {
+        "id": 1,
+        "name": "evening"
+    },
     "shiftDelay": {
-        "id": 2,
-        "name": "10 mints"
+        "id": 1,
+        "name": "3 hours"
     },
     "department": {
         "id": 1,
         "name": "Finance Department"
     },
-    "contractor": {
-        "id": 1,
-        "name": "Waseem Safdar"
-    },
     "reworkDelay": {
-        "id": 2,
-        "name": "35 mints"
-    },
-    "shift": {
         "id": 1,
-        "name": "evening"
+        "name": "2 hours"
     },
     "unit": {
         "id": 1,
@@ -81,18 +78,31 @@ export default function TotRequestScreen({ navigation }) {
         "id": 1,
         "name": "testing"
     },
-    "startOfWork": "2023-01-22",
-    "delayReason": "New reason",
-    "jobDescription": "New desc",
-    "equipmentNo": "12",
-    "twr": "3",
-    "hoursDelayed": "2",
-    "manPower": "5",
-    "manHours": "40",
+    "contractor": {
+        "id": 1,
+        "name": "Waseem Safdar"
+    },
     "approver": {
         "id": 10,
         "name": "approver@centangle.com"
-    }
+    },
+    "foreman": {
+        "id": 10,
+        "name": "approver@centangle.com"
+    },
+    "startOfWork": "2023-01-29",
+    "delayReason": "New reason",
+    "jobDescription": "New desc",
+    "equipmentNo": "123",
+    "twr": "456",
+    "hoursDelayed": "4",
+    "manPower": "12",
+    "manHours": "80",
+    "permittingIssue": {
+        "id": 1,
+        "name": "Permitting issue 2"
+    },
+    "manPowerAffected": "12"
 };
 
   return (
