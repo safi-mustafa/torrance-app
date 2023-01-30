@@ -4,7 +4,7 @@ export const wrrFields = [
     inputType: "select",
     url: "/Department",
     placeholder: "Select Department",
-    label: "Department",
+    label: "Department*",
     zIndex: 3000,
     zIndexInverse: 1000,
   },
@@ -19,7 +19,7 @@ export const wrrFields = [
     inputType: "select",
     url: "/Contractor",
     placeholder: "Select Contractor",
-    label: "Contractor",
+    label: "Contractor*",
     zIndex: 3000,
     zIndexInverse: 1000,
   },
@@ -37,7 +37,7 @@ export const wrrFields = [
     inputType: "select",
     url: "/Unit",
     placeholder: "Select Unit",
-    label: "Unit",
+    label: "Unit*",
     zIndex: 2000,
   },
   {
@@ -54,7 +54,7 @@ export const wrrFields = [
   {
     name: "twr",
     placeholder: "Enter TWR",
-    label: "TWR - WO#",
+    label: "TWR - WO#*",
     keyboardType: "numeric",
   },
   {
@@ -62,7 +62,7 @@ export const wrrFields = [
     inputType: "select",
     url: '/RodType',
     placeholder: "Select Rod",
-    label: "Welding Rod Type",
+    label: "Welding Rod Type*",
     zIndex: 998,
   },
   {
@@ -70,7 +70,7 @@ export const wrrFields = [
     inputType: "select",
     url: '/WeldMethod',
     placeholder: "Select Method",
-    label: "Welding Method",
+    label: "Welding Method*",
     zIndex: 997,
   },
   {
@@ -87,7 +87,7 @@ export const wrrFields = [
   },
   {
     name: "location",
-    label: "Location",
+    label: "Location*",
     placeholder: "Enter Location",
     inputType: "select",
     url: '/Location',
@@ -95,7 +95,7 @@ export const wrrFields = [
   {
     name: "rodCheckedOutLbs",
     placeholder: "Enter Rod Checkout",
-    label: "Rod Checked Out (lbs)",
+    label: "Rod Checked Out (lbs)*",
     keyboardType: "numeric",
   },
   {

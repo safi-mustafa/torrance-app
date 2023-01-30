@@ -4,6 +4,7 @@ import {
   View,
   Platform,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -23,11 +24,13 @@ export default function ProfileScreen({ navigation }) {
   const getUserMeta = async () => {
     let userMeta = await getKey("user");
     const { userDetail } = JSON.parse(userMeta);
+    // console.log("🚀 ~ file: ProfileScreen.jsx ~ line 27 ~ getUserMeta ~ userDetail", userDetail)
     setUser(userDetail);
   };
 
   const onLogOut = () => {
-    alert('Logout')
+    // console.log("🚀 ~ file: ProfileScreen.jsx ~ line 31 ~ onLogOut ~ Logout", Logout)
+    // alert('Logout')
     navigation.replace("Root")
   }
 
@@ -35,14 +38,14 @@ export default function ProfileScreen({ navigation }) {
     <View style={[styles.innerContainer]}>
       <ProfileCard
         header={
-          <TouchableOpacity onPress={() => onLogOut()}>
+          <Pressable style={styles.exitBtn} onPress={() => onLogOut()}>
             <Ionicons
               name="exit-outline"
-              size={32}
+              size={34}
               color="white"
-              style={styles.exitBtn}
+              style={{}}
             />
-          </TouchableOpacity>
+          </Pressable>
         }
       />
       <View style={styles.expandSection}>
@@ -99,8 +102,12 @@ const styles = StyleSheet.create({
   },
   exitBtn: {
     position: "absolute",
-    top: -60,
-    right: -10,
+    width: 50,
+    height: 40,
+    top: 15,
+    right: 0,
+    // zIndex: 9999999,
+    // backgroundColor: 'red'
   },
   section: {
     marginBottom: 15,

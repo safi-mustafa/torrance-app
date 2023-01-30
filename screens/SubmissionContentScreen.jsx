@@ -18,10 +18,10 @@ export default function SubmissionContentScreen({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log(
-      "🚀 ~ file: SubmissionContentScreen.jsx ~ line 22 ~ useEffect ~ params",
-      params
-    );
+    // console.log(
+    //   "🚀 ~ file: SubmissionContentScreen.jsx ~ line 22 ~ useEffect ~ params",
+    //   params
+    // );
     if (params?.url) getListData(params?.url);
 
     return () => {
@@ -36,14 +36,11 @@ export default function SubmissionContentScreen({
       (response) => {
         setLoading(false);
         const { items = [], attachments = [] } = response?.data;
-        console.log(
-          "🚀 ~ file: SubmissionContentScreen.jsx ~ line 38 ~ getListData ~ response?.data",
-          response?.data
-        );
         // console.log(
-        //   "🚀 ~ file: SubmissionContentScreen.jsx ~ line 55 ~ getListData ~ items",
-        //   items
+        //   "🚀 ~ file: SubmissionContentScreen.jsx ~ line 38 ~ getListData ~ response?.data",
+        //   response?.data
         // );
+        
         setData(attachments ? attachments : items);
       },
       (error) => {

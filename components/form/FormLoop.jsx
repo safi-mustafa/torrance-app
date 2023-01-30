@@ -14,7 +14,7 @@ export default function FormLoop({
   handleSubmit,
   setFieldValue,
 }) {
-  console.log("🚀 ~ file: FormLoop.tsx ~ line 18 ~ errors", errors);
+  // console.log("🚀 ~ file: FormLoop.tsx ~ line 18 ~ errors", errors);
   const formatedFields = getConditionalFields(fields, values);
 
   const getError = (errors, { name = "", inputType = null }) => {
