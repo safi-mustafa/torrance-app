@@ -6,9 +6,10 @@ import appStyles from '../app-styles';
 import { primaryColor } from '../constants/Colors';
 
 export default function ListCell({ item = {}, navigation, template = null, cellOptions = {}, ...otherProps }) {
+    // console.log("🚀 ~ file: ListCell.js ~ line 9 ~ ListCell ~ item", item)
     const { titleField = 'name', subTitleField = '' } = cellOptions;
     const TemplateComponent = React.cloneElement(
-        template,
+        template ? template : <></>,
         { item, cellOptions }
     );
 
