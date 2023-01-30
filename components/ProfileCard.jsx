@@ -25,7 +25,7 @@ export default function ProfileCard({ navigation, header = <></>, footer = <></>
   const getUserMeta = async () => {
     let userMeta = await getKey("user");
     const { userDetail } = JSON.parse(userMeta);
-    // console.log("🚀 ~ file: ProfileCard.jsx ~ line 28 ~ getUserMeta ~ userDetail", userDetail)
+    console.log("🚀 ~ file: ProfileCard.jsx ~ line 28 ~ getUserMeta ~ userDetail", userDetail)
     setUser(userDetail);
   };
 
@@ -46,7 +46,7 @@ export default function ProfileCard({ navigation, header = <></>, footer = <></>
               { color: Colors[colorScheme].lightText, marginBottom: 25 },
             ]}
           >
-            {user?.userName} {StatusBar.currentHeight}
+            {user?.name} {StatusBar.currentHeight}
           </Text>
           {footer}
         </View>

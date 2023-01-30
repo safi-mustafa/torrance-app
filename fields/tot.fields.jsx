@@ -169,13 +169,13 @@ export const totFields = [
     label: "Foreman",
     zIndex: 993,
   }, 
-  {
-    name: "approver",
-    inputType: "select",
-    url: "/Account/getAllUsers",
-    placeholder: "Select Approver",
-    labelAttributes: "userName",
-    label: "Approver",
-    zIndex: 993,
-  }, 
+  // {
+  //   name: "approver",
+  //   inputType: "select",
+  //   url: "/Account/getAllUsers",
+  //   placeholder: "Select Approver",
+  //   labelAttributes: "userName",
+  //   label: "Approver",
+  //   zIndex: 993,
+  // }, 
 ];
