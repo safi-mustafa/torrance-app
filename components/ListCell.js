@@ -4,6 +4,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 import appStyles from '../app-styles';
 import { primaryColor } from '../constants/Colors';
+import Layout from '../constants/Layout';
 
 export default function ListCell({ item = {}, navigation, template = null, cellOptions = {}, ...otherProps }) {
     // console.log("🚀 ~ file: ListCell.js ~ line 9 ~ ListCell ~ item", item)
@@ -16,27 +17,27 @@ export default function ListCell({ item = {}, navigation, template = null, cellO
     return (
         <View style={styles.section}>
             {template ? TemplateComponent :
-                <>
-                    <View>
-                        <Text style={[appStyles.fw500, appStyles.my1]}>{item[titleField]}</Text>
-                        {subTitleField && <Text style={{ color: '#999' }}>{item[subTitleField]}</Text>}
-                    </View>
-                    <View>
-                        <Pressable
-                            onPress={() => navigation.navigate("SingleSubmission", { ...item })}
-                            style={({ pressed }) => ({
-                                opacity: pressed ? 0.5 : 1,
-                            })}
-                        >
+                <Pressable
+                    onPress={() => navigation.navigate("SingleSubmission", { ...item })}
+                    style={({ pressed }) => ({
+                        opacity: pressed ? 0.5 : 1,
+                    })}
+                >
+                    <View style={styles.cellWrapper}>
+                        <View>
+                            <Text style={[appStyles.fw500, appStyles.my1]}>{item[titleField]}</Text>
+                            {subTitleField && <Text style={{ color: '#999' }}>{item[subTitleField]}</Text>}
+                        </View>
+                        <View style={{ alignItems: 'flex-end', justifyContent: 'flex-end' }}>
                             <FontAwesome
                                 name={item?.icon ? item?.icon : "angle-right"}
                                 size={25}
                                 color={primaryColor}
                                 style={{ marginRight: 10 }}
                             />
-                        </Pressable>
+                        </View>
                     </View>
-                </>
+                </Pressable>
             }
         </View>
     )
@@ -62,5 +63,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+    },
+    cellWrapper: { 
+        justifyContent: 'space-between', 
+        width: Layout.window.width - 50, 
+        flexDirection: 'row' ,
+        alignItems: 'center'
     }
 })
