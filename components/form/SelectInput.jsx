@@ -56,14 +56,15 @@ export default function SelectInput({
   };
 
   const onValChange = (value, index) => {
-    // setOption(value);
-    // console.log("🚀 ~ file: SelectInput.jsx ~ line 61 ~ onValChange ~ filteredList", filteredList, index)
-    setFieldValue(name, { id: value, name: filteredList[index-1]?.label });
-  }
+    setFieldValue(name, {
+      id: value ? value : 0,
+      name: filteredList[index - 1]?.label,
+    });
+  };
 
   const [open, setOpen] = useState(false);
-  const [fieldValue, setValue] = useState(null);
-  const [zIndexValue, setZIndexValue] = useState(0);
+  // const [fieldValue, setValue] = useState(null);
+  // const [zIndexValue, setZIndexValue] = useState(0);
   // DropDownPicker.setMode("BADGE");
   const zIndex = new Date().getTime() / 1000000000;
   return (
@@ -74,7 +75,7 @@ export default function SelectInput({
           open={open}
           items={filteredList}
           setOpen={setOpen}
-          setValue={setValue}
+          // setValue={setValue}
           // setItems={(value) => console.log(value)}
           onSelectItem={({ value }) => onValChange(value)}
           style={appStyles.input}

@@ -12,3 +12,7 @@ export const getKey = async (key) => {
 export const getFormatedDate = (date = "") => {
     return new Date(date).toLocaleDateString();
 };
+
+export const toCapitalCase = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};

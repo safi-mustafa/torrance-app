@@ -12,12 +12,10 @@ import postData from "./../api-services/postData";
 
 export default function WrrRequestScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
-  const onSubmit = async (params) => {
-    console.log(
-      "🚀 ~ file: TotRequestScreen.tsx ~ line 20 ~ onSubmit ~ params",
-      params
-    );
+  const [apiErrors, setApiErrors] = useState({});
 
+  const onSubmit = async (params) => {
+    console.log("🚀 ~ file: WrrRequestScreen.jsx ~ line 18 ~ onSubmit ~ params", params)
     postData(
       { url: `/WRRLog`, params },
       ({ data }) => {
@@ -30,10 +28,11 @@ export default function WrrRequestScreen({ navigation }) {
         navigation.pop();
       },
       (error) => {
-        console.log(
-          "🚀 ~ file: WrrRequestScreen.jsx ~ line 36 ~ onSubmit ~ error",
-          error.response.data.errors
-        );
+        console.log("🚀 ~ file: WrrRequestScreen.jsx ~ line 30 ~ onSubmit ~ error", error)
+        if (error?.data?.errors) {
+          // console.log("🚀 ~ file: WrrRequestScreen.jsx ~ line 31 ~ onSubmit ~ error?.data", error?.data)
+          setApiErrors(error.data.errors);
+        }
         setLoading(false);
       }
     );
@@ -86,7 +85,7 @@ export default function WrrRequestScreen({ navigation }) {
       <KeyboardAwareScrollView>
         <View style={styles.container}>
           <Formik
-            initialValues={initValues}
+            initialValues={{}}
             onSubmit={onSubmit}
             valueOnChange={(a) => console.log(a)}
           >
@@ -105,7 +104,7 @@ export default function WrrRequestScreen({ navigation }) {
                   handleBlur={handleBlur}
                   setFieldValue={setFieldValue}
                   values={values}
-                  errors={errors}
+                  errors={apiErrors}
                   handleSubmit={handleSubmit}
                 />
                 <Pressable

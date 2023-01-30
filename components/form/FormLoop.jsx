@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Layout from "../../constants/Layout";
+import { toCapitalCase } from "../../utility";
 
 import Putin from "./Putin";
 
@@ -13,8 +14,16 @@ export default function FormLoop({
   handleSubmit,
   setFieldValue,
 }) {
-  // console.log("🚀 ~ file: FormLoop.tsx ~ line 18 ~ errors", errors)
+  console.log("🚀 ~ file: FormLoop.tsx ~ line 18 ~ errors", errors);
   const formatedFields = getConditionalFields(fields, values);
+
+  const getError = (errors, { name = "", inputType = null }) => {
+    let errorField = toCapitalCase(name);
+    if(inputType == "select"){
+      errorField = `${errorField}.Id`
+    }
+    return errors[errorField];
+  };
 
   return (
     <View>
@@ -50,7 +59,7 @@ export default function FormLoop({
                   <Putin {..._props} />
 
                   <Text style={styles.inputError}>
-                    {errors[elementAttribs?.name]}
+                    {getError(errors, elementAttribs)}
                   </Text>
                 </View>
               </View>
@@ -65,7 +74,7 @@ export default function FormLoop({
 const styles = StyleSheet.create({
   label: {
     fontSize: 16,
-    marginBottom: 4,
+    marginBottom: 2,
     color: "#333",
   },
   inputWrapper: {
@@ -74,7 +83,8 @@ const styles = StyleSheet.create({
   inputError: {
     color: "red",
     minHeight: 20,
-    marginTop: 1
+    marginTop: 2,
+    marginBottom: 5,
     // position: "absolute"
   },
 });

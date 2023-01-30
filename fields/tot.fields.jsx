@@ -1,7 +1,3 @@
-// import Colors from "../Colors";
-// import { ContraceptiveFieldValues } from "../values/contraceptive.values";
-// import { NewOldFieldValues } from "../values/newold.values";
-
 export const totFields = [
   {
     name: "department",

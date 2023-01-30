@@ -13,22 +13,18 @@ import postData from "./../api-services/postData";
 
 export default function TotRequestScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
+  const [apiErrors, setApiErrors] = useState({});
 
   useEffect(() => {
-    getUserMeta();
+    //getUserMeta();
   }, []);
 
   const getUserMeta = async () => {
     const userMeta = await getKey("user");
-    console.log(
-      "🚀 ~ file: TotRequestScreen.jsx ~ line 23 ~ onSubmit ~ userMeta",
-      JSON.parse(userMeta)
-    );
   };
 
-  const onSubmit = async (formValues, { setSubmitting }) => {
+  const onSubmit = async (formValues = [], { setSubmitting }) => {
     const params = { ...formValues };
-    console.log("🚀 ~ file: TotRequestScreen.jsx ~ line 31 ~ onSubmit ~ params", params)
     postData(
       {
         url: `/TOTLog`,
@@ -44,66 +40,66 @@ export default function TotRequestScreen({ navigation }) {
         navigation.pop();
       },
       (error) => {
-        console.log(
-          "🚀 ~ file: TotRequestScreen.jsx ~ line 33 ~ onSubmit ~ error",
-          error.response.data.errors
-        );
+        if (error?.data?.errors) {
+          console.log("🚀 ~ file: TotRequestScreen.jsx ~ line 45 ~ onSubmit ~ error.data", error.data)
+          setApiErrors(error.data.errors);
+        }
         setLoading(false);
       }
     );
   };
 
   const initVal = {
-    "shift": {
-        "id": 1,
-        "name": "evening"
+    shift: {
+      id: 1,
+      name: "evening",
     },
-    "shiftDelay": {
-        "id": 1,
-        "name": "3 hours"
+    shiftDelay: {
+      id: 1,
+      name: "3 hours",
     },
-    "department": {
-        "id": 1,
-        "name": "Finance Department"
+    department: {
+      id: 1,
+      name: "Finance Department",
     },
-    "reworkDelay": {
-        "id": 1,
-        "name": "2 hours"
+    reworkDelay: {
+      id: 1,
+      name: "2 hours",
     },
-    "unit": {
-        "id": 1,
-        "name": "Unit B"
+    unit: {
+      id: 1,
+      name: "Unit B",
     },
-    "permitType": {
-        "id": 1,
-        "name": "testing"
+    permitType: {
+      id: 1,
+      name: "testing",
     },
-    "contractor": {
-        "id": 1,
-        "name": "Waseem Safdar"
+    contractor: {
+      id: 1,
+      name: "Waseem Safdar",
     },
-    "approver": {
-        "id": 10,
-        "name": "approver@centangle.com"
+    approver: {
+      id: 10,
+      name: "approver@centangle.com",
     },
-    "foreman": {
-        "id": 10,
-        "name": "approver@centangle.com"
+    foreman: {
+      id: 10,
+      name: "approver@centangle.com",
     },
-    "startOfWork": "2023-01-29",
-    "delayReason": "New reason",
-    "jobDescription": "New desc",
-    "equipmentNo": "123",
-    "twr": "456",
-    "hoursDelayed": "4",
-    "manPower": "12",
-    "manHours": "80",
-    "permittingIssue": {
-        "id": 1,
-        "name": "Permitting issue 2"
+    startOfWork: "2023-01-29",
+    delayReason: "New reason",
+    jobDescription: "New desc",
+    equipmentNo: "123",
+    twr: "456",
+    hoursDelayed: "4",
+    manPower: "12",
+    manHours: "80",
+    permittingIssue: {
+      id: 1,
+      name: "Permitting issue 2",
     },
-    "manPowerAffected": "12"
-};
+    manPowerAffected: "12",
+  };
 
   return (
     <>
@@ -131,7 +127,7 @@ export default function TotRequestScreen({ navigation }) {
                   handleBlur={handleBlur}
                   setFieldValue={setFieldValue}
                   values={values}
-                  errors={errors}
+                  errors={apiErrors}
                   handleSubmit={handleSubmit}
                 />
                 <Pressable
