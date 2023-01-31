@@ -7,15 +7,15 @@ import { DATE_TIME_MODE } from "../constants/Misc";
 export function DateTimePicker(props) {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const mode = props?.mode ? props?.mode : DATE_TIME_MODE.DATE;
-
+  
   const getFormatedDate = (date = new Date()) => {
     return mode == DATE_TIME_MODE.DATE
-      ? new Date(date).toISOString().substring(0, 10)
-      : new Date(date).toLocaleTimeString().substring(0, 5);
+    ? new Date(date).toISOString().substring(0, 10)
+    : new Date(date).toLocaleTimeString().substring(0, 5);
   };
-
   const formatedDate = getFormatedDate(props.value);
-  const [selectedDate, setSelectedDate] = useState(formatedDate);
+  const [selectedDate, setSelectedDate] = useState(null);
+
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -36,9 +36,9 @@ export function DateTimePicker(props) {
       <View flexDirection="row" alignItems="center">
         <FontAwesome
           name={mode == DATE_TIME_MODE.TIME ? "clock-o" : "calendar-o"}
-          size="18"
+          // size="18"
           color={"#333"}
-          style={{ marginLeft: 2 }}
+          style={{ marginHorizontal: 4 }}
         />
         <Button
           onPress={() => showDatePicker()}
