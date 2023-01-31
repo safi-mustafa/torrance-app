@@ -15,6 +15,7 @@ export default function WrrRequestScreen({ navigation }) {
   const [apiErrors, setApiErrors] = useState({});
 
   const onSubmit = async (params) => {
+    setLoading(true);
     console.log("🚀 ~ file: WrrRequestScreen.jsx ~ line 18 ~ onSubmit ~ params", params)
     postData(
       { url: `/WRRLog`, params },

@@ -25,6 +25,8 @@ export default function TotRequestScreen({ navigation }) {
 
   const onSubmit = async (formValues = [], { setSubmitting }) => {
     const params = { ...formValues };
+    setLoading(true);
+
     postData(
       {
         url: `/TOTLog`,
