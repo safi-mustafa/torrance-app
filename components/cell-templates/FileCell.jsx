@@ -9,8 +9,11 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import * as Sharing from "expo-sharing";
+import * as FileSystem from "expo-file-system";
+const { StorageAccessFramework } = FileSystem;
 
 import { primaryColor } from "../../constants/Colors";
+import { STORAGE_URL } from "../../constants/Misc";
 
 const iconSources = {
   ".jpg": require("./../../assets/images/jpg.png"),
@@ -24,14 +27,81 @@ const iconSources = {
 };
 
 export default function FileCell({ item, navigation, cellOptions = {} }) {
-  // const [downloadProgress, setDownloadProgress] = React.useState();
+  const [downloadProgress, setDownloadProgress] = React.useState();
+  const downloadPath =
+    FileSystem.documentDirectory + (Platform.OS == "android" ? "" : "");
 
-  const downloadFile = (url) => {
-    if (Platform.OS == "ios") onFileShare(url);
+  const ensureDirAsync = async (dir, intermediates = true) => {
+    const props = await FileSystem.getInfoAsync(dir);
+    if (props.exist && props.isDirectory) {
+      return props;
+    }
+    let _ = await FileSystem.makeDirectoryAsync(dir, { intermediates });
+    return await ensureDirAsync(dir, intermediates);
   };
 
-  const onFileShare = async (uri) => {
-    console.log("🚀 ~ file: FileCell.jsx ~ line 34 ~ onFileShare ~ uri", uri)
+  const downloadCallback = (downloadProgress) => {
+    const progress =
+      downloadProgress.totalBytesWritten /
+      downloadProgress.totalBytesExpectedToWrite;
+    setDownloadProgress(progress);
+  };
+
+  const downloadFile = async (fileUrl) => {
+    if (Platform.OS == "android") {
+      const dir = ensureDirAsync(downloadPath);
+    }
+
+    let fileName = fileUrl.split("Reports/")[1];
+    //alert(fileName)
+    const downloadResumable = FileSystem.createDownloadResumable(
+      fileUrl,
+      downloadPath + fileName,
+      {},
+      downloadCallback
+    );
+
+    try {
+      const { uri } = await downloadResumable.downloadAsync();
+      if (Platform.OS == "android") saveAndroidFile(uri, fileName);
+      else saveIosFile(uri);
+    } catch (e) {
+      console.error("download error:", e);
+    }
+  };
+
+  const saveAndroidFile = async (fileUri, fileName = "File") => {
+    try {
+      const fileString = await FileSystem.readAsStringAsync(fileUri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+
+      const permissions =
+        await StorageAccessFramework.requestDirectoryPermissionsAsync();
+      if (!permissions.granted) {
+        return;
+      }
+
+      try {
+        await StorageAccessFramework.createFileAsync(
+          permissions.directoryUri,
+          fileName,
+          "application/pdf"
+        )
+          .then(async (uri) => {
+            await FileSystem.writeAsStringAsync(uri, fileString, {
+              encoding: FileSystem.EncodingType.Base64,
+            });
+            alert("Report Downloaded Successfully");
+          })
+          .catch((e) => {});
+      } catch (e) {
+        throw new Error(e);
+      }
+    } catch (err) {}
+  };
+
+  const saveIosFile = async (uri) => {
     const shareResult = await Sharing.shareAsync(uri);
   };
 
@@ -46,17 +116,24 @@ export default function FileCell({ item, navigation, cellOptions = {} }) {
         <Text style={styles.label}>{item?.name}</Text>
       </View>
       <Pressable
-        onPress={() => downloadFile(item?.url)}
+        onPress={() => downloadFile(STORAGE_URL + item?.url)}
         style={({ pressed }) => ({
           opacity: pressed ? 0.5 : 1,
         })}
       >
-        <FontAwesome
-          name="cloud-download"
-          size={25}
-          color={primaryColor}
-          style={{ marginRight: 10 }}
-        />
+        <View style={styles.downloadIconWrapper}>
+          {downloadProgress && (
+            <Text style={styles.downloadText}>
+              {Math.floor(downloadProgress * 100)}%
+            </Text>
+          )}
+          <FontAwesome
+            name="cloud-download"
+            size={25}
+            color={primaryColor}
+            style={{ marginRight: 10 }}
+          />
+        </View>
       </Pressable>
     </>
   );
@@ -78,5 +155,14 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginHorizontal: 10,
+  },
+  downloadIconWrapper:{
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  downloadText: {
+    color: "green",
+    marginRight: 5,
+    fontSize: 12
   },
 });

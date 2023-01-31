@@ -1,7 +1,8 @@
 import * as FileSystem from 'expo-file-system';
+import { Platform } from 'react-native';
 const { StorageAccessFramework } = FileSystem;
 
-export default DownloadFile = () => {
+export default DownloadFile = (setDownloadProgress) => {
     const downloadPath = FileSystem.documentDirectory + (Platform.OS == 'android' ? '' : '');
 
     const ensureDirAsync = async (dir, intermediates = true) => {
@@ -18,7 +19,7 @@ export default DownloadFile = () => {
         setDownloadProgress(progress);
     };
 
-    const downloadFile = async (fileUrl) => {
+    const fileDownload = async (fileUrl) => {
         if (Platform.OS == 'android') {
             const dir = ensureDirAsync(downloadPath);
         }
@@ -69,6 +70,7 @@ export default DownloadFile = () => {
     }
 
     const saveIosFile = (fileUri) => {
+        console.log("🚀 ~ file: downloadFile.js ~ line 73 ~ saveIosFile ~ fileUri", fileUri)
         // your ios code
         // i use expo share module to save ios file
     }

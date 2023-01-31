@@ -6,6 +6,7 @@ import {
   View,
   Text,
   Pressable,
+  Image,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -19,6 +20,7 @@ import LoginPin from "../components/LoginPin";
 import { LOGIN_TYPE } from "../constants/Misc";
 
 const BG_IMAGE = require("./../assets/images/bg-blue.png");
+const LOGO = require("./../assets/images/app-logo.png");
 
 export default function LoginScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
@@ -60,7 +62,7 @@ export default function LoginScreen({ navigation }) {
       >
         <KeyboardAwareScrollView>
           <View style={styles.container}>
-            <Text
+            {/* <Text
               style={{
                 ...appStyles.h3,
                 ...appStyles.btnTextPrimary,
@@ -69,7 +71,8 @@ export default function LoginScreen({ navigation }) {
               }}
             >
               Torrance App
-            </Text>
+            </Text> */}
+            <Image source={LOGO} style={styles.applogo}/>
             <View style={styles.formWrapper}>
               {loginType == LOGIN_TYPE.FORM ? (
                 <LoginForm onSubmit={onSubmit} />
@@ -108,4 +111,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginVertical: 15,
   },
+  applogo:{
+    alignSelf: "center",
+    marginBottom: 40
+  }
 });
