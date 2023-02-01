@@ -14,6 +14,7 @@ const { StorageAccessFramework } = FileSystem;
 
 import { primaryColor } from "../../constants/Colors";
 import { STORAGE_URL } from "../../constants/Misc";
+import { getFormatedDate } from "../../utility";
 
 const iconSources = {
   ".jpg": require("./../../assets/images/jpg.png"),
@@ -27,6 +28,7 @@ const iconSources = {
 };
 
 export default function FileCell({ item, navigation, cellOptions = {} }) {
+  console.log("🚀 ~ file: FileCell.jsx ~ line 30 ~ FileCell ~ item", item)
   const [downloadProgress, setDownloadProgress] = React.useState();
   const downloadPath =
     FileSystem.documentDirectory + (Platform.OS == "android" ? "" : "");
@@ -113,7 +115,10 @@ export default function FileCell({ item, navigation, cellOptions = {} }) {
           resizeMode="contain"
           style={styles.icon}
         />
-        <Text style={styles.label}>{item?.name}</Text>
+        <View>
+          <Text style={styles.label}>{item?.name}</Text>
+          <Text style={{ color: "#999", fontSize: 12, marginTop: 2 }}>{getFormatedDate(item?.createdOn)}</Text>
+        </View>
       </View>
       <Pressable
         onPress={() => downloadFile(STORAGE_URL + item?.url)}
@@ -156,13 +161,13 @@ const styles = StyleSheet.create({
     height: 50,
     marginHorizontal: 10,
   },
-  downloadIconWrapper:{
-    flexDirection: 'row',
-    alignItems: 'center'
+  downloadIconWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   downloadText: {
     color: "green",
     marginRight: 5,
-    fontSize: 12
+    fontSize: 12,
   },
 });

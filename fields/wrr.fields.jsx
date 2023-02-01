@@ -103,5 +103,14 @@ export const wrrFields = [
     placeholder: "Enter Rod Returned Waste",
     label: "Rod returned waste (lbs)",
     keyboardType: "numeric",
-  }
+  },
+  {
+    name: "approver",
+    inputType: "select",
+    url: "/Account/getAllUsers",
+    placeholder: "Select Approver",
+    labelAttributes: "userName",
+    label: "Approver",
+    zIndex: 993,
+  }, 
 ];

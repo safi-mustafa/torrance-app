@@ -9,8 +9,12 @@ export const getKey = async (key) => {
     return result ? result : null;
 }
 
-export const getFormatedDate = (date = "") => {
-    return new Date(date).toLocaleDateString();
+export const getFormatedDate = (date = "", options = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+}) => {
+    return new Date(date).toLocaleDateString("en-US", options);
 };
 
 export const toCapitalCase = (string) => {

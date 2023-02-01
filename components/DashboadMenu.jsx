@@ -96,7 +96,7 @@ export function DashboardMenu({ navigation }) {
       (response) => {
         setLoading(false);
         const { items = [] } = response?.data;
-        console.log("🚀 ~ file: DashboadMenu.jsx ~ line 99 ~ getFolders ~ items", items)
+        // console.log("🚀 ~ file: DashboadMenu.jsx ~ line 99 ~ getFolders ~ items", items)
         setFolders(items);
       },
       (error) => {

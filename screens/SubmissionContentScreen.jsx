@@ -40,7 +40,7 @@ export default function SubmissionContentScreen({
           "🚀 ~ file: SubmissionContentScreen.jsx ~ line 38 ~ getListData ~ response?.data",
           response?.data
         );
-        
+
         setData(attachments ? attachments : items);
       },
       (error) => {
@@ -59,7 +59,7 @@ export default function SubmissionContentScreen({
       </Text> */}
       <Loader show={loading} size="large" overlay="true" color="white" />
       <ScrollView style={styles.scrollView}>
-        {data && (
+        {data && data.length > 0 ? (
           <FlashList
             renderItem={({ item }) => {
               return (
@@ -74,6 +74,8 @@ export default function SubmissionContentScreen({
             estimatedItemSize={10}
             data={data}
           />
+        ) : (
+          <Text style={{color:'#999', textAlign: 'center'}}>Data not found!</Text>
         )}
       </ScrollView>
     </View>

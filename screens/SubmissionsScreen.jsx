@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import SubmissionContentScreen from "./SubmissionContentScreen";
+import NotFoundScreen from "./NotFoundScreen";
 
 export default function SubmissionsScreen({ navigation }) {
   const Tab = createMaterialTopTabNavigator();
@@ -22,8 +23,9 @@ export default function SubmissionsScreen({ navigation }) {
     {
       name: "Override",
       tabTitle: "Override",
-      params: { title: "Override", url: "/TOTLog" },
-      cellOptions: { titleField: "twr", subTitleField: "jobDescription" },
+      // component: NotFoundScreen,
+      // params: { title: "Override", url: "/TOTLog" },
+      // cellOptions: { titleField: "twr", subTitleField: "jobDescription" },
     },
   ];
 

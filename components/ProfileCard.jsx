@@ -25,7 +25,7 @@ export default function ProfileCard({ navigation, header = <></>, footer = <></>
   const getUserMeta = async () => {
     let userMeta = await getKey("user");
     const { userDetail } = JSON.parse(userMeta);
-    console.log("🚀 ~ file: ProfileCard.jsx ~ line 28 ~ getUserMeta ~ userDetail", userDetail)
+    // console.log("🚀 ~ file: ProfileCard.jsx ~ line 28 ~ getUserMeta ~ userDetail", userDetail)
     setUser(userDetail);
   };
 
@@ -36,7 +36,7 @@ export default function ProfileCard({ navigation, header = <></>, footer = <></>
         imageStyle={{ resizeMode: "stretch", marginRight: -5 }}
       >
         <View
-          style={[appStyles.clear, { paddingTop: 80, paddingHorizontal: 30 }]}
+          style={[appStyles.clear, { paddingTop: 30, paddingHorizontal: 30 }]}
         >
           {header}
           <Text style={{ color: Colors[colorScheme].lightText }}>Hello,</Text>

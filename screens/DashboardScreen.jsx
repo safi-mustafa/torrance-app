@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, View } from "react-native";
+import { StyleSheet, Platform, View, ScrollView } from "react-native";
 
 import appStyles from "../app-styles";
 import { primaryColor } from "../constants/Colors";
@@ -34,9 +34,9 @@ export default function DashboardScreen({ navigation }) {
         }
       />
       <View style={appStyles.clear}>
-        <View style={styles.expandSection}>
+        <ScrollView style={styles.expandSection}>
           <DashboardMenu navigation={navigation} />
-        </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -49,9 +49,9 @@ const styles = StyleSheet.create({
   },
   expandSection: {
     backgroundColor: "#fff",
-    width: Layout.window.width,
-    height: Layout.window.height,
+    // width: Layout.window.width,
+    // height: '100%',
     paddingHorizontal: 10,
-    paddingVertical: 10
+    paddingVertical: 10,
   },
 });

@@ -54,35 +54,12 @@ export default function ProfileScreen({ navigation }) {
           <Text style={styles.values}>{user?.email}</Text>
         </View>
         <View style={[appStyles.my1, styles.section]}>
-          <Text style={styles.label}>Address:</Text>
-          <Text style={styles.values}>{user?.address}</Text>
+          <Text style={styles.label}>First Name:</Text>
+          <Text style={styles.values}>{user?.firstName}</Text>
         </View>
         <View style={[appStyles.my1, styles.section]}>
-          <Text style={styles.label}>City:</Text>
-          <Text style={styles.values}>{user?.city}</Text>
-        </View>
-        <View style={[appStyles.my1, styles.section]}>
-          <Text style={styles.label}>State:</Text>
-          <Text style={styles.values}>{user?.state}</Text>
-        </View>
-        <View style={[appStyles.my1, styles.section]}>
-          <Text style={styles.label}>Zipcode:</Text>
-          <Text style={styles.values}>{user?.zipCode}</Text>
-        </View>
-        <View style={[appStyles.my1, styles.section]}>
-          <Text style={styles.label}>Mobile:</Text>
-          <Text style={styles.values}>{user?.telephone}</Text>
-        </View>
-        <View style={[appStyles.my1, styles.section]}>
-          <Text style={styles.label}>Active Status:</Text>
-          <Text
-            style={[
-              styles.values,
-              user?.activeStatus == "Active" && { color: "green" },
-            ]}
-          >
-            {user?.activeStatus}
-          </Text>
+          <Text style={styles.label}>Last Name:</Text>
+          <Text style={styles.values}>{user?.lastName}</Text>
         </View>
       </View>
     </View>

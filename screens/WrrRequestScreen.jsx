@@ -16,7 +16,7 @@ export default function WrrRequestScreen({ navigation }) {
 
   const onSubmit = async (params) => {
     setLoading(true);
-    console.log("🚀 ~ file: WrrRequestScreen.jsx ~ line 18 ~ onSubmit ~ params", params)
+    // console.log("🚀 ~ file: WrrRequestScreen.jsx ~ line 18 ~ onSubmit ~ params", params)
     postData(
       { url: `/WRRLog`, params },
       ({ data }) => {
