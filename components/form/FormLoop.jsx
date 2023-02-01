@@ -53,6 +53,7 @@ export default function FormLoop({
                     style={{ ...styles.label, ...elementAttribs?.labelStyle }}
                   >
                     {elementAttribs?.label}
+                    {elementAttribs?.required && <Text style={{color:'red', paddingLeft: 2}}>*</Text>}
                   </Text>
                 )}
                 <View style={styles.inputWrapper}>

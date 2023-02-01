@@ -50,12 +50,12 @@ export default function FileCell({ item, navigation, cellOptions = {} }) {
   };
 
   const downloadFile = async (fileUrl) => {
+    // console.log("🚀 ~ file: FileCell.jsx ~ line 53 ~ downloadFile ~ fileUrl", fileUrl)
     if (Platform.OS == "android") {
       const dir = ensureDirAsync(downloadPath);
     }
 
-    let fileName = fileUrl.split("Reports/")[1];
-    //alert(fileName)
+    let fileName = fileUrl.replace(/^.*[\\\/]/, '')
     const downloadResumable = FileSystem.createDownloadResumable(
       fileUrl,
       downloadPath + fileName,
@@ -65,6 +65,7 @@ export default function FileCell({ item, navigation, cellOptions = {} }) {
 
     try {
       const { uri } = await downloadResumable.downloadAsync();
+      // console.log("🚀 ~ file: FileCell.jsx ~ line 69 ~ downloadFile ~ fileName", fileName)
       if (Platform.OS == "android") saveAndroidFile(uri, fileName);
       else saveIosFile(uri);
     } catch (e) {
@@ -104,7 +105,8 @@ export default function FileCell({ item, navigation, cellOptions = {} }) {
   };
 
   const saveIosFile = async (uri) => {
-    const shareResult = await Sharing.shareAsync(uri);
+    console.log("🚀 ~ file: FileCell.jsx ~ line 107 ~ saveIosFile ~ uri", uri)
+    await Sharing.shareAsync(uri);
   };
 
   return (

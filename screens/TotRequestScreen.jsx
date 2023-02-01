@@ -1,6 +1,6 @@
 import { Formik } from "formik";
-import { useState, useEffect } from "react";
-import { StyleSheet, View, Pressable, Text, ScrollView } from "react-native";
+import { useState } from "react";
+import { StyleSheet, View, Pressable, Text } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-toast-message";
 
@@ -15,18 +15,14 @@ export default function TotRequestScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [apiErrors, setApiErrors] = useState({});
 
-  useEffect(() => {
-    //getUserMeta();
-  }, []);
-
-  const getUserMeta = async () => {
-    const userMeta = await getKey("user");
-  };
-
   const onSubmit = async (formValues = [], { setSubmitting }) => {
-    const params = { ...formValues };
-    setLoading(true);
+    const userMeta = await getKey("user");
+    const { userDetail = {} } = JSON.parse(userMeta);
 
+    setLoading(true);
+    const params = { ...formValues, foreman: { id: userDetail?.id, name: userDetail?.name } };
+
+    // console.log("🚀 ~ file: TotRequestScreen.jsx ~ line 25 ~ onSubmit ~ params", params)
     postData(
       {
         url: `/TOTLog`,
@@ -43,7 +39,10 @@ export default function TotRequestScreen({ navigation }) {
       },
       (error) => {
         if (error?.data?.errors) {
-          console.log("🚀 ~ file: TotRequestScreen.jsx ~ line 45 ~ onSubmit ~ error.data", error.data)
+          console.log(
+            "🚀 ~ file: TotRequestScreen.jsx ~ line 45 ~ onSubmit ~ error.data",
+            error.data
+          );
           setApiErrors(error.data.errors);
         }
         setLoading(false);

@@ -8,15 +8,23 @@ import appStyles from "../app-styles";
 import FormLoop from "../components/form/FormLoop";
 import Loader from "../components/Loader";
 import { wrrFields } from "../fields/wrr.fields";
+import { getKey } from "../utility";
 import postData from "./../api-services/postData";
 
 export default function WrrRequestScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [apiErrors, setApiErrors] = useState({});
 
-  const onSubmit = async (params) => {
+  const onSubmit = async (formValues = []) => {
+    const userMeta = await getKey("user");
+    const { userDetail = {} } = JSON.parse(userMeta);
+    const params = {
+      ...formValues,
+      employee: { id: userDetail?.id, name: userDetail?.name },
+    };
+    // console.log("🚀 ~ file: WrrRequestScreen.jsx ~ line 22 ~ onSubmit ~ params", params)
+
     setLoading(true);
-    // console.log("🚀 ~ file: WrrRequestScreen.jsx ~ line 18 ~ onSubmit ~ params", params)
     postData(
       { url: `/WRRLog`, params },
       ({ data }) => {
@@ -29,7 +37,10 @@ export default function WrrRequestScreen({ navigation }) {
         navigation.pop();
       },
       (error) => {
-        console.log("🚀 ~ file: WrrRequestScreen.jsx ~ line 30 ~ onSubmit ~ error", error)
+        console.log(
+          "🚀 ~ file: WrrRequestScreen.jsx ~ line 30 ~ onSubmit ~ error",
+          error
+        );
         if (error?.data?.errors) {
           // console.log("🚀 ~ file: WrrRequestScreen.jsx ~ line 31 ~ onSubmit ~ error?.data", error?.data)
           setApiErrors(error.data.errors);
@@ -40,45 +51,45 @@ export default function WrrRequestScreen({ navigation }) {
   };
 
   const initValues = {
-    "unit": {
-        "id": 1,
-        "name": "Unit B"
+    unit: {
+      id: 1,
+      name: "Unit B",
     },
-    "department": {
-        "id": 1,
-        "name": "Finance Department"
+    department: {
+      id: 1,
+      name: "Finance Department",
     },
-    "employee": {
-        "id": 4,
-        "name": "John Sameul"
+    employee: {
+      id: 4,
+      name: "John Sameul",
     },
-    "weldingMethod": {
-        "id": 1
+    weldingMethod: {
+      id: 1,
     },
-    "weldingRod": {
-        "id": 1,
-        "name": "Plastic rod"
+    weldingRod: {
+      id: 1,
+      name: "Plastic rod",
     },
-    "fumeControlUsed": "12",
-    "twr": "3",
-    "email": "Abc@zs.com",
-    "location": {
-        "id": 1
+    fumeControlUsed: "12",
+    twr: "3",
+    email: "Abc@zs.com",
+    location: {
+      id: 1,
     },
-    "rodCheckedOutLbs": "12",
-    "rodReturnedWasteLbs": "3",
-    "contractor": {
-        "id": 1,
-        "name": "Waseem Safdar"
+    rodCheckedOutLbs: "12",
+    rodReturnedWasteLbs: "3",
+    contractor: {
+      id: 1,
+      name: "Waseem Safdar",
     },
-    "weldMethod": {
-        "id": 1
+    weldMethod: {
+      id: 1,
     },
-    "rodType": {
-        "id": 1,
-        "name": "Plastic rod"
-    }
-};
+    rodType: {
+      id: 1,
+      name: "Plastic rod",
+    },
+  };
 
   return (
     <>
