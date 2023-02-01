@@ -28,7 +28,7 @@ const iconSources = {
 };
 
 export default function FileCell({ item, navigation, cellOptions = {} }) {
-  console.log("🚀 ~ file: FileCell.jsx ~ line 30 ~ FileCell ~ item", item)
+  // console.log("🚀 ~ file: FileCell.jsx ~ line 30 ~ FileCell ~ item", item)
   const [downloadProgress, setDownloadProgress] = React.useState();
   const downloadPath =
     FileSystem.documentDirectory + (Platform.OS == "android" ? "" : "");

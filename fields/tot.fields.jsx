@@ -185,7 +185,7 @@ export const totFields = [
   {
     name: "approver",
     inputType: "select",
-    url: "/Account/getAllUsers",
+    url: "/Account/getAllUsers?role=approver",
     placeholder: "Select Approver",
     labelAttributes: "userName",
     label: "Approver",
