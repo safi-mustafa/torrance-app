@@ -100,7 +100,7 @@ function BottomTabNavigator() {
         options={({ navigation }) => ({
           title: "Dashboard",
           headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" size={34} color={color} />,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate("Modal")}
@@ -124,7 +124,7 @@ function BottomTabNavigator() {
         options={{
           title: "My Submissions",
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="file-text" color={color} />
+            <TabBarIcon name="file-text" color={color} size={28}/>
           ),
         }}
       />
@@ -134,7 +134,7 @@ function BottomTabNavigator() {
         options={{
           title: "My Profile",
           headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="user-o" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
     </BottomTab.Navigator>

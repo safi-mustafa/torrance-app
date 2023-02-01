@@ -147,7 +147,7 @@ export function DashboardMenu({ navigation }) {
   };
 
   return (
-    <ScrollView contentContainerStyle={{ height: Layout.window.height }}>
+    <>
       <Loader show={loading} size="large" overlay="true" color="white" />
       <View style={styles.section}>
         {folders.map((item, index) => (
@@ -191,12 +191,13 @@ export function DashboardMenu({ navigation }) {
           </TouchableOpacity>
         ))}
       </View>
-    </ScrollView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   section: {
+    flex: 1,
     flexWrap: "wrap",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 6,
   },
-  icon: { height: 40, width: 40, marginLeft: 10 },
+  icon: { height: 38, width: 38, marginLeft: 10 },
   innerBtnWrapper: {
     flexDirection: "row",
     alignItems: "center",

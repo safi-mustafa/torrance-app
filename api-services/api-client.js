@@ -1,9 +1,14 @@
 import axios from 'react-native-axios';
 import { getKey } from '../utility';
-// const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSmFtZXMiLCJGdWxsTmFtZSI6IkphbWVzIFNtaXRoIiwianRpIjoiZWFmY2NjMGQtMzA3YS00YjM2LTkxNDYtZmI0ZmIzODA3MjZiIiwiZXhwIjoxNjYzMjY4NDAzLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjY0OTgiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.ItqidXeyRrTFLrdWEYJlvUYrvuwnE9M_AIfoyJBjXx8';
+import {BASE_URL} from './../constants/Misc';
+
+const client = axios.create({
+  baseURL: BASE_URL,
+  timeout: 3000,
+});
 
 // Add a request interceptor
-axios.interceptors.request.use(
+client.interceptors.request.use(
   async function (config) {
     let userMeta = await getKey('user');
     if (userMeta) {
@@ -20,7 +25,7 @@ axios.interceptors.request.use(
 );
 
 // Add a response interceptor
-axios.interceptors.response.use(
+client.interceptors.response.use(
   function (response) {
     // Do something with response data
     return response;
@@ -31,4 +36,4 @@ axios.interceptors.response.use(
   }
 );
 
-export default axios;
+export default client;

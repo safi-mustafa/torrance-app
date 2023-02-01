@@ -1,11 +1,10 @@
 import Toast from "react-native-toast-message";
 
-import axios from "./api-client";
-import { BASE_URL } from "../constants/Misc";
+import client from "./api-client";
 
 const postData = ({ url = "", params = {} }, onSuccess, onError) => {
   // console.log("🚀 ~ file: postData.js ~ line 7 ~ postData ~ params", params)
-  axios.post(BASE_URL + url, { ...params })
+  client.post(url, { ...params })
     .then((response) => onSuccess(response.data), (error) => {
       const parsedError = JSON.parse(JSON.stringify(error));
       onError(parsedError?.response);

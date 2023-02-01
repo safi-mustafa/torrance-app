@@ -61,6 +61,10 @@ export default function ProfileScreen({ navigation }) {
           <Text style={styles.label}>Last Name:</Text>
           <Text style={styles.values}>{user?.lastName}</Text>
         </View>
+        <View style={[appStyles.my1, styles.section]}>
+          <Text style={styles.label}>Contractor:</Text>
+          <Text style={styles.values}>{user?.contractor?.name}</Text>
+        </View>
       </View>
     </View>
   );
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   label: {
-    width: 70,
+    width: 75,
     marginRight: 10,
     color: "#666",
   },

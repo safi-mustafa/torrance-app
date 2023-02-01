@@ -1,10 +1,8 @@
 import Toast from "react-native-toast-message";
-
-import { BASE_URL } from "../constants/Misc";
-import axios from "./api-client";
+import client from "./api-client";
 
 const getData = async ({ url = "", params = {} }, onSuccess = () => { }, onError = () => { }) => {
-  axios.get(BASE_URL + url, { ...params })
+  client.get(url, { ...params })
     .then((response) => onSuccess(response.data), (error) => {
       onError(error);
       let resMessage = error?.response?.data?.errors?.message;
