@@ -1,5 +1,6 @@
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { FlashList } from "@shopify/flash-list";
+import { useIsFocused } from '@react-navigation/native';
 
 import getData from "../api-services/getData";
 import ListCell from "../components/ListCell";
@@ -11,9 +12,9 @@ export default function SubmissionContentScreen({
   ...otherParams
 }) {
   const { params } = route;
-
   const { template = null, cellOptions = {} } = params;
-
+  
+  const isFocused = useIsFocused();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +28,9 @@ export default function SubmissionContentScreen({
     return () => {
       setData([]);
     };
-  }, [params?.url]);
+  }, [params?.url,isFocused]);
+
+  
 
   const getListData = (url = "") => {
     setLoading(true);
@@ -64,7 +67,7 @@ export default function SubmissionContentScreen({
             renderItem={({ item }) => {
               return (
                 <ListCell
-                  item={item}
+                  item={{...item, apiUrl:params?.url}}
                   navigation={params?.navigation}
                   cellOptions={cellOptions}
                   template={template}

@@ -5,14 +5,24 @@ import { FontAwesome } from "@expo/vector-icons";
 import appStyles from '../app-styles';
 import { primaryColor } from '../constants/Colors';
 import Layout from '../constants/Layout';
+import { getFormatedDate } from '../utility';
 
 export default function ListCell({ item = {}, navigation, template = null, cellOptions = {}, ...otherProps }) {
     // console.log("🚀 ~ file: ListCell.js ~ line 9 ~ ListCell ~ item", item)
-    const { titleField = 'name', subTitleField = '' } = cellOptions;
+    const { titleLabel = '', titleField = 'name', subTitleField = '' } = cellOptions;
     const TemplateComponent = React.cloneElement(
         template ? template : <></>,
         { item, cellOptions }
     );
+
+    const StatusBadge = ({ status }) => {
+        let statusBg = 'green';
+        if (status === 'Pending')
+            statusBg = 'orange';
+        else if (status === 'Rejected')
+            statusBg = 'red';
+        return <Text style={{ ...styles.badgeStyle, backgroundColor: statusBg }}>{status}</Text>
+    }
 
     return (
         <View style={styles.section}>
@@ -25,8 +35,12 @@ export default function ListCell({ item = {}, navigation, template = null, cellO
                 >
                     <View style={styles.cellWrapper}>
                         <View>
-                            <Text style={[appStyles.fw500, appStyles.my1]}>{item[titleField]}</Text>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={[appStyles.fw500, appStyles.my1]}>{titleLabel}{item[titleField]}</Text>
+                                <StatusBadge status={item?.status} />
+                            </View>
                             {subTitleField && <Text style={{ color: '#999' }}>{item[subTitleField]}</Text>}
+                            <Text style={{ marginTop: 3, color: '#666', fontSize: 14 }}>{getFormatedDate(item?.date)}</Text>
                         </View>
                         <View style={{ alignItems: 'flex-end', justifyContent: 'flex-end' }}>
                             <FontAwesome
@@ -64,10 +78,23 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    cellWrapper: { 
-        justifyContent: 'space-between', 
-        width: Layout.window.width - 50, 
-        flexDirection: 'row' ,
+    cellWrapper: {
+        justifyContent: 'space-between',
+        width: Layout.window.width - 50,
+        flexDirection: 'row',
         alignItems: 'center'
+    },
+    badgeStyle: {
+        color: '#fff',
+        borderColor: '#fff',
+        borderRadius: 4,
+        borderWidth: 1,
+        padding: 2,
+        alignItems: 'center',
+        paddingHorizontal: 4,
+        marginLeft: 15,
+        fontSize: 12,
+        right: 10,
+        overflow: 'hidden'
     }
 })

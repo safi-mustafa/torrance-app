@@ -12,19 +12,19 @@ export default function SubmissionsScreen({ navigation }) {
       tabTitle: "Time on Tools",
       params: { title: "Time on Tools", url: "/TOTLog" },
       component: null,
-      cellOptions: { titleField: "twr", subTitleField: "jobDescription" },
+      cellOptions: { titleLabel: 'TWR-WO#: ', titleField: "twr" },
     },
     {
       name: "WeldingRods",
       tabTitle: "Welding Rods",
       params: { title: "Welding Rods", url: "/WRRLog" },
-      cellOptions: { titleField: "email", subTitleField: "activeStatus" },
+      cellOptions: { titleLabel: 'TWR-WO#: ',titleField: "twr" },
     },
     {
       name: "Override",
       tabTitle: "Override",
       // component: NotFoundScreen,
-      // params: { title: "Override", url: "/TOTLog" },
+      params: { title: "Override", url: "/OverrideLog" },
       // cellOptions: { titleField: "twr", subTitleField: "jobDescription" },
     },
   ];
@@ -43,7 +43,7 @@ export default function SubmissionsScreen({ navigation }) {
           <Tab.Screen
             key={name}
             name={name}
-            initialParams={{ ...params, navigation, cellOptions }}
+            initialParams={{ ...params, navigation, cellOptions, name }}
             component={component ? component : SubmissionContentScreen}
             options={{ title: tabTitle, ...options }}
           />

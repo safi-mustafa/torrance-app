@@ -14,6 +14,7 @@ export const getFormatedDate = (date = "", options = {
     month: "short",
     day: "numeric",
 }) => {
+    if(!date) return null;
     return new Date(date).toLocaleDateString("en-US", options);
 };
 
