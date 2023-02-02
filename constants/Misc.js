@@ -9,3 +9,9 @@ export const LOGIN_TYPE = {
     PIN: 'PIN',
     FORM: 'FORM',
 }
+
+export const STATUS = {
+    PENDING: 'PENDING',
+    APPROVED: 'APPROVED',
+    REJECTED: 'REJECTED'
+}

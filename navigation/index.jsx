@@ -55,12 +55,12 @@ function RootNavigator() {
       <Stack.Screen
         name="TotRequest"
         component={TotRequestScreen}
-        options={{ title: "New TOT Request" }}
+        options={{ title: "TOT Request" }}
       />
       <Stack.Screen
         name="WrrRequest"
         component={WrrRequestScreen}
-        options={{ title: "New WRR Request" }}
+        options={{ title: "WRR Request" }}
       />
       <Stack.Screen
         name="SubmissionContent"

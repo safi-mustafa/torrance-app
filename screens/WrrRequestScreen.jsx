@@ -10,47 +10,76 @@ import Loader from "../components/Loader";
 import { wrrFields } from "../fields/wrr.fields";
 import { getKey } from "../utility";
 import postData from "./../api-services/postData";
+import putData from "./../api-services/putData";
 
-export default function WrrRequestScreen({ navigation }) {
+export default function WrrRequestScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [apiErrors, setApiErrors] = useState({});
+
+  const { params = {} } = route;
+  const initialValues = params?.id ? { ...params } : {};
+  const isEdit = params && params.id;
 
   const onSubmit = async (formValues = []) => {
     const userMeta = await getKey("user");
     const { userDetail = {} } = JSON.parse(userMeta);
+
     const params = {
       ...formValues,
+      fumeControlUsed: formValues?.fumeControlUsed ? 1 : 0,
       employee: { id: userDetail?.id, name: userDetail?.name },
     };
-    // console.log("🚀 ~ file: WrrRequestScreen.jsx ~ line 22 ~ onSubmit ~ params", params)
+    console.log(
+      "🚀 ~ file: WrrRequestScreen.jsx ~ line 22 ~ onSubmit ~ params",
+      params
+    );
 
     setLoading(true);
-    postData(
-      { url: `/WRRLog`, params },
-      ({ data }) => {
-        setLoading(false);
-        Toast.show({
-          type: "success",
-          text1: "Welding Rod Record Request",
-          text2: "Form submitted successfully ✅",
-        });
-        navigation.pop();
-      },
-      (error) => {
-        console.log(
-          "🚀 ~ file: WrrRequestScreen.jsx ~ line 30 ~ onSubmit ~ error",
-          error
-        );
-        if (error?.data?.errors) {
-          // console.log("🚀 ~ file: WrrRequestScreen.jsx ~ line 31 ~ onSubmit ~ error?.data", error?.data)
-          setApiErrors(error.data.errors);
+    if (!isEdit) {
+      postData(
+        { url: `/WRRLog`, params },
+        ({ data }) => {
+          onSuccess(data);
+        },
+        (error) => {
+          onFailure(error);
         }
-        setLoading(false);
-      }
-    );
+      );
+    } else {
+      putData(
+        { url: `/WRRLog`, params },
+        ({ data }) => {
+          onSuccess(data);
+        },
+        (error) => {
+          onFailure(error);
+        }
+      );
+    }
   };
 
-  const initValues = {
+  const onSuccess = (data) => {
+    setLoading(false);
+    Toast.show({
+      type: "success",
+      text1: "Welding Rod Record Request",
+      text2: "Form submitted successfully ✅",
+    });
+    navigation.pop();
+  };
+
+  const onFailure = (error) => {
+    console.log(
+      "🚀 ~ file: WrrRequestScreen.jsx ~ line 30 ~ onSubmit ~ error",
+      error
+    );
+    if (error?.data?.errors) {
+      setApiErrors(error.data.errors);
+    }
+    setLoading(false);
+  };
+
+  const dummyVal = {
     unit: {
       id: 1,
       name: "Unit B",
@@ -97,7 +126,7 @@ export default function WrrRequestScreen({ navigation }) {
       <KeyboardAwareScrollView>
         <View style={styles.container}>
           <Formik
-            initialValues={{}}
+            initialValues={initialValues}
             onSubmit={onSubmit}
             valueOnChange={(a) => console.log(a)}
           >

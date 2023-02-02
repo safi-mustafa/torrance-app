@@ -1,11 +1,18 @@
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 import { FlashList } from "@shopify/flash-list";
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from "@react-navigation/native";
 
 import getData from "../api-services/getData";
 import ListCell from "../components/ListCell";
 import { useState, useEffect } from "react";
 import Loader from "../components/Loader";
+import Layout from "../constants/Layout";
 
 export default function SubmissionContentScreen({
   route = {},
@@ -13,24 +20,18 @@ export default function SubmissionContentScreen({
 }) {
   const { params } = route;
   const { template = null, cellOptions = {} } = params;
-  
+
   const isFocused = useIsFocused();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // console.log(
-    //   "🚀 ~ file: SubmissionContentScreen.jsx ~ line 22 ~ useEffect ~ params",
-    //   params
-    // );
     if (params?.url) getListData(params?.url);
 
     return () => {
       setData([]);
     };
-  }, [params?.url,isFocused]);
-
-  
+  }, [params?.url]);
 
   const getListData = (url = "") => {
     setLoading(true);
@@ -55,19 +56,31 @@ export default function SubmissionContentScreen({
       }
     );
   };
+
+  const onRefresh = () => {
+   getListData(params?.url)
+  };
+
   return (
     <View style={styles.container}>
       {/* <Text style={styles.title}>
         {route.params?.title ? route.params.title : title} Submissions
       </Text> */}
-      <Loader show={loading} size="large" overlay="true" color="white" />
-      <ScrollView style={styles.scrollView}>
+      {/* <Loader show={loading} size="large" overlay="true" color="white" /> */}
+      <ScrollView
+        style={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+        }
+      >
         {data && data.length > 0 ? (
           <FlashList
+            // onRefresh={() => onRefresh()}
+            // refreshing={isRefresh}
             renderItem={({ item }) => {
               return (
                 <ListCell
-                  item={{...item, apiUrl:params?.url}}
+                  item={{ ...item, apiUrl: params?.url }}
                   navigation={params?.navigation}
                   cellOptions={cellOptions}
                   template={template}
@@ -78,7 +91,9 @@ export default function SubmissionContentScreen({
             data={data}
           />
         ) : (
-          <Text style={{color:'#999', textAlign: 'center'}}>Data not found!</Text>
+          <Text style={{ color: "#999", textAlign: "center" }}>
+            Data not found!
+          </Text>
         )}
       </ScrollView>
     </View>

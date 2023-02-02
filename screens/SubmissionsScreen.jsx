@@ -25,7 +25,7 @@ export default function SubmissionsScreen({ navigation }) {
       tabTitle: "Override",
       // component: NotFoundScreen,
       params: { title: "Override", url: "/OverrideLog" },
-      // cellOptions: { titleField: "twr", subTitleField: "jobDescription" },
+      cellOptions: { titleField: "requester", subTitleField: "requesterEmail" },
     },
   ];
 

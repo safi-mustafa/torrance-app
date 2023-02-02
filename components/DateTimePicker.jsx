@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { FontAwesome } from "@expo/vector-icons";
 import { Button, Text, View } from "react-native";
@@ -7,15 +7,14 @@ import { DATE_TIME_MODE } from "../constants/Misc";
 export function DateTimePicker(props) {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const mode = props?.mode ? props?.mode : DATE_TIME_MODE.DATE;
-  
+
   const getFormatedDate = (date = new Date()) => {
     return mode == DATE_TIME_MODE.DATE
-    ? new Date(date).toISOString().substring(0, 10)
-    : new Date(date).toLocaleTimeString().substring(0, 5);
+      ? new Date(date).toISOString().substring(0, 10)
+      : new Date(date).toLocaleTimeString().substring(0, 5);
   };
-  const formatedDate = getFormatedDate(props.value);
-  const [selectedDate, setSelectedDate] = useState(null);
-
+  const formatedDate = props.value ? getFormatedDate(props.value) : null;
+  const [selectedDate, setSelectedDate] = useState(formatedDate);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);

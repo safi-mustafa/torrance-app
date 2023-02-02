@@ -3,6 +3,7 @@ import { useState } from "react";
 import { StyleSheet, View, Pressable, Text } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-toast-message";
+import putData from "../api-services/putData";
 
 import appStyles from "../app-styles";
 import FormLoop from "../components/form/FormLoop";
@@ -11,46 +12,73 @@ import { totFields } from "../fields/tot.fields";
 import { getKey } from "../utility";
 import postData from "./../api-services/postData";
 
-export default function TotRequestScreen({ navigation }) {
+export default function TotRequestScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [apiErrors, setApiErrors] = useState({});
+
+  const { params = {} } = route;
+  const initialValues = params?.id ? { ...params } : {};
+  const isEdit = params && params.id;
 
   const onSubmit = async (formValues = [], { setSubmitting }) => {
     const userMeta = await getKey("user");
     const { userDetail = {} } = JSON.parse(userMeta);
 
     setLoading(true);
-    const params = { ...formValues, foreman: { id: userDetail?.id, name: userDetail?.name } };
+    const params = {
+      ...formValues,
+      foreman: { id: userDetail?.id, name: userDetail?.name },
+    };
 
     // console.log("🚀 ~ file: TotRequestScreen.jsx ~ line 25 ~ onSubmit ~ params", params)
-    postData(
-      {
-        url: `/TOTLog`,
-        params,
-      },
-      ({ data }) => {
-        setLoading(false);
-        Toast.show({
-          type: "success",
-          text1: "Time on Tools Request",
-          text2: "Form submitted successfully ✅",
-        });
-        navigation.pop();
-      },
-      (error) => {
-        if (error?.data?.errors) {
-          console.log(
-            "🚀 ~ file: TotRequestScreen.jsx ~ line 45 ~ onSubmit ~ error.data",
-            error.data
-          );
-          setApiErrors(error.data.errors);
+    if (!isEdit) {
+      postData(
+        {
+          url: `/TOTLog`,
+          params,
+        },
+        ({ data }) => {
+          onSuccess(data);
+        },
+        (error) => {
+          onFailure(error);
         }
-        setLoading(false);
-      }
-    );
+      );
+    } else {
+      putData(
+        { url: `/TOTLog`, params },
+        ({ data }) => {
+          onSuccess(data);
+        },
+        (error) => {
+          onFailure(error);
+        }
+      );
+    }
   };
 
-  const initVal = {
+  const onSuccess = (data) => {
+    setLoading(false);
+    Toast.show({
+      type: "success",
+      text1: "Time on Tools Request",
+      text2: "Form submitted successfully ✅",
+    });
+    navigation.pop();
+  };
+
+  const onFailure = (error) => {
+    if (error?.data?.errors) {
+      console.log(
+        "🚀 ~ file: TotRequestScreen.jsx ~ line 45 ~ onSubmit ~ error.data",
+        error.data
+      );
+      setApiErrors(error.data.errors);
+    }
+    setLoading(false);
+  };
+
+  const dummyVal = {
     shift: {
       id: 1,
       name: "evening",
@@ -109,7 +137,7 @@ export default function TotRequestScreen({ navigation }) {
         <View style={styles.container}>
           {/* <ScrollView> */}
           <Formik
-            initialValues={{}}
+            initialValues={initialValues}
             onSubmit={onSubmit}
             valueOnChange={(a) => console.log(a)}
           >

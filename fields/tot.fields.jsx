@@ -190,5 +190,6 @@ export const totFields = [
     labelAttributes: "userName",
     label: "Approver",
     zIndex: 993,
+    required: true
   }, 
 ];
