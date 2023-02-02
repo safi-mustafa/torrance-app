@@ -26,7 +26,7 @@ export default function WrrRequestScreen({ navigation, route }) {
 
     const params = {
       ...formValues,
-      fumeControlUsed: formValues?.fumeControlUsed ? 1 : 0,
+      fumeControlUsed: formValues?.fumeControlUsed ? 0 : 1,
       employee: { id: userDetail?.id, name: userDetail?.name },
     };
     console.log(
@@ -80,45 +80,53 @@ export default function WrrRequestScreen({ navigation, route }) {
   };
 
   const dummyVal = {
-    unit: {
-      id: 1,
-      name: "Unit B",
+    "unit": {
+        "id": 1,
+        "name": "Unit A"
     },
-    department: {
-      id: 1,
-      name: "Finance Department",
+    "department": {
+        "id": 1,
+        "name": "Management"
     },
-    employee: {
-      id: 4,
-      name: "John Sameul",
+    "employee": {
+        "id": 10,
+        "name": "Nunez Adrian"
     },
-    weldingMethod: {
-      id: 1,
+    "weldingMethod": {
+        "id": 1
     },
-    weldingRod: {
-      id: 1,
-      name: "Plastic rod",
+    "weldingRod": {
+        "id": 1,
+        "name": "Plastic rod"
     },
-    fumeControlUsed: "12",
-    twr: "3",
-    email: "Abc@zs.com",
-    location: {
-      id: 1,
+    "fumeControlUsed": 1,
+    "twr": "3",
+    "email": "Abc@zs.com",
+    "location": {
+        "id": 1,
+        "name": "Islamabad"
     },
-    rodCheckedOutLbs: "12",
-    rodReturnedWasteLbs: "3",
-    contractor: {
-      id: 1,
-      name: "Waseem Safdar",
+    "rodCheckedOutLbs": "12",
+    "rodReturnedWasteLbs": "3",
+    "contractor": {
+        "id": 1,
+        "name": "Brand Scaffold"
     },
-    weldMethod: {
-      id: 1,
+    "weldMethod": {
+        "id": 1,
+        "name": "Method 1"
     },
-    rodType: {
-      id: 1,
-      name: "Plastic rod",
+    "rodType": {
+        "id": 1,
+        "name": "Steel Rod"
     },
-  };
+    "approver": {
+        "id": 11,
+        "name": "approver@centangle.com"
+    },
+    "dateRodReturned": "2023-02-02",
+    "calibrationDate": "2023-02-02"
+};
 
   return (
     <>

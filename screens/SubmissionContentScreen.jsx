@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
   scrollView: {
     padding: 10,
     marginTop: 8,
-    // minHeight: Layout.window.height,
   },
   title: {
     fontSize: 20,

@@ -16,8 +16,8 @@ export default function SwitchInput({
         trackColor={{ false: "#767577", true: primaryColor }}
         thumbColor={value ? "#fff" : primaryColor}
         ios_backgroundColor="#fff"
-        onValueChange={(val)=>setFieldValue(name,val)}
-        value={value}
+        onValueChange={(val) => setFieldValue(name, val)}
+        value={value && value == "Yes" ? true : false}
         {...otherProps}
       />
     </View>
