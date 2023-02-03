@@ -17,7 +17,7 @@ export default function SwitchInput({
         thumbColor={value ? "#fff" : primaryColor}
         ios_backgroundColor="#fff"
         onValueChange={(val) => setFieldValue(name, val)}
-        value={value && value == "Yes" ? true : false}
+        value={value && (value == "Yes" || value == true) ? true : false}
         {...otherProps}
       />
     </View>

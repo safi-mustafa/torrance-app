@@ -101,24 +101,20 @@ export default function SingleSubmissionScreen({
   };
 
   const Action = () => (
-    <View
-      style={{ margin: 10, flexDirection: "row", alignSelf: "flex-end" }}
-    >
-      {data?.status !== STATUS.PENDING && (
-        <Pressable
-          onPress={() => onAction()}
-          style={({ pressed }) => ({
-            opacity: pressed ? 0.5 : 1,
-          })}
-        >
-          <FontAwesome
-            name={"pencil"}
-            size={22}
-            color={primaryColor}
-            style={{ marginHorizontal: 5 }}
-          />
-        </Pressable>
-      )}
+    <View style={{ margin: 10, flexDirection: "row", alignSelf: "flex-end" }}>
+      <Pressable
+        onPress={() => onAction()}
+        style={({ pressed }) => ({
+          opacity: pressed ? 0.5 : 1,
+        })}
+      >
+        <FontAwesome
+          name={"pencil"}
+          size={22}
+          color={primaryColor}
+          style={{ marginHorizontal: 5 }}
+        />
+      </Pressable>
       <Pressable
         onPress={() => onDelete()}
         style={({ pressed }) => ({
@@ -138,7 +134,7 @@ export default function SingleSubmissionScreen({
   return (
     <View style={styles.container}>
       <Loader show={loading} size="large" overlay="true" color="white" />
-      {!isOverRide && <Action />}
+      {!isOverRide && data?.status == STATUS.PENDING && <Action />}
       <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
         <ListRow label="contractor" value={data?.contractor?.name} />
         {!isOverRide && (
