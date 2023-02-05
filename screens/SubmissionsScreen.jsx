@@ -14,18 +14,18 @@ export default function SubmissionsScreen({ navigation }) {
       component: null,
       cellOptions: { titleLabel: 'TWR-WO#: ', titleField: "twr" },
     },
-    {
-      name: "WeldingRods",
-      tabTitle: "Welding Rods",
-      params: { title: "Welding Rods", url: "/WRRLog" },
-      cellOptions: { titleLabel: 'TWR-WO#: ',titleField: "twr" },
-    },
+    // {
+    //   name: "WeldingRods",
+    //   tabTitle: "Welding Rods",
+    //   params: { title: "Welding Rods", url: "/WRRLog" },
+    //   cellOptions: { titleLabel: 'TWR-WO#: ',titleField: "twr" },
+    // },
     {
       name: "Override",
       tabTitle: "Override",
       // component: NotFoundScreen,
       params: { title: "Override", url: "/OverrideLog" },
-      cellOptions: { titleField: "requester", subTitleField: "requesterEmail" },
+      cellOptions: { titleField: "requester", subTitleField: "poNumber" },
     },
   ];
 

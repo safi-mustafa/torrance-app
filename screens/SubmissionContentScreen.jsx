@@ -11,8 +11,6 @@ import { useIsFocused } from "@react-navigation/native";
 import getData from "../api-services/getData";
 import ListCell from "../components/ListCell";
 import { useState, useEffect } from "react";
-import Loader from "../components/Loader";
-import Layout from "../constants/Layout";
 
 export default function SubmissionContentScreen({
   route = {},
@@ -42,6 +40,7 @@ export default function SubmissionContentScreen({
         const { items = [], attachments = null } = response?.data;
         console.log(
           "🚀 ~ file: SubmissionContentScreen.jsx ~ line 38 ~ getListData ~ response?.data",
+          params?.url,
           response?.data
         );
 
@@ -51,7 +50,8 @@ export default function SubmissionContentScreen({
         setLoading(false);
         console.log(
           "🚀 ~ file: SelectInput.jsx ~ line 44 ~ getData ~ error",
-          error
+          params?.url,
+          JSON.parse(JSON.stringify(error))
         );
       }
     );

@@ -21,6 +21,7 @@ import WrrRequestScreen from "../screens/WrrRequestScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SubmissionContentScreen from "../screens/SubmissionContentScreen";
 import SingleSubmissionScreen from "../screens/SingleSubmissionScreen";
+import OverrideRequestScreen from "../screens/OverrideRequestScreen";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -61,6 +62,11 @@ function RootNavigator() {
         name="WrrRequest"
         component={WrrRequestScreen}
         options={{ title: "WRR Request" }}
+      />
+      <Stack.Screen
+        name="OverrideRequest"
+        component={OverrideRequestScreen}
+        options={{ title: "Override Request" }}
       />
       <Stack.Screen
         name="SubmissionContent"

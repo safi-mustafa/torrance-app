@@ -24,6 +24,13 @@ export default function ListCell({ item = {}, navigation, template = null, cellO
         return <Text style={{ ...styles.badgeStyle, backgroundColor: statusBg }}>{status}</Text>
     }
 
+    const showTitle = (value) => {
+        if (typeof value === 'object')
+            return value?.name
+        else
+            return value
+    }
+
     return (
         <View style={styles.section}>
             {template ? TemplateComponent :
@@ -35,8 +42,8 @@ export default function ListCell({ item = {}, navigation, template = null, cellO
                 >
                     <View style={styles.cellWrapper}>
                         <View>
-                            <View style={{flexDirection: 'row'}}>
-                                <Text style={[appStyles.fw500, appStyles.my1]}>{titleLabel}{item[titleField]}</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={[appStyles.fw500, appStyles.my1]}>{titleLabel}{showTitle(item[titleField])}</Text>
                                 {item?.status && <StatusBadge status={item?.status} />}
                             </View>
                             {subTitleField && <Text style={{ color: '#999' }}>{item[subTitleField]}</Text>}

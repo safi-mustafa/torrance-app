@@ -11,7 +11,7 @@ const WRR_IMAGE = require("./../assets/images/welding.png");
 export default function DashboardScreen({ navigation }) {
   return (
     <View style={[styles.innerContainer]}>
-      <View style={{height: 265}}>
+      <View style={{ height: 265 }}>
         <ProfileCard
           footer={
             <>
@@ -22,18 +22,25 @@ export default function DashboardScreen({ navigation }) {
                 icon={TOT_IMAGE}
                 onPress={() => navigation.push("TotRequest")}
               />
-              <DashButton
+              {/* <DashButton
                 style={{ marginBottom: 15 }}
                 title="Submit WRR Request"
                 subtitle="Welding Rod Record"
                 icon={WRR_IMAGE}
                 onPress={() => navigation.push("WrrRequest")}
+              /> */}
+              <DashButton
+                style={{ marginBottom: 15 }}
+                title="Submit Override Request"
+                subtitle="Override Request Record"
+                icon={WRR_IMAGE}
+                onPress={() => navigation.push("OverrideRequest")}
               />
             </>
           }
         />
       </View>
-      <View style={{flex: 2}}>
+      <View style={{ flex: 2 }}>
         <ScrollView style={styles.expandSection}>
           <DashboardMenu navigation={navigation} />
         </ScrollView>
