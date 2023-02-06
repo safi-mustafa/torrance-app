@@ -88,8 +88,8 @@ export const overrideFields = [
   },
   {
     name: "description",
-    placeholder: "Enter Descriptions",
-    label: "Descriptions",
+    placeholder: "Enter Description",
+    label: "Description",
     required: true,
     inputType: "textarea",
   },
