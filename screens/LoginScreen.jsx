@@ -9,9 +9,9 @@ import {
   Image,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Toast from "react-native-toast-message";
 
 import postData from "./../api-services/postData";
-import appStyles from "../app-styles";
 import Loader from "../components/Loader";
 import Layout from "../constants/Layout";
 import { saveKey } from "../utility";
@@ -35,17 +35,31 @@ export default function LoginScreen({ navigation }) {
     const params = loginType !== LOGIN_TYPE.PIN ? values : {};
 
     postData(
-      { url, params },
+      { url, params, showErrorMessage: false },
       ({ data }) => {
         setLoading(false);
-        console.log("🚀 ~ file: LoginScreen.jsx ~ line 40 ~ onSubmit ~ data", data)
+        console.log(
+          "🚀 ~ file: LoginScreen.jsx ~ line 40 ~ onSubmit ~ data",
+          data
+        );
         saveKey("user", JSON.stringify(data));
         navigation.replace("BottomTabNav");
       },
       (error) => {
         setLoading(false);
-        console.log("🚀 ~ file: LoginScreen.jsx ~ line 43 ~ onSubmit ~ error", error)
-        // console.log("🚀 ~ file: LoginScreen.jsx ~ line 43 ~ onSubmit ~ error", JSON.stringify(error.response.data.errors))
+        const { errors = [] } = error?.data;
+        let message = "Something went wrong, Please try again.";
+        if (typeof errors === "object") {
+          message = Object.entries(errors).map(
+            ([key, value]) => `${value}`
+          );
+          if (Array.isArray(message)) message = message.join(",");
+        }
+        Toast.show({
+          type: "error",
+          text1: "Login error",
+          text2: message,
+        });
       }
     );
   };
@@ -74,7 +88,7 @@ export default function LoginScreen({ navigation }) {
             >
               Torrance App
             </Text> */}
-            <Image source={LOGO} style={styles.applogo}/>
+            <Image source={LOGO} style={styles.applogo} />
             <View style={styles.formWrapper}>
               {loginType == LOGIN_TYPE.FORM ? (
                 <LoginForm onSubmit={onSubmit} />
@@ -87,7 +101,9 @@ export default function LoginScreen({ navigation }) {
                   opacity: pressed ? 0.5 : 1,
                 })}
               >
-                <Text style={styles.loginViaText}>Login via {loginType == LOGIN_TYPE.FORM ? 'Pin' : 'Email'}</Text>
+                <Text style={styles.loginViaText}>
+                  Login via {loginType == LOGIN_TYPE.FORM ? "Pin" : "Email"}
+                </Text>
               </Pressable>
             </View>
           </View>
@@ -106,15 +122,15 @@ const styles = StyleSheet.create({
   formWrapper: {
     justifyContent: "center",
     alignSelf: "center",
-    width: '85%'
+    width: "85%",
   },
   loginViaText: {
     color: "#fff",
     textAlign: "center",
     marginVertical: 15,
   },
-  applogo:{
+  applogo: {
     alignSelf: "center",
-    marginBottom: 40
-  }
+    marginBottom: 40,
+  },
 });
