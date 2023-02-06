@@ -51,7 +51,7 @@ export const totFields = [
     keyboardType: "numeric",
   },
   {
-    name: "DelayType",
+    name: "delayType",
     inputType: "select",
     url: "/DelayType",
     placeholder: "Select Delay",
@@ -76,7 +76,7 @@ export const totFields = [
   //   inputType: "textarea",
   // },
   {
-    name: "ReasonForRequest",
+    name: "reasonForRequest",
     inputType: "select",
     url: "/ReasonForRequest",
     placeholder: "Select Reason",

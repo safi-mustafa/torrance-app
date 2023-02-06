@@ -147,9 +147,9 @@ export default function SingleSubmissionScreen({
       <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
         <ListRow label="company" value={data?.company?.name} />
         <ListRow label="Submitted" value={data?.formattedCreatedOn} />
+        <ListRow label="approver" value={data?.approver?.name} />
         {!isOverRide && (
           <>
-            <ListRow label="approver" value={data?.approver?.name} />
             <ListRow label="employee" value={data?.employee?.name} />
             <ListRow label="TWR No#" value={data?.twr} />
             <ListRow label="Status" value={data?.status} />
@@ -212,6 +212,8 @@ export default function SingleSubmissionScreen({
             <ListRow label="Total Head Count" value={data?.manPowerAffected} />
             <ListRow label="Description" value={data?.jobDescription} />
             <ListRow label="permit Type" value={data?.permitType?.name} />
+            <ListRow label="delay Type" value={data?.delayType?.name} />
+            <ListRow label="request reason" value={data?.reasonForRequest?.name} />
             <ListRow label="shift" value={data?.shift?.name} />
             <ListRow label="description" value={data?.jobDescription} />
           </>

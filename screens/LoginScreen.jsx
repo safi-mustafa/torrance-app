@@ -38,12 +38,14 @@ export default function LoginScreen({ navigation }) {
       { url, params },
       ({ data }) => {
         setLoading(false);
+        console.log("🚀 ~ file: LoginScreen.jsx ~ line 40 ~ onSubmit ~ data", data)
         saveKey("user", JSON.stringify(data));
         navigation.replace("BottomTabNav");
       },
       (error) => {
-        console.log("🚀 ~ file: LoginScreen.jsx ~ line 43 ~ onSubmit ~ error", JSON.stringify(error.response.data.errors))
         setLoading(false);
+        console.log("🚀 ~ file: LoginScreen.jsx ~ line 43 ~ onSubmit ~ error", error)
+        // console.log("🚀 ~ file: LoginScreen.jsx ~ line 43 ~ onSubmit ~ error", JSON.stringify(error.response.data.errors))
       }
     );
   };

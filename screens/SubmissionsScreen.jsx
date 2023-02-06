@@ -25,7 +25,7 @@ export default function SubmissionsScreen({ navigation }) {
       tabTitle: "Override",
       // component: NotFoundScreen,
       params: { title: "Override", url: "/OverrideLog" },
-      cellOptions: { titleLabel: 'TWR-WO#: ', titleField: "twr", subTitleField: "formattedCreatedOn" },
+      cellOptions: { titleLabel: 'PO#: ', titleField: "poNumber", subTitleField: "formattedCreatedOn" },
     },
   ];
 

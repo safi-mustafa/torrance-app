@@ -17,10 +17,12 @@ export default function LoginForm({ navigation, onSubmit }) {
     onSubmit(values);
   };
 
+  const initialValues = {}; //{ email: "abc@xyz.com", password: "123" };
+
   return (
     <>
       <Formik
-        initialValues={{ email: "abc@xyz.com", password: "123" }}
+        initialValues={initialValues}
         onSubmit={onFormSubmit}
         validationSchema={LoginSchema}
         // valueOnChange={(a) => console.log(a)}
