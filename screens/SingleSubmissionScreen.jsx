@@ -14,7 +14,7 @@ import getData from "../api-services/getData";
 import deleteData from "../api-services/deleteData";
 import appStyles from "../app-styles";
 import Loader from "../components/Loader";
-import { getFormatedDate } from "../utility";
+import { getFormatedDate, getKey } from "../utility";
 import { primaryColor } from "../constants/Colors";
 import { STATUS } from "../constants/Misc";
 
@@ -26,6 +26,7 @@ export default function SingleSubmissionScreen({
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
   const { id, apiUrl, ...otherRouteItems } = route.params;
+  const [user, setUser] = useState({});
 
   const isTOT = apiUrl == "/TOTLog";
   const isWRR = apiUrl == "/WRRLog";
@@ -36,8 +37,16 @@ export default function SingleSubmissionScreen({
     if (id && !isOverRide) getSubmissionData(id);
     if (isOverRide) setData({ ...otherRouteItems });
 
+    // getUserMeta();
     return () => {};
   }, [id]);
+
+  const getUserMeta = async () => {
+    let userMeta = await getKey("user");
+    const { userDetail } = JSON.parse(userMeta);
+    // console.log("🚀 ~ file: ProfileScreen.jsx ~ line 27 ~ getUserMeta ~ userDetail", userDetail)
+    setUser(userDetail);
+  };
 
   const getSubmissionData = (id = "") => {
     setLoading(true);
@@ -136,12 +145,11 @@ export default function SingleSubmissionScreen({
       <Loader show={loading} size="large" overlay="true" color="white" />
       {!isOverRide && data?.status == STATUS.PENDING && <Action />}
       <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
-        <ListRow label="contractor" value={data?.contractor?.name} />
+        <ListRow label="company" value={data?.company?.name} />
         {!isOverRide && (
           <>
-            <ListRow label="Date" value={getFormatedDate(data?.date)} />
+            <ListRow label="Submitted" value={data?.formattedCreatedOn} />
             <ListRow label="approver" value={data?.approver?.name} />
-            <ListRow label="department" value={data?.department?.name} />
             <ListRow label="employee" value={data?.employee?.name} />
             <ListRow label="TWR No#" value={data?.twr} />
             <ListRow label="Status" value={data?.status} />
@@ -197,30 +205,17 @@ export default function SingleSubmissionScreen({
             <ListRow label="Equipment No#" value={data?.equipmentNo} />
             <ListRow label="Foreman" value={data?.foreman?.name} />
             <ListRow
-              label="Start Of Work"
+              label="Start Date"
               value={getFormatedDate(data?.formattedStartOfWork)}
             />
+            <ListRow label="Total man Hours" value={data?.manHours} />
             <ListRow
-              label="Time Requested"
-              value={data?.formattedTimeRequested}
-            />
-            <ListRow label="Time Signed" value={data?.formattedTimeRequested} />
-            <ListRow label="hours Delayed" value={data?.hoursDelayed} />
-            <ListRow label="man Hours" value={data?.manHours} />
-            <ListRow
-              label="man Power Affected"
+              label="Total Head Count"
               value={data?.manPowerAffected}
             />
-            <ListRow label="job Description" value={data?.jobDescription} />
+            <ListRow label="Description" value={data?.jobDescription} />
             <ListRow label="permit Type" value={data?.permitType?.name} />
-            <ListRow
-              label="permitting Issue"
-              value={data?.permittingIssue?.name}
-            />
-            <ListRow label="reworkDelay" value={data?.reworkDelay?.name} />
             <ListRow label="shift" value={data?.shift?.name} />
-            <ListRow label="shiftDelay" value={data?.shiftDelay?.name} />
-            <ListRow label="Foreman" value={data?.foreman?.name} />
           </>
         )}
         {isOverRide && (

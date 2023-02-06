@@ -62,8 +62,8 @@ export default function ProfileScreen({ navigation }) {
           <Text style={styles.values}>{user?.lastName}</Text>
         </View>
         <View style={[appStyles.my1, styles.section]}>
-          <Text style={styles.label}>Contractor:</Text>
-          <Text style={styles.values}>{user?.contractor?.name}</Text>
+          <Text style={styles.label}>Company:</Text>
+          <Text style={styles.values}>{user?.company?.name}</Text>
         </View>
       </View>
     </View>

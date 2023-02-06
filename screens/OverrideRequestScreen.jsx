@@ -27,10 +27,10 @@ export default function OverrideRequestScreen({ navigation, route }) {
     setLoading(true);
     const params = {
       ...formValues,
-      foreman: { id: userDetail?.id, name: userDetail?.name },
+      requester: { id: userDetail?.id, name: userDetail?.name },
     };
 
-    // console.log("🚀 ~ file: OverrideRequestScreen.jsx ~ line 25 ~ onSubmit ~ params", params)
+    console.log("🚀 ~ file: OverrideRequestScreen.jsx ~ line 25 ~ onSubmit ~ params", params)
     if (!isEdit) {
       postData(
         {
@@ -61,7 +61,7 @@ export default function OverrideRequestScreen({ navigation, route }) {
     setLoading(false);
     Toast.show({
       type: "success",
-      text1: "Time on Tools Request",
+      text1: "Override Request",
       text2: "Form submitted successfully ✅",
     });
     navigation.pop();
@@ -79,56 +79,43 @@ export default function OverrideRequestScreen({ navigation, route }) {
   };
 
   const dummyVal = {
-    shift: {
-      id: 1,
-      name: "evening",
+    "reasonForRequest": {
+        "id": 3,
+        "name": "Reason B"
     },
-    shiftDelay: {
-      id: 1,
-      name: "3 hours",
+    "unit": {
+        "id": 1,
+        "name": "Unit A"
     },
-    department: {
-      id: 1,
-      name: "Finance Department",
+    "craftRate": {
+        "id": 2,
+        "name": "12.45"
     },
-    reworkDelay: {
-      id: 1,
-      name: "2 hours",
+    "shift": {
+        "id": 1,
+        "name": "Day"
     },
-    unit: {
-      id: 1,
-      name: "Unit B",
+    "craftSkill": {
+        "id": 2,
+        "name": "Carpentry"
     },
-    permitType: {
-      id: 1,
-      name: "testing",
+    "overrideType": {
+        "id": 3,
+        "name": "Override Type B"
     },
-    contractor: {
-      id: 1,
-      name: "Waseem Safdar",
+    "approver": {
+        "id": 10013,
+        "name": "ammad@centangle.com"
     },
-    approver: {
-      id: 10,
-      name: "approver@centangle.com",
-    },
-    foreman: {
-      id: 10,
-      name: "approver@centangle.com",
-    },
-    startOfWork: "2023-01-29",
-    delayReason: "New reason",
-    jobDescription: "New desc",
-    equipmentNo: "123",
-    twr: "456",
-    hoursDelayed: "4",
-    manPower: "12",
-    manHours: "80",
-    permittingIssue: {
-      id: 1,
-      name: "Permitting issue 2",
-    },
-    manPowerAffected: "12",
-  };
+    "overrideHours": "12",
+    "poNumber": "34",
+    "workCompletedDate": "2023-02-06",
+    "description": "Test desc",
+    "requester": {
+        "id": 10,
+        "name": "Nunez Adrian"
+    }
+};
 
   return (
     <>

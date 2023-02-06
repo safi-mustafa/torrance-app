@@ -27,10 +27,10 @@ export default function TotRequestScreen({ navigation, route }) {
     setLoading(true);
     const params = {
       ...formValues,
-      foreman: { id: userDetail?.id, name: userDetail?.name },
+      requester: { id: userDetail?.id, name: userDetail?.name },
     };
 
-    // console.log("🚀 ~ file: TotRequestScreen.jsx ~ line 25 ~ onSubmit ~ params", params)
+    console.log("🚀 ~ file: TotRequestScreen.jsx ~ line 25 ~ onSubmit ~ params", params)
     if (!isEdit) {
       postData(
         {
@@ -79,56 +79,41 @@ export default function TotRequestScreen({ navigation, route }) {
   };
 
   const dummyVal = {
-    shift: {
-      id: 1,
-      name: "evening",
+    "shift": {
+        "id": 1,
+        "name": "Day"
     },
-    shiftDelay: {
-      id: 1,
-      name: "3 hours",
+    "DelayType": {
+        "id": 1,
+        "name": "Procedural"
     },
-    department: {
-      id: 1,
-      name: "Finance Department",
+    "ReasonForRequest": {
+        "id": 1,
+        "name": "Storm"
     },
-    reworkDelay: {
-      id: 1,
-      name: "2 hours",
+    "foreman": {
+        "id": 12,
+        "name": "foreman@centangle.com"
     },
-    unit: {
-      id: 1,
-      name: "Unit B",
+    "unit": {
+        "id": 1,
+        "name": "Unit A"
     },
-    permitType: {
-      id: 1,
-      name: "testing",
+    "permitType": {
+        "id": 1,
+        "name": "Permit A"
     },
-    contractor: {
-      id: 1,
-      name: "Waseem Safdar",
+    "approver": {
+        "id": 11,
+        "name": "approver@centangle.com"
     },
-    approver: {
-      id: 10,
-      name: "approver@centangle.com",
-    },
-    foreman: {
-      id: 10,
-      name: "approver@centangle.com",
-    },
-    startOfWork: "2023-01-29",
-    delayReason: "New reason",
-    jobDescription: "New desc",
-    equipmentNo: "123",
-    twr: "456",
-    hoursDelayed: "4",
-    manPower: "12",
-    manHours: "80",
-    permittingIssue: {
-      id: 1,
-      name: "Permitting issue 2",
-    },
-    manPowerAffected: "12",
-  };
+    "twr": "123",
+    "equipmentNo": "345",
+    "startOfWork": "2023-02-06",
+    "manPowerAffected": "20",
+    "manHours": "36",
+    "jobDescription": "Test desc",
+};
 
   return (
     <>
@@ -137,7 +122,7 @@ export default function TotRequestScreen({ navigation, route }) {
         <View style={styles.container}>
           {/* <ScrollView> */}
           <Formik
-            initialValues={initialValues}
+            initialValues={dummyVal}
             onSubmit={onSubmit}
             valueOnChange={(a) => console.log(a)}
           >
