@@ -6,7 +6,8 @@ import { DashboardMenu } from "../components/DashboadMenu";
 import ProfileCard from "../components/ProfileCard";
 
 const TOT_IMAGE = require("./../assets/images/journal-book.png");
-const WRR_IMAGE = require("./../assets/images/welding.png");
+// const WRR_IMAGE = require("./../assets/images/welding.png");
+const OVERRIDE_IMAGE = require("./../assets/images/override.png");
 
 export default function DashboardScreen({ navigation }) {
   return (
@@ -33,7 +34,7 @@ export default function DashboardScreen({ navigation }) {
                 style={{ marginBottom: 15 }}
                 title="Submit Override Request"
                 subtitle="Override Request Record"
-                icon={WRR_IMAGE}
+                icon={OVERRIDE_IMAGE}
                 onPress={() => navigation.push("OverrideRequest")}
               />
             </>

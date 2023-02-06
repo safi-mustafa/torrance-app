@@ -122,7 +122,7 @@ export default function TotRequestScreen({ navigation, route }) {
         <View style={styles.container}>
           {/* <ScrollView> */}
           <Formik
-            initialValues={dummyVal}
+            initialValues={initialValues}
             onSubmit={onSubmit}
             valueOnChange={(a) => console.log(a)}
           >

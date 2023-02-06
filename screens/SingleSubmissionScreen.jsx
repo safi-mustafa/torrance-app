@@ -31,10 +31,10 @@ export default function SingleSubmissionScreen({
   const isTOT = apiUrl == "/TOTLog";
   const isWRR = apiUrl == "/WRRLog";
   const isOverRide = apiUrl == "/OverrideLog";
-  const NavUrl = isTOT ? "TotRequest" : "WrrRequest";
+  const NavUrl = isTOT ? "TotRequest" : "OverrideRequest";
 
   useEffect(() => {
-    if (id && !isOverRide) getSubmissionData(id);
+    if (id) getSubmissionData(id);
     if (isOverRide) setData({ ...otherRouteItems });
 
     // getUserMeta();
@@ -143,12 +143,12 @@ export default function SingleSubmissionScreen({
   return (
     <View style={styles.container}>
       <Loader show={loading} size="large" overlay="true" color="white" />
-      {!isOverRide && data?.status == STATUS.PENDING && <Action />}
+      {data?.status == STATUS.PENDING && <Action />}
       <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
         <ListRow label="company" value={data?.company?.name} />
+        <ListRow label="Submitted" value={data?.formattedCreatedOn} />
         {!isOverRide && (
           <>
-            <ListRow label="Submitted" value={data?.formattedCreatedOn} />
             <ListRow label="approver" value={data?.approver?.name} />
             <ListRow label="employee" value={data?.employee?.name} />
             <ListRow label="TWR No#" value={data?.twr} />
@@ -209,30 +209,24 @@ export default function SingleSubmissionScreen({
               value={getFormatedDate(data?.formattedStartOfWork)}
             />
             <ListRow label="Total man Hours" value={data?.manHours} />
-            <ListRow
-              label="Total Head Count"
-              value={data?.manPowerAffected}
-            />
+            <ListRow label="Total Head Count" value={data?.manPowerAffected} />
             <ListRow label="Description" value={data?.jobDescription} />
             <ListRow label="permit Type" value={data?.permitType?.name} />
             <ListRow label="shift" value={data?.shift?.name} />
+            <ListRow label="description" value={data?.jobDescription} />
           </>
         )}
         {isOverRide && (
           <>
             <ListRow label="override Type" value={data?.overrideType?.name} />
             <ListRow label="override Hours" value={data?.overrideHours} />
-            <ListRow label="requester" value={data?.requester} />
-            <ListRow label="requester Email" value={data?.requesterEmail} />
+            <ListRow label="requester" value={data?.requester?.name} />
+            {/* <ListRow label="requester Email" value={data?.requesterEmail} /> */}
             <ListRow label="craft Rate" value={data?.craftRate?.name} />
             <ListRow label="craft Skill" value={data?.craftSkill?.name} />
             <ListRow
-              label="date Of Work Completed"
-              value={data?.dateOfWorkCompleted}
-            />
-            <ListRow
-              label="Submitted date"
-              value={getFormatedDate(data?.dateSubmitted)}
+              label="Work Completed Date"
+              value={data?.formattedDateOfWorkCompleted}
             />
             <ListRow label="po Number#" value={data?.poNumber} />
             <ListRow
@@ -240,14 +234,7 @@ export default function SingleSubmissionScreen({
               value={data?.reasonForRequest?.name}
             />
             <ListRow label="shift" value={data?.shift?.name} />
-            <ListRow label="time Submitted" value={data?.timeSubmitted} />
-            <ListRow label="work Scope" value={data?.workScope} />
-            <ListRow
-              label="Employee"
-              value={
-                data?.employees && data?.employees?.map(({ name = "" }) => name)
-              }
-            />
+            <ListRow label="description" value={data?.description} />
           </>
         )}
       </ScrollView>
