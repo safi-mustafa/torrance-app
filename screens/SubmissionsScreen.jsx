@@ -12,7 +12,7 @@ export default function SubmissionsScreen({ navigation }) {
       tabTitle: "Time on Tools",
       params: { title: "Time on Tools", url: "/TOTLog" },
       component: null,
-      cellOptions: { titleLabel: 'TWR-WO#: ', titleField: "twr" },
+      cellOptions: { titleLabel: 'TWR-WO#: ', titleField: "twr", subTitleField: "formattedCreatedOn" },
     },
     // {
     //   name: "WeldingRods",
@@ -25,7 +25,7 @@ export default function SubmissionsScreen({ navigation }) {
       tabTitle: "Override",
       // component: NotFoundScreen,
       params: { title: "Override", url: "/OverrideLog" },
-      cellOptions: { titleField: "requester", subTitleField: "poNumber" },
+      cellOptions: { titleLabel: 'TWR-WO#: ', titleField: "twr", subTitleField: "formattedCreatedOn" },
     },
   ];
 

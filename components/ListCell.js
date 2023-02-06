@@ -47,7 +47,7 @@ export default function ListCell({ item = {}, navigation, template = null, cellO
                                 {item?.status && <StatusBadge status={item?.status} />}
                             </View>
                             {subTitleField && <Text style={{ color: '#999' }}>{item[subTitleField]}</Text>}
-                            {item?.date && <Text style={{ marginTop: 3, color: '#666', fontSize: 14 }}>{getFormatedDate(item?.date)}</Text>}
+                            {/* {item?.date && <Text style={{ marginTop: 3, color: '#666', fontSize: 14 }}>{getFormatedDate(item?.date)}</Text>} */}
                         </View>
                         <View style={{ alignItems: 'flex-end', justifyContent: 'flex-end' }}>
                             <FontAwesome
