@@ -19,7 +19,7 @@ const postData = ({ url = "", params = {}, showErrorMessage = true }, onSuccess,
           text1: title,
           text2: message
         });
-      } else console.log('nai gaya')
+      } //else console.log('nai gaya')
     })
 };
 export default postData;

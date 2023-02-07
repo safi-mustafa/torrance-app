@@ -210,7 +210,6 @@ export default function SingleSubmissionScreen({
             />
             <ListRow label="Total man Hours" value={data?.manHours} />
             <ListRow label="Total Head Count" value={data?.manPowerAffected} />
-            <ListRow label="Description" value={data?.jobDescription} />
             <ListRow label="permit Type" value={data?.permitType?.name} />
             <ListRow label="delay Type" value={data?.delayType?.name} />
             <ListRow label="request reason" value={data?.reasonForRequest?.name} />

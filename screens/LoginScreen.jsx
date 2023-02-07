@@ -18,6 +18,7 @@ import { saveKey } from "../utility";
 import LoginForm from "../components/LoginForm";
 import LoginPin from "../components/LoginPin";
 import { LOGIN_TYPE } from "../constants/Misc";
+import { useRegisterExpoToken } from "../hooks/useRegisterNotification";
 
 const BG_IMAGE = require("./../assets/images/bg-blue.png");
 const LOGO = require("./../assets/images/app-logo.png");
@@ -25,14 +26,17 @@ const LOGO = require("./../assets/images/app-logo.png");
 export default function LoginScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [loginType, setLoginType] = useState(LOGIN_TYPE.PIN);
+  const expoToken = useRegisterExpoToken();
+  console.log("🚀 ~ file: LoginScreen.jsx:30 ~ LoginScreen ~ expoToken", expoToken)
 
   const onSubmit = (values) => {
     setLoading(true);
     const url =
       loginType === LOGIN_TYPE.PIN
-        ? `/Account/LoginUsingPincode?pincode=${values}`
+        ? `/Account/LoginUsingPincode`
         : `/Account/Login`;
-    const params = loginType !== LOGIN_TYPE.PIN ? values : {};
+    let params = loginType !== LOGIN_TYPE.PIN ? values : {pincode: values};
+    params = {...params, deviceId: expoToken?.token}
 
     postData(
       { url, params, showErrorMessage: false },
@@ -48,6 +52,7 @@ export default function LoginScreen({ navigation }) {
       (error) => {
         setLoading(false);
         const { errors = [] } = error?.data;
+        console.log("🚀 ~ file: LoginScreen.jsx:51 ~ onSubmit ~ errors", errors)
         let message = "Something went wrong, Please try again.";
         if (typeof errors === "object") {
           message = Object.entries(errors).map(

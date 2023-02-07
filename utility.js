@@ -21,3 +21,8 @@ export const getFormatedDate = (date = "", options = {
 export const toCapitalCase = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
+
+export const objectNotEmpty = (obj) => {
+    if (typeof obj === "undefined") return false;
+    return Object.keys(obj).length !== 0;
+  };

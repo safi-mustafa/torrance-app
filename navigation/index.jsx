@@ -22,6 +22,7 @@ import LoginScreen from "../screens/LoginScreen";
 import SubmissionContentScreen from "../screens/SubmissionContentScreen";
 import SingleSubmissionScreen from "../screens/SingleSubmissionScreen";
 import OverrideRequestScreen from "../screens/OverrideRequestScreen";
+import { usePushNotification } from "../hooks/usePushNotification";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -36,6 +37,7 @@ export default function Navigation({ colorScheme }) {
 const Stack = createNativeStackNavigator();
 
 function RootNavigator() {
+  const pushNotif = usePushNotification({});
   return (
     <Stack.Navigator>
       <Stack.Screen
