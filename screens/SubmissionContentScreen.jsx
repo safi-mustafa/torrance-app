@@ -7,10 +7,10 @@ import {
 } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { useIsFocused } from "@react-navigation/native";
+import { useState, useEffect } from "react";
 
 import getData from "../api-services/getData";
 import ListCell from "../components/ListCell";
-import { useState, useEffect } from "react";
 
 export default function SubmissionContentScreen({
   route = {},

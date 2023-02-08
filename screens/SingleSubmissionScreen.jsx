@@ -169,25 +169,25 @@ export default function SingleSubmissionScreen({
 
   const ApprovalSection = () => (
     <>
-      {isApproval && (
+      {isApproval && data?.status == STATUS.PENDING && (
         <View style={styles.approvalWrapper}>
           <Buttonx
             onPress={() => onApproveUpdate(STATUS.APPROVED)}
-            style={styles.approveButtons}
+            style={{...styles.approveButtons, backgroundColor: 'green', marginRight: 5}}
             title={
               <>
-                {/* <Text>Approve</Text> */}
-                <FontAwesome name="check-circle-o" size={28} color={"green"} />
+                <Text style={{color:'white'}}>Approve</Text>
+                {/* <FontAwesome name="check-circle-o" size={28} color={"green"} /> */}
               </>
             }
           />
           <Buttonx
             onPress={() => onApproveUpdate(STATUS.REJECTED)}
-            style={styles.approveButtons}
+            style={{...styles.approveButtons, backgroundColor: 'red', marginLeft: 5}}
             title={
               <>
-                <FontAwesome name="close" size={28} color={"red"} />
-                {/* <Text>Reject</Text> */}
+                {/* <FontAwesome name="close" size={28} color={"red"} /> */}
+                <Text style={{color: 'white'}}>Reject</Text>
               </>
             }
           />
@@ -337,19 +337,21 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   approvalWrapper: {
-    position: "absolute",
-    bottom: 10,
-    right: 10,
-    backgroundColor: "rgba(0,0,0,0.1)",
+    // position: "absolute",
+    // bottom: 10,
+    // right: 10,
+    // backgroundColor: "rgba(0,0,0,0.1)",
     padding: 10,
     borderRadius: 6,
+    flexDirection: 'row'
     // width: 50,
   },
   approveButtons: {
-    backgroundColor: "transparent",
+    width: '48%',
+    // backgroundColor: "transparent",
     borderWidth: 0,
-    padding: 0,
+    // padding: 0,
     marginVertical: 5,
-    flexDirection: "row",
+    // flexDirection: "row",
   },
 });

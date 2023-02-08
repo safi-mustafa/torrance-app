@@ -125,7 +125,7 @@ function BottomTabNavigator() {
       options: {
         title: "Pending Approvals",
         tabBarIcon: ({ color }) => (
-          <TabBarIcon name="home" color={color} size={28} />
+          <TabBarIcon name="home" color={color} size={34} />
         ),
       },
       initialParams: {
@@ -162,7 +162,7 @@ function BottomTabNavigator() {
       component: NotificationScreen,
       options: {
         title: "Notifications",
-        headerShown: false,
+        // headerShown: false,
         tabBarIcon: ({ color }) => <TabBarIcon name="inbox" color={color} />,
       },
     },
