@@ -38,11 +38,11 @@ export default function SubmissionContentScreen({
       (response) => {
         setLoading(false);
         const { items = [], attachments = null } = response?.data;
-        // console.log(
-        //   "🚀 ~ file: SubmissionContentScreen.jsx ~ line 38 ~ getListData ~ response?.data",
-        //   params?.url,
-        //   response?.data
-        // );
+        console.log(
+          "🚀 ~ file: SubmissionContentScreen.jsx ~ line 38 ~ getListData ~ response?.data",
+          params?.url,
+          response?.data
+        );
 
         setData(attachments ? attachments : items);
       },

@@ -61,7 +61,7 @@ export default function ProfileScreen({ navigation }) {
             </View>
             <View style={[appStyles.my1, styles.section]}>
               <Text style={styles.label}>Phone:</Text>
-              <Text style={styles.values}>{user?.phone}</Text>
+              <Text style={styles.values}>{user?.phoneNumber}</Text>
             </View>
             <View style={[appStyles.my1, styles.section]}>
               <Text style={styles.label}>Unit(s):</Text>

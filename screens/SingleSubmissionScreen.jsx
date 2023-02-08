@@ -151,8 +151,8 @@ export default function SingleSubmissionScreen({
           response?.data
         );
         Toast.show({
-          type: "success",
-          text1: "Approval",
+          type: STATUS.APPROVED == status ? "success" : "info",
+          text1: `${status}ed`,
           text2: `${status}ed successfully`,
         });
         navigation.goBack();
@@ -173,21 +173,29 @@ export default function SingleSubmissionScreen({
         <View style={styles.approvalWrapper}>
           <Buttonx
             onPress={() => onApproveUpdate(STATUS.APPROVED)}
-            style={{...styles.approveButtons, backgroundColor: 'green', marginRight: 5}}
+            style={{
+              ...styles.approveButtons,
+              backgroundColor: "green",
+              marginRight: 5,
+            }}
             title={
               <>
-                <Text style={{color:'white'}}>Approve</Text>
+                <Text style={{ color: "white" }}>Approve</Text>
                 {/* <FontAwesome name="check-circle-o" size={28} color={"green"} /> */}
               </>
             }
           />
           <Buttonx
             onPress={() => onApproveUpdate(STATUS.REJECTED)}
-            style={{...styles.approveButtons, backgroundColor: 'red', marginLeft: 5}}
+            style={{
+              ...styles.approveButtons,
+              backgroundColor: "red",
+              marginLeft: 5,
+            }}
             title={
               <>
                 {/* <FontAwesome name="close" size={28} color={"red"} /> */}
-                <Text style={{color: 'white'}}>Reject</Text>
+                <Text style={{ color: "white" }}>Reject</Text>
               </>
             }
           />
@@ -343,11 +351,11 @@ const styles = StyleSheet.create({
     // backgroundColor: "rgba(0,0,0,0.1)",
     padding: 10,
     borderRadius: 6,
-    flexDirection: 'row'
+    flexDirection: "row",
     // width: 50,
   },
   approveButtons: {
-    width: '48%',
+    width: "48%",
     // backgroundColor: "transparent",
     borderWidth: 0,
     // padding: 0,

@@ -1,8 +1,6 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
 
-import { primaryColor } from "../../constants/Colors";
 import appStyles from "../../app-styles";
 import StatusBadge from "../StatusBadge";
 import { useNavigation } from "@react-navigation/native";
@@ -41,7 +39,7 @@ export default function ApprovalCell({ item }) {
           </View>
           <View style={[appStyles.my1, styles.section]}>
             <Text style={styles.label}>unit:</Text>
-            <Text style={styles.values}>{item?.unit?.name}</Text>
+            <Text style={styles.values}>{item?.unit}</Text>
           </View>
           <View style={[appStyles.my1, styles.section]}>
             <Text style={styles.label}>reason:</Text>
