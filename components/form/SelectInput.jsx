@@ -17,7 +17,7 @@ export default function SelectInput({
   value,
   ...otherProps
 }) {
-  // console.log("🚀 ~ file: SelectInput.tsx ~ line 16 ~ otherProps", otherProps);
+  // console.log("🚀 ~ file: SelectInput.tsx ~ line 16 ~ otherProps", name, url);
   // const [option, setOption] = useState(
   //   otherProps?.value ? parseInt(otherProps.value) : otherProps?.value
   // );
@@ -32,10 +32,11 @@ export default function SelectInput({
     getData(
       { url },
       (response) => {
-        // console.log(
-        //   "🚀 ~ file: SelectInput.jsx ~ line 33 ~ getLookups ~ response",
-        //   response
-        // );
+        console.log(
+          "🚀 ~ file: SelectInput.jsx ~ line 33 ~ getLookups ~ response",
+          url,
+          response
+        );
         const data = response?.data?.items;
         // console.log("🚀 ~ file: SelectInput.jsx ~ line 40 ~ getLookups ~ data",name, data)
         if (data && Array.isArray(data)) {

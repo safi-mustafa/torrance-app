@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Layout from "../../constants/Layout";
 import { toCapitalCase } from "../../utility";
@@ -13,20 +13,27 @@ export default function FormLoop({
   values,
   handleSubmit,
   setFieldValue,
+  formStyle = {},
 }) {
   // console.log("🚀 ~ file: FormLoop.tsx ~ line 18 ~ errors", errors);
+  // const [formatedFields, setFormatedFields] = useState(fields);
+  // useEffect(() => {
+  //   const formatedFieldsAfterChange = getConditionalFields(fields, values);
+  //   setFormatedFields(formatedFieldsAfterChange);
+  //   return () => {};
+  // }, [values]);
   const formatedFields = getConditionalFields(fields, values);
 
   const getError = (errors, { name = "", inputType = null }) => {
     let errorField = toCapitalCase(name);
-    if(inputType == "select"){
-      errorField = `${errorField}.Id`
+    if (inputType == "select") {
+      errorField = `${errorField}.Id`;
     }
     return errors[errorField];
   };
 
   return (
-    <View>
+    <View style={formStyle}>
       {formatedFields.map((elementAttribs, index) => {
         let _props = {
           form: elementAttribs,
@@ -45,7 +52,10 @@ export default function FormLoop({
           };
 
         return (
-          <View key={elementAttribs?.name}>
+          <View
+            key={elementAttribs?.name}
+            style={[{ width: "100%" }, elementAttribs?.wrapperStyle]}
+          >
             {!elementAttribs?.hidden && (
               <View>
                 {elementAttribs?.label && (
@@ -53,7 +63,9 @@ export default function FormLoop({
                     style={{ ...styles.label, ...elementAttribs?.labelStyle }}
                   >
                     {elementAttribs?.label}
-                    {elementAttribs?.required && <Text style={{color:'red', paddingLeft: 2}}>*</Text>}
+                    {elementAttribs?.required && (
+                      <Text style={{ color: "red", paddingLeft: 2 }}>*</Text>
+                    )}
                   </Text>
                 )}
                 <View style={styles.inputWrapper}>
@@ -105,6 +117,28 @@ function getConditionalFields(fields, values) {
       if (parentFieldValue == JSON.parse(condition?.matchValue)) {
         return { ...field, condition, hidden: true };
       }
+    } else if (condition?.action === "useValue") {
+      if (field?.inputType === "select") {
+        const ddParentFieldObject = values[parentFieldName];
+        // console.log("🚀 ~ file: FormLoop.jsx:117 ~ returnfields.map ~ ddParentFieldObject", ddParentFieldObject)
+        // console.log("🚀 ~ file: FormLoop.jsx:117 ~ returnfields.map ~ ddParentFieldObject", values, parentFieldName)
+        let ddParentFieldValue = ddParentFieldObject?.value
+          ? ddParentFieldObject?.value
+          : ddParentFieldObject?.id;
+        // console.log("🚀 ~ file: FormLoop.jsx:119 ~ returnfields.map ~ ddParentFieldValue", ddParentFieldValue)
+        const conditionalOperator = field?.url.includes("?") ? "&" : "?";
+        const params = ddParentFieldValue
+          ? `${conditionalOperator}${condition?.paramField}=${ddParentFieldValue}`
+          : "";
+        const compiledUrl = `${field?.url}${params}`;
+        
+        return {
+          ...field,
+          url: compiledUrl,
+          // value: {id: 0}
+        };
+      }
+      return field;
     }
     return field;
   });

@@ -17,21 +17,41 @@ export default function TotRequestScreen({ navigation, route }) {
   const [apiErrors, setApiErrors] = useState({});
 
   const { params = {} } = route;
-  const initialValues = params?.id ? { ...params } : {};
+  const initialValues = params?.id
+    ? {
+        ...params,
+        alphabeticPart: params?.twrModel?.alphabeticPart,
+        numericPart: params?.twrModel?.numericPart,
+        twrText: params?.twrModel?.text,
+      }
+    : {};
   // console.log("🚀 ~ file: TotRequestScreen.jsx ~ line 21 ~ TotRequestScreen ~ initialValues", initialValues);
   const isEdit = params && params.id;
 
   const onSubmit = async (formValues = [], { setSubmitting }) => {
     const userMeta = await getKey("user");
     const { userDetail = {} } = JSON.parse(userMeta);
-
-    setLoading(true);
+    const {
+      // alphabeticPart = null,
+      // numericPart = null,
+      twrText = null,
+    } = formValues;
+    const alphabeticPart =
+      formValues?.alphabeticPart?.id == 0 ? {} : formValues?.alphabeticPart;
+    const numericPart =
+      formValues?.numericPart?.id == 0 ? {} : formValues?.numericPart;
     const params = {
       ...formValues,
       requester: { id: userDetail?.id, name: userDetail?.name },
+      twrModel: { alphabeticPart, numericPart, text: twrText },
     };
 
-    console.log("🚀 ~ file: TotRequestScreen.jsx ~ line 25 ~ onSubmit ~ params", params)
+    console.log(
+      "🚀 ~ file: TotRequestScreen.jsx ~ line 25 ~ onSubmit ~ params",
+      params
+    );
+    // return;
+    setLoading(true);
     if (!isEdit) {
       postData(
         {
@@ -80,41 +100,41 @@ export default function TotRequestScreen({ navigation, route }) {
   };
 
   const dummyVal = {
-    "shift": {
-        "id": 1,
-        "name": "Day"
+    shift: {
+      id: 1,
+      name: "Day",
     },
-    "DelayType": {
-        "id": 1,
-        "name": "Procedural"
+    DelayType: {
+      id: 1,
+      name: "Procedural",
     },
-    "ReasonForRequest": {
-        "id": 1,
-        "name": "Storm"
+    ReasonForRequest: {
+      id: 1,
+      name: "Storm",
     },
-    "foreman": {
-        "id": 12,
-        "name": "foreman@centangle.com"
+    foreman: {
+      id: 12,
+      name: "foreman@centangle.com",
     },
-    "unit": {
-        "id": 1,
-        "name": "Unit A"
+    unit: {
+      id: 1,
+      name: "Unit A",
     },
-    "permitType": {
-        "id": 1,
-        "name": "Permit A"
+    permitType: {
+      id: 1,
+      name: "Permit A",
     },
-    "approver": {
-        "id": 11,
-        "name": "approver@centangle.com"
+    approver: {
+      id: 11,
+      name: "approver@centangle.com",
     },
-    "twr": "123",
-    "equipmentNo": "345",
-    "startOfWork": "2023-02-06",
-    "manPowerAffected": "20",
-    "manHours": "36",
-    "jobDescription": "Test desc",
-};
+    twr: "123",
+    equipmentNo: "345",
+    startOfWork: "2023-02-06",
+    manPowerAffected: "20",
+    manHours: "36",
+    jobDescription: "Test desc",
+  };
 
   return (
     <>
@@ -144,6 +164,11 @@ export default function TotRequestScreen({ navigation, route }) {
                   values={values}
                   errors={apiErrors}
                   handleSubmit={handleSubmit}
+                  formStyle={{
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                  }}
                 />
                 <Pressable
                   style={[appStyles.btn, appStyles.btnPrimary]}

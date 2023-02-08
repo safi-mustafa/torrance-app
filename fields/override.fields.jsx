@@ -61,7 +61,7 @@ export const overrideFields = [
     keyboardType: "numeric",
   },
   {
-    name: "poNumber",
+    name: "PONumber",
     placeholder: "Enter number",
     label: "PO Number#",
     required: true,
@@ -120,5 +120,10 @@ export const overrideFields = [
     label: "Approver",
     zIndex: 993,
     required: true,
+    condition: {
+      fieldName: "unit",
+      action: "useValue",
+      paramField: "Unit.Id",
+    },
   },
 ];

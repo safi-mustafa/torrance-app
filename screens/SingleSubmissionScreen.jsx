@@ -35,7 +35,7 @@ export default function SingleSubmissionScreen({
 
   useEffect(() => {
     if (id) getSubmissionData(id);
-    if (isOverRide) setData({ ...otherRouteItems });
+    // if (isOverRide) setData({ ...otherRouteItems });
 
     // getUserMeta();
     return () => {};
@@ -150,7 +150,7 @@ export default function SingleSubmissionScreen({
         <ListRow label="approver" value={data?.approver?.name} />
         {!isOverRide && (
           <>
-            <ListRow label="employee" value={data?.employee?.name} />
+            <ListRow label="requester" value={data?.employee?.name} />
             <ListRow label="TWR No#" value={data?.twr} />
             <ListRow label="Status" value={data?.status} />
             <ListRow label="unit" value={data?.unit?.name} />
@@ -221,7 +221,7 @@ export default function SingleSubmissionScreen({
           <>
             <ListRow label="override Type" value={data?.overrideType?.name} />
             <ListRow label="override Hours" value={data?.overrideHours} />
-            <ListRow label="requester" value={data?.requester?.name} />
+            <ListRow label="requester" value={data?.employee?.name} />
             {/* <ListRow label="requester Email" value={data?.requesterEmail} /> */}
             <ListRow label="craft Rate" value={data?.craftRate?.name} />
             <ListRow label="craft Skill" value={data?.craftSkill?.name} />
