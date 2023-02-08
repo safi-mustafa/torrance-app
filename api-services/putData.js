@@ -8,6 +8,7 @@ const putData = ({ url = "", params = {} }, onSuccess, onError) => {
   client.put(url, { ...params })
     .then((response) => onSuccess(response.data), (error) => {
       const parsedError = JSON.parse(JSON.stringify(error));
+      console.log("🚀 ~ file: putData.js:11 ~ .then ~ parsedError", parsedError)
       onError(parsedError?.response);
       let { status } = error?.response;
       if (status > 204) {

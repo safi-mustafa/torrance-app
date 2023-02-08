@@ -61,7 +61,7 @@ export const overrideFields = [
     keyboardType: "numeric",
   },
   {
-    name: "PONumber",
+    name: "poNumber",
     placeholder: "Enter number",
     label: "PO Number#",
     required: true,

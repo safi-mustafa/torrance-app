@@ -27,6 +27,7 @@ import { usePushNotification } from "../hooks/usePushNotification";
 import useUserMeta from "../hooks/useUserMeta";
 import { USER_ROLE } from "../constants/Misc";
 import ApprovalCell from "../components/cell-templates/ApprovalCell";
+import BlankScreen from "../screens/BlankScreen";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -101,8 +102,11 @@ const BottomTab = createBottomTabNavigator();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-  const { role = "" } = useUserMeta();
+  const { role = "", userMeta } = useUserMeta();
+
   const isApprover = USER_ROLE.APPROVER == role;
+  const isEmployee = USER_ROLE.EMPLOYEE == role;
+  console.log("🚀 ~ file: index.jsx:109 ~ BottomTabNavigator ~ isApprover - isEmployee",isApprover, isEmployee)
 
   const employeeTabs = [
     {
@@ -115,7 +119,7 @@ function BottomTabNavigator() {
           <TabBarIcon name="home" size={34} color={color} />
         ),
       },
-    }
+    },
   ];
 
   const approverTabs = [
@@ -132,7 +136,7 @@ function BottomTabNavigator() {
         title: "Pending Approvals",
         url: "/Approval",
         name: "TabApprovals",
-        template: <ApprovalCell />
+        template: <ApprovalCell />,
       },
     },
   ];
@@ -142,19 +146,10 @@ function BottomTabNavigator() {
       name: "TabSubmissions",
       component: SubmissionsScreen,
       options: {
-        title: isApprover? "Reviewed Logs" :"My Submissions",
+        title: isApprover ? "Reviewed Logs" : "My Submissions",
         tabBarIcon: ({ color }) => (
           <TabBarIcon name="file-text" color={color} size={28} />
         ),
-      },
-    },
-    {
-      name: "TabProfile",
-      component: ProfileScreen,
-      options: {
-        title: "My Profile",
-        headerShown: false,
-        tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
       },
     },
     {
@@ -166,12 +161,28 @@ function BottomTabNavigator() {
         tabBarIcon: ({ color }) => <TabBarIcon name="inbox" color={color} />,
       },
     },
+    {
+      name: "TabProfile",
+      component: ProfileScreen,
+      options: {
+        title: "My Profile",
+        headerShown: false,
+        tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+      },
+    },
   ];
 
-  let tabs = isApprover ? [...approverTabs] : [...employeeTabs];
+  let tabs = isApprover ? approverTabs : employeeTabs;
   tabs = [...tabs, ...commonTabs];
 
-  const initialScreen = isApprover ? "TabSubmissions" : "TapDashboard";
+  const defaultInitialScreen = () => {
+    return isApprover ? "TabApprovals" : "TapDashboard";
+  };
+
+  const initialScreen = defaultInitialScreen();
+
+  if(!role)
+    return <></>
 
   return (
     <BottomTab.Navigator

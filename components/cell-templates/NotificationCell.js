@@ -6,7 +6,7 @@ import Layout from '../../constants/Layout';
 import { primaryColor } from '../../constants/Colors';
 
 export default function NotificationCell({ item = {}, navigation, template = null, cellOptions = {}, isApprover = false, ...otherProps }) {
-    const { entityType, entityId, message } = item;
+    const { entityType, entityId, message, formattedCreatedOn = '' } = item;
     const { Message = '' } = JSON.parse(message)
     const goToScreen = () => {
         navigation.navigate("SingleSubmission", { apiUrl: entityType == 'TOTLog' ? '/TOTLog' : '/OverrideLog', id: entityId, isApproval: isApprover })
@@ -21,7 +21,10 @@ export default function NotificationCell({ item = {}, navigation, template = nul
                 })}
             >
                 <View style={styles.cellWrapper}>
-                    <Text>{Message}</Text>
+                    <View style={{paddingRight:15, width:'100%'}}>
+                        {formattedCreatedOn && <Text style={{ fontSize: 13, color: '#999', marginBottom: 5 }}>{formattedCreatedOn}</Text>}
+                        <Text>{Message}</Text>
+                    </View>
                     <View style={{ alignItems: 'flex-end', justifyContent: 'flex-end' }}>
                         <FontAwesome
                             name={"angle-right"}

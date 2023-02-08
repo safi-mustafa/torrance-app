@@ -26,8 +26,11 @@ export default function FormLoop({
 
   const getError = (errors, { name = "", inputType = null }) => {
     let errorField = toCapitalCase(name);
-    if (inputType == "select") {
+    if (inputType == "select" && errorField!="AlphabeticPart" && errorField!="NumericPart") {
       errorField = `${errorField}.Id`;
+    }
+    if(name=="twrText"){
+      errorField = `TWRModel.Text`;
     }
     return errors[errorField];
   };
