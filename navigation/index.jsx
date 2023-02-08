@@ -22,7 +22,11 @@ import LoginScreen from "../screens/LoginScreen";
 import SubmissionContentScreen from "../screens/SubmissionContentScreen";
 import SingleSubmissionScreen from "../screens/SingleSubmissionScreen";
 import OverrideRequestScreen from "../screens/OverrideRequestScreen";
+import NotificationScreen from "../screens/NotificationScreen";
 import { usePushNotification } from "../hooks/usePushNotification";
+import useUserMeta from "../hooks/useUserMeta";
+import { USER_ROLE } from "../constants/Misc";
+import ApprovalCell from "../components/cell-templates/ApprovalCell";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -76,7 +80,11 @@ function RootNavigator() {
         options={{ title: "Content" }}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="SingleSubmission" component={SingleSubmissionScreen} options={{ title: "Submission" }}/>
+        <Stack.Screen
+          name="SingleSubmission"
+          component={SingleSubmissionScreen}
+          options={{ title: "Submission" }}
+        />
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
@@ -93,58 +101,95 @@ const BottomTab = createBottomTabNavigator();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
+  const { role = "" } = useUserMeta();
+  const isApprover = USER_ROLE.APPROVER == role;
+
+  const employeeTabs = [
+    {
+      name: "TapDashboard",
+      component: DashboardScreen,
+      options: {
+        title: "Dashboard",
+        headerShown: false,
+        tabBarIcon: ({ color }) => (
+          <TabBarIcon name="home" size={34} color={color} />
+        ),
+      },
+    }
+  ];
+
+  const approverTabs = [
+    {
+      name: "TabApprovals",
+      component: SubmissionContentScreen,
+      options: {
+        title: "Pending Approvals",
+        tabBarIcon: ({ color }) => (
+          <TabBarIcon name="home" color={color} size={28} />
+        ),
+      },
+      initialParams: {
+        title: "Pending Approvals",
+        url: "/Approval",
+        name: "TabApprovals",
+        template: <ApprovalCell />
+      },
+    },
+  ];
+
+  const commonTabs = [
+    {
+      name: "TabSubmissions",
+      component: SubmissionsScreen,
+      options: {
+        title: isApprover? "Reviewed Logs" :"My Submissions",
+        tabBarIcon: ({ color }) => (
+          <TabBarIcon name="file-text" color={color} size={28} />
+        ),
+      },
+    },
+    {
+      name: "TabProfile",
+      component: ProfileScreen,
+      options: {
+        title: "My Profile",
+        headerShown: false,
+        tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+      },
+    },
+    {
+      name: "TabNotification",
+      component: NotificationScreen,
+      options: {
+        title: "Notifications",
+        headerShown: false,
+        tabBarIcon: ({ color }) => <TabBarIcon name="inbox" color={color} />,
+      },
+    },
+  ];
+
+  let tabs = isApprover ? [...approverTabs] : [...employeeTabs];
+  tabs = [...tabs, ...commonTabs];
+
+  const initialScreen = isApprover ? "TabSubmissions" : "TapDashboard";
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TapDashboard"
+      initialRouteName={initialScreen}
       screenOptions={{
         tabBarShowLabel: false,
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}
     >
-      <BottomTab.Screen
-        name="TapDashboard"
-        component={DashboardScreen}
-        options={({ navigation }) => ({
-          title: "Dashboard",
-          headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" size={34} color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("Modal")}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
-        })}
-      />
-      <BottomTab.Screen
-        name="TabSubmissions"
-        component={SubmissionsScreen}
-        options={{
-          title: "My Submissions",
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="file-text" color={color} size={28}/>
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="TabProfile"
-        component={ProfileScreen}
-        options={{
-          title: "My Profile",
-          headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
-        }}
-      />
+      {tabs.map(({ name, component, options, ...otherProps }) => (
+        <BottomTab.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={options}
+          {...otherProps}
+        />
+      ))}
     </BottomTab.Navigator>
   );
 }

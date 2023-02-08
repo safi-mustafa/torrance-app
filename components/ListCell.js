@@ -6,6 +6,7 @@ import appStyles from '../app-styles';
 import { primaryColor } from '../constants/Colors';
 import Layout from '../constants/Layout';
 import { getFormatedDate } from '../utility';
+import StatusBadge from './StatusBadge';
 
 export default function ListCell({ item = {}, navigation, template = null, cellOptions = {}, ...otherProps }) {
     // console.log("🚀 ~ file: ListCell.js ~ line 9 ~ ListCell ~ item", item)
@@ -14,15 +15,6 @@ export default function ListCell({ item = {}, navigation, template = null, cellO
         template ? template : <></>,
         { item, cellOptions }
     );
-
-    const StatusBadge = ({ status }) => {
-        let statusBg = 'green';
-        if (status === 'Pending')
-            statusBg = 'orange';
-        else if (status === 'Rejected')
-            statusBg = 'red';
-        return <Text style={{ ...styles.badgeStyle, backgroundColor: statusBg }}>{status}</Text>
-    }
 
     const showTitle = (value) => {
         if (typeof value === 'object')
@@ -43,8 +35,11 @@ export default function ListCell({ item = {}, navigation, template = null, cellO
                     <View style={styles.cellWrapper}>
                         <View>
                             <View style={{ flexDirection: 'row' }}>
-                                <Text style={[appStyles.fw500, appStyles.my1]}>{titleLabel}{showTitle(item[titleField])}</Text>
-                                {item?.status && <StatusBadge status={item?.status} />}
+                                <Text style={[appStyles.fw500, appStyles.my1]}>
+                                    <Text style={{color: '#999'}}>{titleLabel}</Text>
+                                    {showTitle(item[titleField])}</Text>
+                                {item?.status && <StatusBadge style={styles
+                                    .badgeStyle} status={item?.status} />}
                             </View>
                             {subTitleField && <Text style={{ color: '#999' }}>{item[subTitleField]}</Text>}
                             {/* {item?.date && <Text style={{ marginTop: 3, color: '#666', fontSize: 14 }}>{getFormatedDate(item?.date)}</Text>} */}
@@ -92,16 +87,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     badgeStyle: {
-        color: '#fff',
-        borderColor: '#fff',
-        borderRadius: 4,
-        borderWidth: 1,
-        padding: 2,
         alignItems: 'center',
-        paddingHorizontal: 4,
         marginLeft: 15,
-        fontSize: 12,
         right: 10,
-        overflow: 'hidden'
     }
 })

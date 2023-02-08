@@ -15,3 +15,8 @@ export const STATUS = {
     APPROVED: 'Approved',
     REJECTED: 'Rejected'
 }
+
+export const USER_ROLE = {
+    APPROVER: 'Approver',
+    EMPLOYEE: 'Employee'
+}

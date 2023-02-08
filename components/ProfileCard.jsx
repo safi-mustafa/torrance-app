@@ -5,30 +5,24 @@ import {
   Text,
   View,
 } from "react-native";
-import { useEffect, useState } from "react";
 
 import appStyles from "../app-styles";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
-import { getKey } from "../utility";
+import useUserMeta from "../hooks/useUserMeta";
+import { USER_ROLE } from "../constants/Misc";
 
 const BG_IMAGE = require("./../assets/images/bg-blue.png");
 
-export default function ProfileCard({ navigation, header = <></>, footer = <></> }) {
+export default function ProfileCard({
+  header = <></>,
+  footer = <></>,
+}) {
   const colorScheme = useColorScheme();
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    getUserMeta();
-  }, []);
-
-  const getUserMeta = async () => {
-    let userMeta = await getKey("user");
-    const { userDetail } = JSON.parse(userMeta);
-    // console.log("🚀 ~ file: ProfileCard.jsx ~ line 28 ~ getUserMeta ~ userDetail", userDetail)
-    setUser(userDetail);
-  };
-
+  const { role = "", userMeta } = useUserMeta();
+  const isApprover = USER_ROLE.APPROVER == role;
+  const name = isApprover ? userMeta?.userName : userMeta?.firstName
+  
   return (
     <>
       <ImageBackground
@@ -46,7 +40,7 @@ export default function ProfileCard({ navigation, header = <></>, footer = <></>
               { color: Colors[colorScheme].lightText, marginBottom: 15 },
             ]}
           >
-            {user?.name} {StatusBar.currentHeight}
+            {name} {StatusBar.currentHeight}
           </Text>
           {footer}
         </View>

@@ -11,11 +11,12 @@ export default function Buttonx({
 }) {
   return (
     <Pressable
-      style={{
+      style={({ pressed }) => ({
+        opacity: pressed ? 0.5 : 1,
         ...appStyles.btn,
         ...appStyles.btnPrimary,
         ...style,
-      }}
+      })}
       {...props}
     >
       <Text

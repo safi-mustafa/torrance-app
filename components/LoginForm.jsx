@@ -17,7 +17,7 @@ export default function LoginForm({ navigation, onSubmit }) {
     onSubmit(values);
   };
 
-  const initialValues = {}; //{ email: "abc@xyz.com", password: "123" };
+  const initialValues = {"email": "approver@centangle.com","password": "Admin@123"}
 
   return (
     <>

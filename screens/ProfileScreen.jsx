@@ -13,38 +13,27 @@ import { lightColor } from "../constants/Colors";
 import { useEffect, useState } from "react";
 import { getKey } from "../utility";
 import ProfileCard from "../components/ProfileCard";
+import useUserMeta from "../hooks/useUserMeta";
+import { USER_ROLE } from "../constants/Misc";
 
 export default function ProfileScreen({ navigation }) {
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    getUserMeta();
-  }, []);
-
-  const getUserMeta = async () => {
-    let userMeta = await getKey("user");
-    const { userDetail } = JSON.parse(userMeta);
-    // console.log("🚀 ~ file: ProfileScreen.jsx ~ line 27 ~ getUserMeta ~ userDetail", userDetail)
-    setUser(userDetail);
-  };
+  // const [user, setUser] = useState({});
+  const { role = "", userMeta } = useUserMeta();
+  const user = userMeta;
+  const isApprover = USER_ROLE.APPROVER == role;
 
   const onLogOut = () => {
     // console.log("🚀 ~ file: ProfileScreen.jsx ~ line 31 ~ onLogOut ~ Logout", Logout)
     // alert('Logout')
-    navigation.replace("Root")
-  }
+    navigation.replace("Root");
+  };
 
   return (
     <View style={[styles.innerContainer]}>
       <ProfileCard
         header={
           <Pressable style={styles.exitBtn} onPress={() => onLogOut()}>
-            <Ionicons
-              name="exit-outline"
-              size={34}
-              color="white"
-              style={{}}
-            />
+            <Ionicons name="exit-outline" size={34} color="white" style={{}} />
           </Pressable>
         }
       />
@@ -53,18 +42,33 @@ export default function ProfileScreen({ navigation }) {
           <Text style={styles.label}>Email:</Text>
           <Text style={styles.values}>{user?.email}</Text>
         </View>
-        <View style={[appStyles.my1, styles.section]}>
-          <Text style={styles.label}>First Name:</Text>
-          <Text style={styles.values}>{user?.firstName}</Text>
-        </View>
-        <View style={[appStyles.my1, styles.section]}>
-          <Text style={styles.label}>Last Name:</Text>
-          <Text style={styles.values}>{user?.lastName}</Text>
-        </View>
-        <View style={[appStyles.my1, styles.section]}>
-          <Text style={styles.label}>Company:</Text>
-          <Text style={styles.values}>{user?.company?.name}</Text>
-        </View>
+        {!isApprover ? (
+          <>
+            <View style={[appStyles.my1, styles.section]}>
+              <Text style={styles.label}>Full Name:</Text>
+              <Text style={styles.values}>{user?.firstName}</Text>
+            </View>
+            <View style={[appStyles.my1, styles.section]}>
+              <Text style={styles.label}>Company:</Text>
+              <Text style={styles.values}>{user?.company?.name}</Text>
+            </View>
+          </>
+        ) : (
+          <>
+            <View style={[appStyles.my1, styles.section]}>
+              <Text style={styles.label}>Name:</Text>
+              <Text style={styles.values}>{user?.userName}</Text>
+            </View>
+            <View style={[appStyles.my1, styles.section]}>
+              <Text style={styles.label}>Phone:</Text>
+              <Text style={styles.values}>{user?.phone}</Text>
+            </View>
+            <View style={[appStyles.my1, styles.section]}>
+              <Text style={styles.label}>Unit(s):</Text>
+              <Text style={styles.values}>{user?.formattedUnits}</Text>
+            </View>
+          </>
+        )}
       </View>
     </View>
   );

@@ -12,7 +12,7 @@ export default function SubmissionsScreen({ navigation }) {
       tabTitle: "Time on Tools",
       params: { title: "Time on Tools", url: "/TOTLog" },
       component: null,
-      cellOptions: { titleLabel: 'TWR-WO#: ', titleField: "twr", subTitleField: "formattedCreatedOn" },
+      cellOptions: { titleLabel: 'TWR#: ', titleField: "twr", subTitleField: "formattedCreatedOn" },
     },
     // {
     //   name: "WeldingRods",

@@ -11,9 +11,11 @@ import { FontAwesome } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
 
 import getData from "../api-services/getData";
+import putData from "../api-services/putData";
 import deleteData from "../api-services/deleteData";
 import appStyles from "../app-styles";
 import Loader from "../components/Loader";
+import Buttonx from "../components/form/Buttonx";
 import { getFormatedDate, getKey } from "../utility";
 import { primaryColor } from "../constants/Colors";
 import { STATUS } from "../constants/Misc";
@@ -25,28 +27,26 @@ export default function SingleSubmissionScreen({
 }) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
-  const { id, apiUrl, ...otherRouteItems } = route.params;
+  const { id, apiUrl, isApproval = false, ...otherRouteItems } = route.params;
   const [user, setUser] = useState({});
 
+  // const isWRR = apiUrl == "/WRRLog";
+  // const isApproval = apiUrl == "/Approval";
   const isTOT = apiUrl == "/TOTLog";
-  const isWRR = apiUrl == "/WRRLog";
   const isOverRide = apiUrl == "/OverrideLog";
-  const NavUrl = isTOT ? "TotRequest" : "OverrideRequest";
+
+  const getNavUrl = () => {
+    if (isTOT) return "TotRequest";
+    else if (isOverRide) return "OverrideRequest";
+    // else return "/Approval"
+  };
+  let NavUrl = getNavUrl();
 
   useEffect(() => {
     if (id) getSubmissionData(id);
     // if (isOverRide) setData({ ...otherRouteItems });
-
-    // getUserMeta();
     return () => {};
   }, [id]);
-
-  const getUserMeta = async () => {
-    let userMeta = await getKey("user");
-    const { userDetail } = JSON.parse(userMeta);
-    // console.log("🚀 ~ file: ProfileScreen.jsx ~ line 27 ~ getUserMeta ~ userDetail", userDetail)
-    setUser(userDetail);
-  };
 
   const getSubmissionData = (id = "") => {
     setLoading(true);
@@ -140,10 +140,66 @@ export default function SingleSubmissionScreen({
     </View>
   );
 
+  const onApproveUpdate = (status) => {
+    setLoading(true);
+    putData(
+      { url: `${apiUrl}/${id}/${status}` },
+      (response) => {
+        setLoading(false);
+        console.log(
+          "🚀 ~ file: SingleSubmissionScreen.jsx ~ line 33 ~ getSubmissionData ~ response?.data",
+          response?.data
+        );
+        Toast.show({
+          type: "success",
+          text1: "Approval",
+          text2: `${status}ed successfully`,
+        });
+        navigation.goBack();
+      },
+      (error) => {
+        setLoading(false);
+        console.log(
+          "🚀 ~ file: SelectInput.jsx ~ line 44 ~ getData ~ error",
+          JSON.parse(JSON.stringify(error))
+        );
+      }
+    );
+  };
+
+  const ApprovalSection = () => (
+    <>
+      {isApproval && (
+        <View style={styles.approvalWrapper}>
+          <Buttonx
+            onPress={() => onApproveUpdate(STATUS.APPROVED)}
+            style={styles.approveButtons}
+            title={
+              <>
+                {/* <Text>Approve</Text> */}
+                <FontAwesome name="check-circle-o" size={28} color={"green"} />
+              </>
+            }
+          />
+          <Buttonx
+            onPress={() => onApproveUpdate(STATUS.REJECTED)}
+            style={styles.approveButtons}
+            title={
+              <>
+                <FontAwesome name="close" size={28} color={"red"} />
+                {/* <Text>Reject</Text> */}
+              </>
+            }
+          />
+        </View>
+      )}
+    </>
+  );
+
   return (
     <View style={styles.container}>
       <Loader show={loading} size="large" overlay="true" color="white" />
-      {data?.status == STATUS.PENDING && <Action />}
+      {data?.status == STATUS.PENDING && !isApproval && <Action />}
       <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
         <ListRow label="company" value={data?.company?.name} />
         <ListRow label="Submitted" value={data?.formattedCreatedOn} />
@@ -212,7 +268,10 @@ export default function SingleSubmissionScreen({
             <ListRow label="Total Head Count" value={data?.manPowerAffected} />
             <ListRow label="permit Type" value={data?.permitType?.name} />
             <ListRow label="delay Type" value={data?.delayType?.name} />
-            <ListRow label="request reason" value={data?.reasonForRequest?.name} />
+            <ListRow
+              label="request reason"
+              value={data?.reasonForRequest?.name}
+            />
             <ListRow label="shift" value={data?.shift?.name} />
             <ListRow label="description" value={data?.jobDescription} />
           </>
@@ -239,6 +298,7 @@ export default function SingleSubmissionScreen({
           </>
         )}
       </ScrollView>
+      <ApprovalSection />
     </View>
   );
 }
@@ -275,5 +335,21 @@ const styles = StyleSheet.create({
   value: {
     // fontWeight: "bold",
     flex: 1,
+  },
+  approvalWrapper: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    backgroundColor: "rgba(0,0,0,0.1)",
+    padding: 10,
+    borderRadius: 6,
+    // width: 50,
+  },
+  approveButtons: {
+    backgroundColor: "transparent",
+    borderWidth: 0,
+    padding: 0,
+    marginVertical: 5,
+    flexDirection: "row",
   },
 });
