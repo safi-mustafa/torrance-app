@@ -124,7 +124,7 @@ export default function SingleSubmissionScreen({
           style={{ marginHorizontal: 5 }}
         />
       </Pressable>
-      <Pressable
+      {/* <Pressable
         onPress={() => onDelete()}
         style={({ pressed }) => ({
           opacity: pressed ? 0.5 : 1,
@@ -136,7 +136,7 @@ export default function SingleSubmissionScreen({
           color={"red"}
           style={{ marginHorizontal: 5 }}
         />
-      </Pressable>
+      </Pressable> */}
     </View>
   );
 

@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import * as Notifications from 'expo-notifications';
+import { useNavigation } from "@react-navigation/native";
+
 import { objectNotEmpty } from "../utility";
 
 Notifications.setNotificationHandler({
@@ -10,8 +12,9 @@ Notifications.setNotificationHandler({
     }),
 });
 
-export const usePushNotification = (navigation) => {
+export const usePushNotification = () => {
     const [notification, setNotification] = useState(false);
+    const navigation = useNavigation();
 
     const notificationListener = useRef();
     const responseListener = useRef();
@@ -29,11 +32,17 @@ export const usePushNotification = (navigation) => {
 
     const openDetailNotif = (item) => {
         console.log("🚀 ~ file: usePushNotification.js:32 ~ openDetailNotif ~ item", item)
-        if (item?.TaskId) {
-            if (objectNotEmpty(navigation)) {
+        if (item?.LogType) {
+            console.log("🚀 ~ file: usePushNotification.js:34 ~ openDetailNotif ~ navigation", navigation)
+            navigation.navigate("SingleSubmission", {
+                id: item?.LogId,
+                apiUrl: item?.LogType == 1 ? "/TOTLog" : "/OverrideLog",
+            })
+            
+            // if (objectNotEmpty(navigation)) {
                 // const routeName = TASK_TYPE.AUDIT === item?.TaskType ? 'AuditDetails' : 'TaskDetails';
                 // navigation.navigate(routeName, { id: item?.TaskId });
-            }
+            // }
             setNotification(false)
         }
     }

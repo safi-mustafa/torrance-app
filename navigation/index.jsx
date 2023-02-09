@@ -106,7 +106,7 @@ function BottomTabNavigator() {
 
   const isApprover = USER_ROLE.APPROVER == role;
   const isEmployee = USER_ROLE.EMPLOYEE == role;
-  console.log("🚀 ~ file: index.jsx:109 ~ BottomTabNavigator ~ isApprover - isEmployee",isApprover, isEmployee)
+  // console.log("🚀 ~ file: index.jsx:109 ~ BottomTabNavigator ~ isApprover - isEmployee",isApprover, isEmployee)
 
   const employeeTabs = [
     {
