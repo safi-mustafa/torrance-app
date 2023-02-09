@@ -30,52 +30,12 @@ const items = [
   //   type: MENU_TYPE.ROUTE_REDIRECT,
   // },
   // {
-  //   title: "Unlocked WRRs",
-  //   subtitle: "Update WWR Returns",
-  //   icon: require("./../assets/images/welding.png"),
-  //   url: "NotFound",
-  //   type: MENU_TYPE.ROUTE_REDIRECT,
+  //   title: "Dropbox",
+  //   subtitle: "Dropbox Link",
+  //   icon: require("./../assets/images/dropbox.png"),
+  //   url: "https://dropbox.com/",
+  //   type: MENU_TYPE.EXTERNAL_LINK,
   // },
-  // {
-  //   title: "Maps",
-  //   subtitle: "View Maps",
-  //   icon: require("./../assets/images/maps.png"),
-  //   url: "NotFound",
-  //   type: MENU_TYPE.ROUTE_REDIRECT,
-  // },
-  // {
-  //   title: "Badge Room",
-  //   subtitle: "View Files",
-  //   icon: require("./../assets/images/worker.png"),
-  //   url: "/BadgeRoom",
-  //   cellOptions: { titleField: "wrr", subtitleField: "date" },
-  //   template: <FileCell />,
-  // },
-  // {
-  //   title: "Delivery",
-  //   subtitle: "View Files",
-  //   icon: require("./../assets/images/delivery.png"),
-  //   url: "/WRRLog",
-  // },
-  // {
-  //   title: "Passport",
-  //   subtitle: "View Files",
-  //   icon: require("./../assets/images/passport.png"),
-  //   url: "/WRRLog",
-  // },
-  // {
-  //   title: "Vehicle Pass",
-  //   subtitle: "View Pass",
-  //   icon: require("./../assets/images/pass.png"),
-  //   url: "/WRRLog",
-  // },
-  {
-    title: "Dropbox",
-    subtitle: "Dropbox Link",
-    icon: require("./../assets/images/dropbox.png"),
-    url: "https://dropbox.com/",
-    type: MENU_TYPE.EXTERNAL_LINK,
-  },
 ];
 
 export function DashboardMenu({ navigation }) {

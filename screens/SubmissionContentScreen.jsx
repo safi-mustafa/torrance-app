@@ -29,7 +29,7 @@ export default function SubmissionContentScreen({
     return () => {
       setData([]);
     };
-  }, [params?.url]);
+  }, [params?.url, isFocused]);
 
   const getListData = (url = "") => {
     setLoading(true);
