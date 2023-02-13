@@ -32,11 +32,11 @@ export default function SelectInput({
     getData(
       { url },
       (response) => {
-        console.log(
-          "🚀 ~ file: SelectInput.jsx ~ line 33 ~ getLookups ~ response",
-          url,
-          response
-        );
+        // console.log(
+        //   "🚀 ~ file: SelectInput.jsx ~ line 33 ~ getLookups ~ response",
+        //   url,
+        //   response
+        // );
         const data = response?.data?.items;
         // console.log("🚀 ~ file: SelectInput.jsx ~ line 40 ~ getLookups ~ data",name, data)
         if (data && Array.isArray(data)) {
@@ -50,7 +50,7 @@ export default function SelectInput({
       (error) => {
         console.log(
           "🚀 ~ file: SelectInput.jsx ~ line 44 ~ getData ~ error",
-          error
+          url, error
         );
       }
     );

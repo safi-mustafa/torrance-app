@@ -64,7 +64,7 @@ export default function SingleSubmissionScreen({
         setLoading(false);
         console.log(
           "🚀 ~ file: SelectInput.jsx ~ line 44 ~ getData ~ error",
-          JSON.parse(JSON.stringify(error))
+          error
         );
       }
     );
@@ -212,11 +212,11 @@ export default function SingleSubmissionScreen({
         <ListRow label="company" value={data?.company?.name} />
         <ListRow label="Submitted" value={data?.formattedCreatedOn} />
         <ListRow label="approver" value={data?.approver?.name} />
+        <ListRow label="Status" value={data?.status} />
         {!isOverRide && (
           <>
-            <ListRow label="requester" value={data?.employee?.name} />
+            {/* <ListRow label="requester" value={data?.employee?.name} /> */}
             <ListRow label="TWR No#" value={data?.twr} />
-            <ListRow label="Status" value={data?.status} />
             <ListRow label="unit" value={data?.unit?.name} />
           </>
         )}
@@ -287,13 +287,13 @@ export default function SingleSubmissionScreen({
         {isOverRide && (
           <>
             <ListRow label="override Type" value={data?.overrideType?.name} />
-            <ListRow label="override Hours" value={data?.overrideHours} />
-            <ListRow label="requester" value={data?.employee?.name} />
+            <ListRow label="Hours" value={data?.overrideHours} />
+            {/* <ListRow label="requester" value={data?.employee?.name} /> */}
             {/* <ListRow label="requester Email" value={data?.requesterEmail} /> */}
-            <ListRow label="craft Rate" value={data?.craftRate?.name} />
+            {/* <ListRow label="craft Rate" value={data?.craftRate?.name} /> */}
             <ListRow label="craft Skill" value={data?.craftSkill?.name} />
             <ListRow
-              label="Work Completed Date"
+              label="Completed"
               value={data?.formattedDateOfWorkCompleted}
             />
             <ListRow label="po Number#" value={data?.poNumber} />
@@ -302,6 +302,7 @@ export default function SingleSubmissionScreen({
               value={data?.reasonForRequest?.name}
             />
             <ListRow label="shift" value={data?.shift?.name} />
+            <ListRow label="work Scope" value={data?.workScope} />
             <ListRow label="description" value={data?.description} />
           </>
         )}

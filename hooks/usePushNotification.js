@@ -32,11 +32,11 @@ export const usePushNotification = () => {
 
     const openDetailNotif = (item) => {
         console.log("🚀 ~ file: usePushNotification.js:32 ~ openDetailNotif ~ item", item)
-        if (item?.LogType) {
-            console.log("🚀 ~ file: usePushNotification.js:34 ~ openDetailNotif ~ navigation", navigation)
+        if (item?.EntityId) {
             navigation.navigate("SingleSubmission", {
-                id: item?.LogId,
-                apiUrl: item?.LogType == 1 ? "/TOTLog" : "/OverrideLog",
+                id: item?.EntityId,
+                // apiUrl: item?.LogType == 1 ? "/TOTLog" : "/OverrideLog",
+                apiUrl: item?.EntityType == 'TOTLog' ? '/TOTLog' : '/OverrideLog'
             })
             
             // if (objectNotEmpty(navigation)) {

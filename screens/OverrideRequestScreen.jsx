@@ -28,6 +28,7 @@ export default function OverrideRequestScreen({ navigation, route }) {
     const params = {
       ...formValues,
       requester: { id: userDetail?.id, name: userDetail?.name },
+      company: { id: userDetail?.company?.id, name: userDetail?.company?.name },
     };
 
     console.log("🚀 ~ file: OverrideRequestScreen.jsx ~ line 25 ~ onSubmit ~ params", params)

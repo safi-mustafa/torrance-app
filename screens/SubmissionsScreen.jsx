@@ -14,12 +14,12 @@ export default function SubmissionsScreen({ navigation }) {
       component: null,
       cellOptions: { titleLabel: 'TWR#: ', titleField: "twr", subTitleField: "formattedCreatedOn" },
     },
-    // {
-    //   name: "WeldingRods",
-    //   tabTitle: "Welding Rods",
-    //   params: { title: "Welding Rods", url: "/WRRLog" },
-    //   cellOptions: { titleLabel: 'TWR-WO#: ',titleField: "twr" },
-    // },
+    {
+      name: "WeldingRods",
+      tabTitle: "Welding Rods",
+      params: { title: "Welding Rods", url: "/WRRLog" },
+      cellOptions: { titleLabel: 'TWR-WO#: ',titleField: "twr" },
+    },
     {
       name: "Override",
       tabTitle: "Override",

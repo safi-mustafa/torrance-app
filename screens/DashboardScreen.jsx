@@ -6,30 +6,30 @@ import { DashboardMenu } from "../components/DashboadMenu";
 import ProfileCard from "../components/ProfileCard";
 
 const TOT_IMAGE = require("./../assets/images/journal-book.png");
-// const WRR_IMAGE = require("./../assets/images/welding.png");
+const WRR_IMAGE = require("./../assets/images/welding.png");
 const OVERRIDE_IMAGE = require("./../assets/images/override.png");
 
 export default function DashboardScreen({ navigation }) {
   return (
     <View style={[styles.innerContainer]}>
-      <View style={{ height: 265 }}>
+      <View style={{ height: 280 }}>
         <ProfileCard
           footer={
             <>
               <DashButton
-                style={{ marginBottom: 15 }}
+                style={{ marginBottom: 10 }}
                 title="Submit TOT Request"
                 subtitle="Time on Tools"
                 icon={TOT_IMAGE}
                 onPress={() => navigation.push("TotRequest")}
               />
-              {/* <DashButton
-                style={{ marginBottom: 15 }}
+              <DashButton
+                style={{ marginBottom: 10 }}
                 title="Submit WRR Request"
                 subtitle="Welding Rod Record"
                 icon={WRR_IMAGE}
                 onPress={() => navigation.push("WrrRequest")}
-              /> */}
+              />
               <DashButton
                 style={{ marginBottom: 15 }}
                 title="Submit Override Request"

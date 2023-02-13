@@ -17,7 +17,8 @@ export function DashButton({
     <TouchableOpacity
       style={{
         backgroundColor: Colors[colorScheme].background,
-        padding: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
         borderRadius: 6,
         width: "100%",
         ...style,
@@ -25,10 +26,10 @@ export function DashButton({
       {...otherProps}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        {icon && <Image style={{height: 50, width: 50, marginRight: 20}} source={icon} />}
+        {icon && <Image style={{height: 35, width: 35, marginRight: 20}} source={icon} />}
         <View>
-          <Text style={{ color: "#ccc" }}>Quick Submit</Text>
-          <Text style={[appStyles.h5, appStyles.fw500, appStyles.my1]}>
+          {/* <Text style={{ color: "#ccc" }}>Quick Submit</Text> */}
+          <Text style={[{fontSize: 16}, appStyles.fw500, appStyles.my1]}>
             {title}
           </Text>
           <Text style={{ color: "#999" }}>{subtitle}</Text>

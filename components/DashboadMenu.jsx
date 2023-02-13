@@ -10,7 +10,7 @@ import {
 import getData from "../api-services/getData";
 
 import appStyles from "../app-styles";
-import Layout from "../constants/Layout";
+// import Layout from "../constants/Layout";
 import FileCell from "./cell-templates/FileCell";
 import Loader from "../components/Loader";
 import { useEffect, useState } from "react";
@@ -45,7 +45,7 @@ export function DashboardMenu({ navigation }) {
 
   useEffect(() => {
     getFolders();
-    getDropboxUrl();
+    // getDropboxUrl();
     return () => {};
   }, []);
 
@@ -117,7 +117,7 @@ export function DashboardMenu({ navigation }) {
             onPress={() => onMenuPress({...item,url:`/Folder/${item?.id}`, template: <FileCell />})}
           >
             <View style={styles.innerBtnWrapper}>
-              <View>
+              <View style={{width:"70%"}}>
                 <Text style={[appStyles.fw500, appStyles.my1]}>
                   {item?.name}
                 </Text>
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingHorizontal: 10,
     paddingVertical: 15,
-    marginBottom: 20,
+    marginBottom: 15,
     borderRadius: 6,
     width: "48%",
     shadowColor: "#000",

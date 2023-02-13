@@ -11,7 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import appStyles from "../app-styles";
 import { lightColor } from "../constants/Colors";
 import { useEffect, useState } from "react";
-import { getKey } from "../utility";
+import { getKey, saveKey } from "../utility";
 import ProfileCard from "../components/ProfileCard";
 import useUserMeta from "../hooks/useUserMeta";
 import { USER_ROLE } from "../constants/Misc";
@@ -20,11 +20,13 @@ export default function ProfileScreen({ navigation }) {
   // const [user, setUser] = useState({});
   const { role = "", userMeta } = useUserMeta();
   const user = userMeta;
+  console.log("🚀 ~ file: ProfileScreen.jsx:23 ~ ProfileScreen ~ user", user);
   const isApprover = USER_ROLE.APPROVER == role;
 
   const onLogOut = () => {
     // console.log("🚀 ~ file: ProfileScreen.jsx ~ line 31 ~ onLogOut ~ Logout", Logout)
     // alert('Logout')
+    saveKey("user", "");
     navigation.replace("Root");
   };
 
@@ -42,12 +44,12 @@ export default function ProfileScreen({ navigation }) {
           <Text style={styles.label}>Email:</Text>
           <Text style={styles.values}>{user?.email}</Text>
         </View>
+        <View style={[appStyles.my1, styles.section]}>
+          <Text style={styles.label}>Name:</Text>
+          <Text style={styles.values}>{user?.fullName}</Text>
+        </View>
         {!isApprover ? (
           <>
-            <View style={[appStyles.my1, styles.section]}>
-              <Text style={styles.label}>Full Name:</Text>
-              <Text style={styles.values}>{user?.firstName}</Text>
-            </View>
             <View style={[appStyles.my1, styles.section]}>
               <Text style={styles.label}>Company:</Text>
               <Text style={styles.values}>{user?.company?.name}</Text>
@@ -55,14 +57,6 @@ export default function ProfileScreen({ navigation }) {
           </>
         ) : (
           <>
-            <View style={[appStyles.my1, styles.section]}>
-              <Text style={styles.label}>Name:</Text>
-              <Text style={styles.values}>{user?.userName}</Text>
-            </View>
-            <View style={[appStyles.my1, styles.section]}>
-              <Text style={styles.label}>Phone:</Text>
-              <Text style={styles.values}>{user?.phoneNumber}</Text>
-            </View>
             <View style={[appStyles.my1, styles.section]}>
               <Text style={styles.label}>Unit(s):</Text>
               <Text style={styles.values}>{user?.formattedUnits}</Text>

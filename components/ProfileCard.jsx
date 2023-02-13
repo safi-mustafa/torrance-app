@@ -10,19 +10,22 @@ import appStyles from "../app-styles";
 import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 import useUserMeta from "../hooks/useUserMeta";
-import { USER_ROLE } from "../constants/Misc";
+// import { USER_ROLE } from "../constants/Misc";
 
 const BG_IMAGE = require("./../assets/images/bg-blue.png");
 
 export default function ProfileCard({
+  title = null,
   header = <></>,
   footer = <></>,
 }) {
   const colorScheme = useColorScheme();
   const { role = "", userMeta } = useUserMeta();
-  const isApprover = USER_ROLE.APPROVER == role;
-  const name = isApprover ? userMeta?.userName : userMeta?.firstName
-  
+  // const isApprover = USER_ROLE.APPROVER == role;
+  const name = title
+    ? title
+    : userMeta?.fullName;
+
   return (
     <>
       <ImageBackground

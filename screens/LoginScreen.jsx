@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-toast-message";
+import { Ionicons } from "@expo/vector-icons";
 
 import postData from "./../api-services/postData";
 import Loader from "../components/Loader";
@@ -19,6 +20,7 @@ import LoginForm from "../components/LoginForm";
 import LoginPin from "../components/LoginPin";
 import { LOGIN_TYPE } from "../constants/Misc";
 import { useRegisterExpoToken } from "../hooks/useRegisterNotification";
+import Buttonx from "../components/form/Buttonx";
 
 const BG_IMAGE = require("./../assets/images/bg-blue.png");
 const LOGO = require("./../assets/images/app-logo.png");
@@ -27,7 +29,7 @@ export default function LoginScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [loginType, setLoginType] = useState(LOGIN_TYPE.PIN);
   const expoToken = useRegisterExpoToken();
-  console.log("🚀 ~ file: LoginScreen.jsx:30 ~ LoginScreen ~ expoToken", expoToken)
+  // console.log("🚀 ~ file: LoginScreen.jsx:30 ~ LoginScreen ~ expoToken", expoToken)
 
   const onSubmit = (values) => {
     setLoading(true);
@@ -35,8 +37,8 @@ export default function LoginScreen({ navigation }) {
       loginType === LOGIN_TYPE.PIN
         ? `/Account/LoginUsingPincode`
         : `/Account/Login`;
-    let params = loginType !== LOGIN_TYPE.PIN ? values : {pincode: values};
-    params = {...params, deviceId: expoToken?.token}
+    let params = loginType !== LOGIN_TYPE.PIN ? values : { pincode: values };
+    params = { ...params, deviceId: expoToken?.token };
 
     postData(
       { url, params, showErrorMessage: false },
@@ -51,13 +53,11 @@ export default function LoginScreen({ navigation }) {
       },
       (error) => {
         setLoading(false);
+        console.log("🚀 ~ file: LoginScreen.jsx:51 ~ onSubmit ~ error", error);
         const { errors = [] } = error?.data;
-        console.log("🚀 ~ file: LoginScreen.jsx:51 ~ onSubmit ~ errors", errors)
         let message = "Something went wrong, Please try again.";
         if (typeof errors === "object") {
-          message = Object.entries(errors).map(
-            ([key, value]) => `${value}`
-          );
+          message = Object.entries(errors).map(([key, value]) => `${value}`);
           if (Array.isArray(message)) message = message.join(",");
         }
         Toast.show({
@@ -109,6 +109,13 @@ export default function LoginScreen({ navigation }) {
                 <Text style={styles.loginViaText}>
                   Login via {loginType == LOGIN_TYPE.FORM ? "Pin" : "Email"}
                 </Text>
+                <Buttonx
+                  title={
+                    <Ionicons name="arrow-back" size={34} color="white" />
+                  }
+                  style={{backgroundColor: "transparent", borderWidth:0}}
+                  onPress={() => navigation.pop()}
+                />
               </Pressable>
             </View>
           </View>

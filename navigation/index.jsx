@@ -28,6 +28,7 @@ import useUserMeta from "../hooks/useUserMeta";
 import { USER_ROLE } from "../constants/Misc";
 import ApprovalCell from "../components/cell-templates/ApprovalCell";
 import BlankScreen from "../screens/BlankScreen";
+import WelcomeScreen from "../screens/WelcomeScreen";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -47,6 +48,11 @@ function RootNavigator() {
     <Stack.Navigator>
       <Stack.Screen
         name="Root"
+        component={WelcomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Login"
         component={LoginScreen}
         options={{ headerShown: false }}
       />

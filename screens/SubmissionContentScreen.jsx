@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 
 import getData from "../api-services/getData";
 import ListCell from "../components/ListCell";
+import Layout from "../constants/Layout";
 
 export default function SubmissionContentScreen({
   route = {},
@@ -51,7 +52,7 @@ export default function SubmissionContentScreen({
         console.log(
           "🚀 ~ file: SelectInput.jsx ~ line 44 ~ getData ~ error",
           params?.url,
-          JSON.parse(JSON.stringify(error))
+          error
         );
       }
     );
@@ -103,11 +104,13 @@ export default function SubmissionContentScreen({
 const styles = StyleSheet.create({
   container: {
     width: "100%",
+    // height: Layout.window.height
     // backgroundColor: '#fff'
   },
   scrollView: {
     padding: 10,
     marginTop: 8,
+    // height: Layout.window.height
   },
   title: {
     fontSize: 20,

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Linking
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import * as Sharing from "expo-sharing";
@@ -25,6 +26,7 @@ const iconSources = {
   ".png": require("./../../assets/images/png.png"),
   ".pdf": require("./../../assets/images/pdf.png"),
   ".xlsx": require("./../../assets/images/xlsx.png"),
+  "link": require("./../../assets/images/link.png"),
 };
 
 export default function FileCell({ item, navigation, cellOptions = {} }) {
@@ -55,7 +57,7 @@ export default function FileCell({ item, navigation, cellOptions = {} }) {
       const dir = ensureDirAsync(downloadPath);
     }
 
-    let fileName = fileUrl.replace(/^.*[\\\/]/, '')
+    let fileName = fileUrl.replace(/^.*[\\\/]/, "");
     const downloadResumable = FileSystem.createDownloadResumable(
       fileUrl,
       downloadPath + fileName,
@@ -105,8 +107,19 @@ export default function FileCell({ item, navigation, cellOptions = {} }) {
   };
 
   const saveIosFile = async (uri) => {
-    console.log("🚀 ~ file: FileCell.jsx ~ line 107 ~ saveIosFile ~ uri", uri)
+    console.log("🚀 ~ file: FileCell.jsx ~ line 107 ~ saveIosFile ~ uri", uri);
     await Sharing.shareAsync(uri);
+  };
+
+  const openUrl = ({url}) => {
+    Linking.openURL(url).catch((err) => console.error("Error", err));
+  }
+
+  const onPressFile = (item) => {
+    if(item?.type=='link')
+    openUrl(item);
+    else
+    downloadFile(STORAGE_URL + item?.url);
   };
 
   return (
@@ -119,11 +132,13 @@ export default function FileCell({ item, navigation, cellOptions = {} }) {
         />
         <View>
           <Text style={styles.label}>{item?.name}</Text>
-          <Text style={{ color: "#999", fontSize: 12, marginTop: 2 }}>{getFormatedDate(item?.createdOn)}</Text>
+          <Text style={{ color: "#999", fontSize: 12, marginTop: 2 }}>
+            {getFormatedDate(item?.createdOn)}
+          </Text>
         </View>
       </View>
       <Pressable
-        onPress={() => downloadFile(STORAGE_URL + item?.url)}
+        onPress={() => onPressFile(item)}
         style={({ pressed }) => ({
           opacity: pressed ? 0.5 : 1,
         })}

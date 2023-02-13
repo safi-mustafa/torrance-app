@@ -7,6 +7,7 @@ const postData = ({ url = "", params = {}, showErrorMessage = true }, onSuccess,
   client.post(url, { ...params })
     .then((response) => onSuccess(response.data), (error) => {
       const parsedError = JSON.parse(JSON.stringify(error));
+      console.log("🚀 ~ file: postData.js:10 ~ .then ~ parsedError", parsedError,error?.response)
       onError(parsedError?.response);
       let { status } = error?.response;
       if (status > 204 && showErrorMessage) {

@@ -113,14 +113,14 @@ export const wrrFields = [
     label: "Rod returned waste (lbs)",
     keyboardType: "numeric",
   },
-  {
-    name: "approver",
-    inputType: "select",
-    url: "/Account/getAllUsers?role=approver",
-    placeholder: "Select Approver",
-    labelAttributes: "userName",
-    label: "Approver",
-    zIndex: 993,
-    required: true
-  }, 
+  // {
+  //   name: "approver",
+  //   inputType: "select",
+  //   url: "/Account/getAllUsers?role=approver",
+  //   placeholder: "Select Approver",
+  //   labelAttributes: "userName",
+  //   label: "Approver",
+  //   zIndex: 993,
+  //   required: true
+  // }, 
 ];

@@ -4,8 +4,9 @@ import client from "./api-client";
 const getData = async ({ url = "", params = {} }, onSuccess = () => { }, onError = () => { }) => {
   client.get(url, { ...params })
     .then((response) => onSuccess(response.data), (error) => {
-      onError(error);
-      let resMessage = error?.response?.data?.errors?.message;
+      const parsedError = JSON.parse(JSON.stringify(error));
+      onError(parsedError?.response);
+      let resMessage = error?.response;
       let message = Array.isArray(resMessage)
         ? resMessage.join(".")
         : "Something went wrong, Please try again.";
