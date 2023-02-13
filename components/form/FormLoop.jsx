@@ -74,9 +74,9 @@ export default function FormLoop({
                 <View style={styles.inputWrapper}>
                   <Putin {..._props} />
 
-                  <Text style={styles.inputError}>
+                  {getError(errors, elementAttribs) && <Text style={styles.inputError}>
                     {getError(errors, elementAttribs)}
-                  </Text>
+                  </Text>}
                 </View>
               </View>
             )}
@@ -94,13 +94,13 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   inputWrapper: {
-    marginBottom: 0,
+    marginBottom: 10,
   },
   inputError: {
     color: "red",
-    minHeight: 20,
+    // minHeight: 20,
     marginTop: 2,
-    marginBottom: 5,
+    marginBottom: 10,
     // position: "absolute"
   },
 });

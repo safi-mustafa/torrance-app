@@ -43,15 +43,15 @@ export const totFields = [
     required: true,
     zIndex: 1000,
   },
-  {
-    name: "reasonForRequest",
-    inputType: "select",
-    url: "/ReasonForRequest",
-    placeholder: "Select Scope",
-    label: "Work Scope",
-    required: true,
-    zIndex: 998,
-  },
+  // {
+  //   name: "reasonForRequest",
+  //   inputType: "select",
+  //   url: "/ReasonForRequest",
+  //   placeholder: "Select Scope",
+  //   label: "Work Scope",
+  //   required: true,
+  //   zIndex: 998,
+  // },
   {
     name: "delayType",
     inputType: "select",
@@ -100,7 +100,7 @@ export const totFields = [
     label: "TWR #",
     inputType: 'p',
     required: true,
-    wrapperStyle: { marginBottom: -60, paddingTop: 25 },
+    wrapperStyle: { marginBottom: -40, paddingTop: 25 },
   },
   {
     name: "twr_text",

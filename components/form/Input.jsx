@@ -14,6 +14,7 @@ export default function Input(props) {
       }}
       {...props}
       value={props.value ? props.value.toString() : ""}
+      onChangeText={(value) => props.setFieldValue(props?.name, value)}
     />
   );
 }

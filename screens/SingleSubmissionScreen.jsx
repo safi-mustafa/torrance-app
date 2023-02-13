@@ -213,11 +213,13 @@ export default function SingleSubmissionScreen({
         <ListRow label="Submitted" value={data?.formattedCreatedOn} />
         <ListRow label="approver" value={data?.approver?.name} />
         <ListRow label="Status" value={data?.status} />
+        <ListRow label="Department" value={data?.department?.name} />
+        <ListRow label="unit" value={data?.unit?.name} />
+
         {!isOverRide && (
           <>
             {/* <ListRow label="requester" value={data?.employee?.name} /> */}
             <ListRow label="TWR No#" value={data?.twr} />
-            <ListRow label="unit" value={data?.unit?.name} />
           </>
         )}
 
@@ -286,12 +288,36 @@ export default function SingleSubmissionScreen({
         )}
         {isOverRide && (
           <>
-            <ListRow label="override Type" value={data?.overrideType?.name} />
+            <ListRow
+              label="Costs"
+              value={
+                <>
+                  <View style={styles.tr}>
+                    <Text style={[styles.td, styles.head]}>Type</Text>
+                    <Text style={[styles.td, styles.head]}>Hours</Text>
+                    <Text style={[styles.td, styles.head]}>Craft Skill</Text>
+                  </View>
+                  {data?.costs &&
+                    data?.costs.map((item) => (
+                      <>
+                        <View style={styles.tr}>
+                          <Text style={styles.td}>{item?.overrideType}</Text>
+                          <Text style={styles.td}>{item?.overrideHours}</Text>
+                          <Text style={styles.td}>
+                            {item?.craftSkill?.name}
+                          </Text>
+                        </View>
+                      </>
+                    ))}
+                </>
+              }
+            />
+            {/* <ListRow label="override Type" value={data?.overrideType?.name} />
             <ListRow label="Hours" value={data?.overrideHours} />
+            <ListRow label="craft Skill" value={data?.craftSkill?.name} /> */}
             {/* <ListRow label="requester" value={data?.employee?.name} /> */}
             {/* <ListRow label="requester Email" value={data?.requesterEmail} /> */}
             {/* <ListRow label="craft Rate" value={data?.craftRate?.name} /> */}
-            <ListRow label="craft Skill" value={data?.craftSkill?.name} />
             <ListRow
               label="Completed"
               value={data?.formattedDateOfWorkCompleted}
@@ -363,4 +389,14 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     // flexDirection: "row",
   },
+  tr: {
+    flexDirection: "row",
+    justifyContent: 'space-between',
+    width: '100%'
+  },
+  td: {},
+  head:{
+    fontWeight: 'bold',
+    marginBottom: 5
+  }
 });

@@ -17,17 +17,33 @@ export default function WrrRequestScreen({ navigation, route }) {
   const [apiErrors, setApiErrors] = useState({});
 
   const { params = {} } = route;
-  const initialValues = params?.id ? { ...params } : {};
+  const initialValues = params?.id ? { 
+    ...params,
+    alphabeticPart: params?.twrModel?.alphabeticPart,
+        numericPart: params?.twrModel?.numericPart,
+        twrText: params?.twrModel?.text,
+  } : {};
   const isEdit = params && params.id;
 
   const onSubmit = async (formValues = []) => {
     const userMeta = await getKey("user");
     const { userDetail = {} } = JSON.parse(userMeta);
 
+    const {
+      // alphabeticPart = null,
+      // numericPart = null,
+      twrText = null,
+    } = formValues;
+    const alphabeticPart =
+      formValues?.alphabeticPart?.id == 0 ? {} : formValues?.alphabeticPart;
+    const numericPart =
+      formValues?.numericPart?.id == 0 ? {} : formValues?.numericPart;
+
     const params = {
       ...formValues,
       fumeControlUsed: formValues?.fumeControlUsed ? 0 : 1,
       employee: { id: userDetail?.id, name: userDetail?.name },
+      twrModel: { alphabeticPart, numericPart, text: twrText },
     };
     console.log(
       "🚀 ~ file: WrrRequestScreen.jsx ~ line 22 ~ onSubmit ~ params",
@@ -155,6 +171,11 @@ export default function WrrRequestScreen({ navigation, route }) {
                   values={values}
                   errors={apiErrors}
                   handleSubmit={handleSubmit}
+                  formStyle={{
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                  }}
                 />
                 <Pressable
                   style={[appStyles.btn, appStyles.btnPrimary]}

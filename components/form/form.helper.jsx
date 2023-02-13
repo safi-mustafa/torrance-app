@@ -4,6 +4,7 @@ import Buttonx from "./Buttonx";
 import Input from "./Input";
 import SelectInput from "./SelectInput";
 import SwitchInput from "./SwitchInput";
+import TableInput from "./TableInput";
 import TextArea from "./TextArea";
 
 export const inputTypes = {
@@ -15,6 +16,7 @@ export const inputTypes = {
   button: <Buttonx />,
   select: <SelectInput />,
   textarea: <TextArea />,
+  tableInput: <TableInput />,
 };
 export const getInputType = ({ inputType }) => {
   const output = inputTypes[inputType] ? inputTypes[inputType] : <Input />;

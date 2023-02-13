@@ -11,10 +11,12 @@ import Loader from "../components/Loader";
 import { overrideFields } from "../fields/override.fields";
 import { getKey } from "../utility";
 import postData from "./../api-services/postData";
+import OverrideCostForm from "../components/OverrideCostForm";
 
 export default function OverrideRequestScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [apiErrors, setApiErrors] = useState({});
+  const [costFormValues, setCostFormValues] = useState([]);
 
   const { params = {} } = route;
   const initialValues = params?.id ? { ...params } : {};
@@ -24,14 +26,20 @@ export default function OverrideRequestScreen({ navigation, route }) {
     const userMeta = await getKey("user");
     const { userDetail = {} } = JSON.parse(userMeta);
 
-    setLoading(true);
     const params = {
       ...formValues,
       requester: { id: userDetail?.id, name: userDetail?.name },
       company: { id: userDetail?.company?.id, name: userDetail?.company?.name },
+      costs: costFormValues,
     };
 
-    console.log("🚀 ~ file: OverrideRequestScreen.jsx ~ line 25 ~ onSubmit ~ params", params)
+    console.log(
+      "🚀 ~ file: OverrideRequestScreen.jsx ~ line 25 ~ onSubmit ~ params",
+      params
+    );    
+    // return;
+
+    setLoading(true);
     if (!isEdit) {
       postData(
         {
@@ -79,44 +87,52 @@ export default function OverrideRequestScreen({ navigation, route }) {
     setLoading(false);
   };
 
+  const onCostFormChange = (costValues) => {
+    console.log(
+      "🚀 ~ file: OverrideRequestScreen.jsx:87 ~ onCostFormChange ~ costValues",
+      costValues
+    );
+    setCostFormValues(costValues);
+  };
+
   const dummyVal = {
-    "reasonForRequest": {
-        "id": 3,
-        "name": "Reason B"
+    reasonForRequest: {
+      id: 3,
+      name: "Reason B",
     },
-    "unit": {
-        "id": 1,
-        "name": "Unit A"
+    unit: {
+      id: 1,
+      name: "Unit A",
     },
-    "craftRate": {
-        "id": 2,
-        "name": "12.45"
+    craftRate: {
+      id: 2,
+      name: "12.45",
     },
-    "shift": {
-        "id": 1,
-        "name": "Day"
+    shift: {
+      id: 1,
+      name: "Day",
     },
-    "craftSkill": {
-        "id": 2,
-        "name": "Carpentry"
+    craftSkill: {
+      id: 2,
+      name: "Carpentry",
     },
-    "overrideType": {
-        "id": 3,
-        "name": "Override Type B"
+    overrideType: {
+      id: 3,
+      name: "Override Type B",
     },
-    "approver": {
-        "id": 10013,
-        "name": "ammad@centangle.com"
+    approver: {
+      id: 10013,
+      name: "ammad@centangle.com",
     },
-    "overrideHours": "12",
-    "poNumber": "34",
-    "workCompletedDate": "2023-02-06",
-    "description": "Test desc",
-    "requester": {
-        "id": 10,
-        "name": "Nunez Adrian"
-    }
-};
+    overrideHours: "12",
+    poNumber: "34",
+    workCompletedDate: "2023-02-06",
+    description: "Test desc",
+    requester: {
+      id: 10,
+      name: "Nunez Adrian",
+    },
+  };
 
   return (
     <>
@@ -138,6 +154,7 @@ export default function OverrideRequestScreen({ navigation, route }) {
               setFieldValue,
             }) => (
               <>
+                
                 <FormLoop
                   fields={overrideFields}
                   handleChange={handleChange}
@@ -146,6 +163,11 @@ export default function OverrideRequestScreen({ navigation, route }) {
                   values={values}
                   errors={apiErrors}
                   handleSubmit={handleSubmit}
+                />
+                <OverrideCostForm
+                  onFormChange={onCostFormChange}
+                  values={values}
+                  key="costs"
                 />
                 <Pressable
                   style={[appStyles.btn, appStyles.btnPrimary]}
