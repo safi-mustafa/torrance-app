@@ -1,45 +1,78 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import Buttonx from "./form/Buttonx";
 import FormLoop from "./form/FormLoop";
-
-const fields = [
-  {
-    name: "overrideType",
-    inputType: "select",
-    url: "/OverrideLog/GetOverrideTypes",
-    placeholder: "Select Type",
-    label: "Override Type",
-    zIndex: 3000,
-    labelAttributes: "text",
-    wrapperStyle: { width: "35%", marginRight: 2 },
-  },
-  {
-    name: "hours",
-    placeholder: "Enter hours",
-    label: "Hours",
-    // inputType: "text",
-    keyboardType: "numeric",
-    wrapperStyle: { width: "25%", marginRight: 2 },
-  },
-  {
-    name: "craftSkill",
-    inputType: "select",
-    url: "/CraftSkill",
-    placeholder: "Select Skill",
-    label: "Craft Skill",
-    required: true,
-    zIndex: 3001,
-    wrapperStyle: { width: "30%", marginRight: 2 },
-  },
-];
+import { getKey } from "../utility";
 
 const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
-  console.log("🚀 ~ file: OverrideCostForm.jsx:40 ~ OverrideCostForm ~ errors", errors)
-  const defaultValues = values?.costs ? values?.costs : [];
+
+  const formatCostValues = (costValues) =>{
+    let t= costValues.map((cost) => ({...cost, overrideType:{id: cost.overrideType, name: cost.overrideType}}))
+    // console.log("🚀 ~ file: OverrideCostForm.jsx:12 ~ formatCostValues ~ t", t)
+    return t;
+  }
+
+  const defaultValues = values?.costs ? formatCostValues(values?.costs) : [];
   const [rows, setRows] = useState(defaultValues);
+  const [user, setUser] = useState({});
+
+  const getUserDetail = async () => {
+    const userMeta = await getKey("user");
+    const { userDetail = {} } = JSON.parse(userMeta);
+    setUser(userDetail);
+  };
+
+  const fields = [
+    {
+      name: "overrideType",
+      inputType: "select",
+      // url: "/OverrideLog/GetOverrideTypes",
+      options: [
+        {
+          value: "ST",
+          label: "ST"
+        },
+        {
+          value: "OT",
+          label: "OT"
+        },
+        {
+          value: "DT",
+          label: "DT"
+        }
+      ],
+      placeholder: "Select Type",
+      label: "Override Type",
+      zIndex: 3000,
+      // labelAttributes: "text",
+      wrapperStyle: { width: "35%", marginRight: 2 },
+    },
+    {
+      name: "overrideHours",
+      placeholder: "Enter hours",
+      label: "Hours",
+      // inputType: "text",
+      keyboardType: "numeric",
+      wrapperStyle: { width: "25%", marginRight: 2 },
+    },
+    {
+      name: "craftSkill",
+      inputType: "select",
+      url: "/CraftSkill?Company.Id=" + user?.company?.id,
+      placeholder: "Select Skill",
+      label: "Craft Skill",
+      required: true,
+      zIndex: 3001,
+      wrapperStyle: { width: "30%", marginRight: 2 },
+    },
+  ];
+
+  useEffect(() => {
+    getUserDetail();
+  }, [])
+  
 
   const handleAdd = () => {
     const updatedRows = [...rows, { edit: false }];
@@ -54,18 +87,18 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
   };
 
   const onValueChange = (key, value, index) => {
-
     let newVals = rows.map((val, i) => {
       if (i === index) {
-        let newVal = value
-        if(key=='overrideType'){
-          newVal = value?.name
+        let newVal = value;
+        if (key == "overrideType") {
+          newVal = value?.name;
         }
         return { ...val, [key]: newVal };
       }
       return val;
     });
 
+    console.log("🚀 ~ file: OverrideCostForm.jsx:104 ~ onValueChange ~ newVals", newVals)
     setRows(newVals);
     onFormChange(newVals);
   };
@@ -82,7 +115,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
           ))}
           <Text style={styles.td}>
             <Buttonx
-              title={<Ionicons name="add-circle" size={24} color="black" />}
+              title={<Ionicons name="add-circle" size={30} color="black" />}
               style={{
                 backgroundColor: "transparent",
                 borderWidth: 0,
@@ -92,31 +125,34 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
             />
           </Text>
         </View>
-        {rows && rows.map((row, i) => (
-          <View key={i} style={[styles.tr, styles.body]}>
-            <FormLoop
-              fields={fields.map((field) => ({ ...field, label: "" }))}
-              handleChange={(key, value) => {}}
-              handleBlur={(key, value) => {}}
-              setFieldValue={(key, value) => {
-                onValueChange(key, value, i);
-              }}
-              values={rows[i]}
-              errors={{}}
-              handleSubmit={() => {}}
-              formStyle={styles.tr}
-            />
-            <Buttonx
-              title={<Ionicons name="remove-circle" size={24} color="black" />}
-              style={{
-                backgroundColor: "transparent",
-                borderWidth: 0,
-                padding: 0,
-              }}
-              onPress={() => handleDelete(i)}
-            />
-          </View>
-        ))}
+        {rows &&
+          rows.map((row, i) => (
+            <View key={i} style={[styles.tr, styles.body]}>
+              <FormLoop
+                fields={fields.map((field) => ({ ...field, label: "" }))}
+                handleChange={(key, value) => {}}
+                handleBlur={(key, value) => {}}
+                setFieldValue={(key, value) => {
+                  onValueChange(key, value, i);
+                }}
+                values={rows[i]}
+                errors={{}}
+                handleSubmit={() => {}}
+                formStyle={styles.tr}
+              />
+              <Buttonx
+                title={
+                  <Ionicons name="remove-circle" size={30} color="black" />
+                }
+                style={{
+                  backgroundColor: "transparent",
+                  borderWidth: 0,
+                  padding: 0,
+                }}
+                onPress={() => handleDelete(i)}
+              />
+            </View>
+          ))}
       </View>
     </>
   );

@@ -17,6 +17,7 @@ export default function SelectInput({
   value,
   ...otherProps
 }) {
+  // console.log("🚀 ~ file: SelectInput.jsx:20 ~ options", options)
   // console.log("🚀 ~ file: SelectInput.tsx ~ line 16 ~ otherProps", name, url);
   // const [option, setOption] = useState(
   //   otherProps?.value ? parseInt(otherProps.value) : otherProps?.value

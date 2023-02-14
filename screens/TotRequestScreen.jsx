@@ -112,10 +112,7 @@ export default function TotRequestScreen({ navigation, route }) {
       id: 1,
       name: "Storm",
     },
-    foreman: {
-      id: 12,
-      name: "foreman@centangle.com",
-    },
+    foreman: "",
     unit: {
       id: 1,
       name: "Unit A",

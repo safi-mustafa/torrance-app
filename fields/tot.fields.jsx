@@ -16,6 +16,11 @@ export const totFields = [
     label: "Unit",
     required: true,
     zIndex: 2999,
+    condition: {
+      fieldName: "department",
+      action: "useValue",
+      paramField: "Department.Id",
+    },
     // wrapperStyle: { paddingBottom: 40 },
   },
   {
@@ -77,12 +82,12 @@ export const totFields = [
   // },
   {
     name: "foreman",
-    inputType: "select",
-    url: "/Account/getAllUsers?role=foreman",
-    placeholder: "Select Foreman",
-    labelAttributes: "userName",
+    placeholder: "Enter Foreman",
     label: "Foreman",
-    zIndex: 996,
+    // inputType: "select",
+    // url: "/Account/getAllUsers?role=foreman",
+    // labelAttributes: "userName",
+    // zIndex: 996,
   },
   {
     name: "equipmentNo",
@@ -94,7 +99,7 @@ export const totFields = [
   {
     name: "twr_label",
     label: "TWR #",
-    inputType: 'p',
+    inputType: "p",
     required: true,
     wrapperStyle: { marginBottom: -40, paddingTop: 25 },
   },
@@ -157,7 +162,6 @@ export const totFields = [
   //   required: true,
   //   zIndex: 996,
   // },
-
 
   // {
   //   name: "company",
@@ -222,13 +226,13 @@ export const totFields = [
   //   required: true,
   //   zIndex: 993,
   // },
-  {
-    name: "jobDescription",
-    placeholder: "Enter Description",
-    label: "Description",
-    required: true,
-    inputType: "textarea",
-  },
+  // {
+  //   name: "jobDescription",
+  //   placeholder: "Enter Description",
+  //   label: "Description",
+  //   required: true,
+  //   inputType: "textarea",
+  // },
   // {
   //   name: "approver",
   //   inputType: "select",

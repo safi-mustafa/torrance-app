@@ -227,7 +227,7 @@ export default function SingleSubmissionScreen({
         {isWRR && (
           <>
             <ListRow label="weld Method" value={data?.weldMethod?.name} />
-            <ListRow label="email" value={data?.email} />
+            {/* <ListRow label="email" value={data?.email} /> */}
             {/* <ListRow
               label="Calibration Date"
               value={getFormatedDate(data?.calibrationDate)}
@@ -270,7 +270,7 @@ export default function SingleSubmissionScreen({
         {isTOT && (
           <>
             <ListRow label="Equipment No#" value={data?.equipmentNo} />
-            <ListRow label="Foreman" value={data?.foreman?.name} />
+            <ListRow label="Foreman" value={data?.foreman?.name ? data?.foreman?.name : data?.foreman} />
             <ListRow
               label="Start Date"
               value={getFormatedDate(data?.formattedStartOfWork)}
@@ -285,7 +285,7 @@ export default function SingleSubmissionScreen({
             />
             <ListRow label="shift" value={data?.shift?.name} />
             <ListRow label="work Scope" value={data?.workScope} />
-            <ListRow label="description" value={data?.jobDescription} />
+            {/* <ListRow label="description" value={data?.jobDescription} /> */}
           </>
         )}
         {isOverRide && (
@@ -331,7 +331,7 @@ export default function SingleSubmissionScreen({
             />
             <ListRow label="shift" value={data?.shift?.name} />
             <ListRow label="work Scope" value={data?.workScope} />
-            <ListRow label="description" value={data?.description} />
+            {/* <ListRow label="description" value={data?.description} /> */}
           </>
         )}
       </ScrollView>

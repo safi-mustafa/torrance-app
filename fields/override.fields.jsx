@@ -57,6 +57,11 @@ export const overrideFields = [
     label: "Unit",
     required: true,
     zIndex: 1003,
+    condition: {
+      fieldName: "department",
+      action: "useValue",
+      paramField: "Department.Id",
+    },
   },
   {
     name: "shift",
@@ -150,13 +155,13 @@ export const overrideFields = [
     placeholder: "Enter Scope",
     label: "Work Scope",
   },
-  {
-    name: "description",
-    placeholder: "Enter Description",
-    label: "Description",
-    required: true,
-    inputType: "textarea",
-  },
+  // {
+  //   name: "description",
+  //   placeholder: "Enter Description",
+  //   label: "Description",
+  //   required: true,
+  //   inputType: "textarea",
+  // },
   // {
   //   name: "requester",
   //   inputType: "select",

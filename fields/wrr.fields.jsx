@@ -17,6 +17,11 @@ export const wrrFields = [
     label: "Unit",
     required: true,
     zIndex: 2000,
+    condition: {
+      fieldName: "department",
+      action: "useValue",
+      paramField: "Department.Id",
+    },
   },
   {
     name: "calibrationDate",
@@ -115,11 +120,11 @@ export const wrrFields = [
     required: true,
     zIndex: 997,
   },
-  {
-    name: "email",
-    label: "Email",
-    placeholder: "Enter Email",
-  },
+  // {
+  //   name: "email",
+  //   label: "Email",
+  //   placeholder: "Enter Email",
+  // },
   {
     name: "rodCheckedOut",
     inputType: "datetime",
