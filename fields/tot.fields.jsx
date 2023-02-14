@@ -43,15 +43,11 @@ export const totFields = [
     required: true,
     zIndex: 1000,
   },
-  // {
-  //   name: "reasonForRequest",
-  //   inputType: "select",
-  //   url: "/ReasonForRequest",
-  //   placeholder: "Select Scope",
-  //   label: "Work Scope",
-  //   required: true,
-  //   zIndex: 998,
-  // },
+  {
+    name: "workScope",
+    placeholder: "Enter Scope",
+    label: "Work Scope",
+  },
   {
     name: "delayType",
     inputType: "select",

@@ -30,7 +30,7 @@ export default function SingleSubmissionScreen({
   const { id, apiUrl, isApproval = false, ...otherRouteItems } = route.params;
   const [user, setUser] = useState({});
 
-  // const isWRR = apiUrl == "/WRRLog";
+  const isWRR = apiUrl == "/WRRLog";
   // const isApproval = apiUrl == "/Approval";
   const isTOT = apiUrl == "/TOTLog";
   const isOverRide = apiUrl == "/OverrideLog";
@@ -38,6 +38,7 @@ export default function SingleSubmissionScreen({
   const getNavUrl = () => {
     if (isTOT) return "TotRequest";
     else if (isOverRide) return "OverrideRequest";
+    else if(isWRR) return "WrrRequest"
     // else return "/Approval"
   };
   let NavUrl = getNavUrl();
@@ -152,8 +153,8 @@ export default function SingleSubmissionScreen({
         );
         Toast.show({
           type: STATUS.APPROVED == status ? "success" : "info",
-          text1: `${status}ed`,
-          text2: `${status}ed successfully`,
+          text1: `${status}`,
+          text2: `${status} successfully`,
         });
         navigation.goBack();
       },
@@ -223,8 +224,9 @@ export default function SingleSubmissionScreen({
           </>
         )}
 
-        {!isTOT && !isOverRide && (
+        {isWRR && (
           <>
+            <ListRow label="weld Method" value={data?.weldMethod?.name} />
             <ListRow label="email" value={data?.email} />
             {/* <ListRow
               label="Calibration Date"
@@ -262,7 +264,6 @@ export default function SingleSubmissionScreen({
               value={data?.rodReturnedWasteLbs}
             />
             <ListRow label="rod Type" value={data?.rodType?.name} />
-            <ListRow label="weld Method" value={data?.weldMethod?.name} />
           </>
         )}
 
@@ -283,6 +284,7 @@ export default function SingleSubmissionScreen({
               value={data?.reasonForRequest?.name}
             />
             <ListRow label="shift" value={data?.shift?.name} />
+            <ListRow label="work Scope" value={data?.workScope} />
             <ListRow label="description" value={data?.jobDescription} />
           </>
         )}

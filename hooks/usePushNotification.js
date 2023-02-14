@@ -30,18 +30,27 @@ export const usePushNotification = () => {
         }
     }, [notification]);
 
+    const getApiUrl = (type) => {
+        if (type == "TOTLog")
+            return '/TOTLog';
+        else if (type == "WRRLog")
+            return '/WRRLog';
+        else
+         return '/OverrideLog'
+    }
+
     const openDetailNotif = (item) => {
         console.log("🚀 ~ file: usePushNotification.js:32 ~ openDetailNotif ~ item", item)
         if (item?.EntityId) {
             navigation.navigate("SingleSubmission", {
                 id: item?.EntityId,
                 // apiUrl: item?.LogType == 1 ? "/TOTLog" : "/OverrideLog",
-                apiUrl: item?.EntityType == 'TOTLog' ? '/TOTLog' : '/OverrideLog'
+                apiUrl: getApiUrl(item?.EntityType)
             })
-            
+
             // if (objectNotEmpty(navigation)) {
-                // const routeName = TASK_TYPE.AUDIT === item?.TaskType ? 'AuditDetails' : 'TaskDetails';
-                // navigation.navigate(routeName, { id: item?.TaskId });
+            // const routeName = TASK_TYPE.AUDIT === item?.TaskType ? 'AuditDetails' : 'TaskDetails';
+            // navigation.navigate(routeName, { id: item?.TaskId });
             // }
             setNotification(false)
         }

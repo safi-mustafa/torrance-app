@@ -41,6 +41,7 @@ export default function WrrRequestScreen({ navigation, route }) {
 
     const params = {
       ...formValues,
+      contractor: { id: userDetail?.company?.id, name: userDetail?.company?.name },
       fumeControlUsed: formValues?.fumeControlUsed ? 0 : 1,
       employee: { id: userDetail?.id, name: userDetail?.name },
       twrModel: { alphabeticPart, numericPart, text: twrText },

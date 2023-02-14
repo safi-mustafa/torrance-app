@@ -36,15 +36,10 @@ const fields = [
   },
 ];
 
-const OverrideCostForm = ({ onFormChange, values = [], key }) => {
-  // console.log("🚀 ~ file: OverrideCostForm.jsx:39 ~ OverrideCostForm ~ values", values)
+const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
+  console.log("🚀 ~ file: OverrideCostForm.jsx:40 ~ OverrideCostForm ~ errors", errors)
   const defaultValues = values?.costs ? values?.costs : [];
   const [rows, setRows] = useState(defaultValues);
-  // const [values, setValues] = useState([]);
-  // console.log(
-  //   "🚀 ~ file: OverrideCostForm.jsx:41 ~ OverrideCostForm ~ rows",
-  //   rows
-  // );
 
   const handleAdd = () => {
     const updatedRows = [...rows, { edit: false }];

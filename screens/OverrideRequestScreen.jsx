@@ -168,6 +168,7 @@ export default function OverrideRequestScreen({ navigation, route }) {
                   onFormChange={onCostFormChange}
                   values={values}
                   key="costs"
+                  errors={apiErrors}
                 />
                 <Pressable
                   style={[appStyles.btn, appStyles.btnPrimary]}
