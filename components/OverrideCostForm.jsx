@@ -98,7 +98,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       return val;
     });
 
-    console.log("🚀 ~ file: OverrideCostForm.jsx:104 ~ onValueChange ~ newVals", newVals)
+    console.log("🚀 ~ file: OverrideCostForm.jsx:101 ~ onValueChange ~ newVals", newVals)
     setRows(newVals);
     onFormChange(newVals);
   };

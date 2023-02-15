@@ -22,21 +22,33 @@ export default function OverrideRequestScreen({ navigation, route }) {
   const initialValues = params?.id ? { ...params } : {};
   const isEdit = params && params.id;
 
+  const formatCostRows = (rows) => {
+    return rows.map((row) => {
+      if (typeof row.overrideType === "object") {
+        return { ...row, overrideType: row.overrideType?.id };
+      } else return { ...row };
+    });
+  };
+
   const onSubmit = async (formValues = [], { setSubmitting }) => {
     const userMeta = await getKey("user");
     const { userDetail = {} } = JSON.parse(userMeta);
 
+    console.log(
+      "🚀 ~ file: OverrideRequestScreen.jsx:35 ~ onSubmit ~ costFormValues",
+      costFormValues
+    );
     const params = {
       ...formValues,
       requester: { id: userDetail?.id, name: userDetail?.name },
       company: { id: userDetail?.company?.id, name: userDetail?.company?.name },
-      costs: costFormValues,
+      costs: formatCostRows(costFormValues),
     };
 
     console.log(
       "🚀 ~ file: OverrideRequestScreen.jsx ~ line 25 ~ onSubmit ~ params",
       params
-    );    
+    );
     // return;
 
     setLoading(true);
@@ -154,7 +166,6 @@ export default function OverrideRequestScreen({ navigation, route }) {
               setFieldValue,
             }) => (
               <>
-                
                 <FormLoop
                   fields={overrideFields}
                   handleChange={handleChange}
