@@ -5,20 +5,22 @@ import { Platform, View } from "react-native";
 import appStyles from "../../app-styles";
 import getData from "../../api-services/getData";
 
-export default function SelectInput({
-  errors,
-  options = [],
-  setFieldValue,
-  name,
-  url = "",
-  valueAttribute = "id",
-  labelAttributes = "name",
-  placeholder = "Select",
-  value,
-  ...otherProps
-}) {
-  // console.log("🚀 ~ file: SelectInput.jsx:20 ~ options", options)
-  // console.log("🚀 ~ file: SelectInput.tsx ~ line 16 ~ otherProps", name, url);
+export default function SelectInput(props) {
+  const {
+    errors,
+    options = [],
+    setFieldValue,
+    name,
+    url = "",
+    valueAttribute = "id",
+    labelAttributes = "name",
+    placeholder = "Select",
+    value,
+    isEnum = false,
+    ...otherProps
+  }=props;
+  const defaultValue = isEnum ? {id: value, [labelAttributes]: value} : value;
+
   // const [option, setOption] = useState(
   //   otherProps?.value ? parseInt(otherProps.value) : otherProps?.value
   // );
@@ -51,24 +53,28 @@ export default function SelectInput({
       (error) => {
         console.log(
           "🚀 ~ file: SelectInput.jsx ~ line 44 ~ getData ~ error",
-          url, error
+          url,
+          error
         );
       }
     );
   };
 
   const onValChange = (value, index) => {
-    setFieldValue(name, {
-      id: value ? value : 0,
-      name: filteredList[index - 1]?.label,
-    });
+    let fieldValue = value;
+    if (!isEnum) {
+      fieldValue = {
+        id: value ? value : 0,
+        name: filteredList[index - 1]?.label,
+      };
+    }
+    setFieldValue(name, fieldValue);
   };
 
   const [open, setOpen] = useState(false);
   // const [fieldValue, setValue] = useState(null);
   // const [zIndexValue, setZIndexValue] = useState(0);
   // DropDownPicker.setMode("BADGE");
-  const zIndex = new Date().getTime() / 1000000000;
   return (
     <View>
       {Platform.OS == "android" ? (
@@ -89,7 +95,7 @@ export default function SelectInput({
           onValueChange={(value, index) => onValChange(value, index)}
           items={filteredList}
           itemKey="value"
-          value={value?.id}
+          value={defaultValue?.id}
           style={{
             inputIOS: {
               color: "#333",

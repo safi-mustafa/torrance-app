@@ -112,20 +112,22 @@ function BottomTabNavigator() {
 
   const isApprover = USER_ROLE.APPROVER == role;
   const isEmployee = USER_ROLE.EMPLOYEE == role;
+  const isManager = USER_ROLE.COMPANY_MANAGER == role;
   // console.log("🚀 ~ file: index.jsx:109 ~ BottomTabNavigator ~ isApprover - isEmployee",isApprover, isEmployee)
 
-  const employeeTabs = [
-    {
-      name: "TapDashboard",
-      component: DashboardScreen,
-      options: {
-        title: "Dashboard",
-        headerShown: false,
-        tabBarIcon: ({ color }) => (
-          <TabBarIcon name="home" size={34} color={color} />
-        ),
-      },
+  const dashboardScreen = {
+    name: "TapDashboard",
+    component: DashboardScreen,
+    options: {
+      title: "Dashboard",
+      headerShown: false,
+      tabBarIcon: ({ color }) => (
+        <TabBarIcon name="home" size={34} color={color} />
+      ),
     },
+  };
+  const employeeTabs = [
+    dashboardScreen
   ];
 
   const approverTabs = [
@@ -178,8 +180,18 @@ function BottomTabNavigator() {
     },
   ];
 
+  const managerTabs = [
+    ...commonTabs.filter(({ name }) => name != "TabNotification"),
+  ];
+  console.log("🚀 ~ file: index.jsx:185 ~ BottomTabNavigator ~ managerTabs", managerTabs)
+
   let tabs = isApprover ? approverTabs : employeeTabs;
   tabs = [...tabs, ...commonTabs];
+
+  if(isManager){
+    tabs = [dashboardScreen,...managerTabs];
+    console.log("🚀 ~ file: index.jsx:193 ~ BottomTabNavigator ~ tabs", tabs)
+  }
 
   const defaultInitialScreen = () => {
     return isApprover ? "TabApprovals" : "TapDashboard";
@@ -187,8 +199,7 @@ function BottomTabNavigator() {
 
   const initialScreen = defaultInitialScreen();
 
-  if(!role)
-    return <></>
+  if (!role) return <></>;
 
   return (
     <BottomTab.Navigator

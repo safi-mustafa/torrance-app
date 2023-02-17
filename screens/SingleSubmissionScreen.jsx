@@ -16,9 +16,10 @@ import deleteData from "../api-services/deleteData";
 import appStyles from "../app-styles";
 import Loader from "../components/Loader";
 import Buttonx from "../components/form/Buttonx";
-import { getFormatedDate, getKey } from "../utility";
+import { getFormatedDate } from "../utility";
 import { primaryColor } from "../constants/Colors";
-import { STATUS } from "../constants/Misc";
+import { STATUS, USER_ROLE } from "../constants/Misc";
+import useUserMeta from "../hooks/useUserMeta";
 
 export default function SingleSubmissionScreen({
   navigation,
@@ -28,7 +29,8 @@ export default function SingleSubmissionScreen({
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
   const { id, apiUrl, isApproval = false, ...otherRouteItems } = route.params;
-  const [user, setUser] = useState({});
+  const { role = "" } = useUserMeta();
+  const isManager = USER_ROLE.COMPANY_MANAGER == role;
 
   const isWRR = apiUrl == "/WRRLog";
   // const isApproval = apiUrl == "/Approval";
@@ -38,7 +40,7 @@ export default function SingleSubmissionScreen({
   const getNavUrl = () => {
     if (isTOT) return "TotRequest";
     else if (isOverRide) return "OverrideRequest";
-    else if(isWRR) return "WrrRequest"
+    else if (isWRR) return "WrrRequest";
     // else return "/Approval"
   };
   let NavUrl = getNavUrl();
@@ -208,7 +210,9 @@ export default function SingleSubmissionScreen({
   return (
     <View style={styles.container}>
       <Loader show={loading} size="large" overlay="true" color="white" />
-      {data?.status == STATUS.PENDING && !isApproval && <Action />}
+      {data?.status == STATUS.PENDING && !isApproval && !isManager && (
+        <Action />
+      )}
       <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
         <ListRow label="company" value={data?.company?.name} />
         <ListRow label="Submitted" value={data?.formattedCreatedOn} />
@@ -224,7 +228,7 @@ export default function SingleSubmissionScreen({
           </>
         )}
 
-        {isWRR && (
+        {isWRR ? (
           <>
             <ListRow label="weld Method" value={data?.weldMethod?.name} />
             {/* <ListRow label="email" value={data?.email} /> */}
@@ -265,12 +269,15 @@ export default function SingleSubmissionScreen({
             />
             <ListRow label="rod Type" value={data?.rodType?.name} />
           </>
-        )}
+        ) : null}
 
         {isTOT && (
           <>
             <ListRow label="Equipment No#" value={data?.equipmentNo} />
-            <ListRow label="Foreman" value={data?.foreman?.name ? data?.foreman?.name : data?.foreman} />
+            <ListRow
+              label="Foreman"
+              value={data?.foreman?.name ? data?.foreman?.name : data?.foreman}
+            />
             <ListRow
               label="Start Date"
               value={getFormatedDate(data?.formattedStartOfWork)}
@@ -279,13 +286,18 @@ export default function SingleSubmissionScreen({
             <ListRow label="Total Head Count" value={data?.manPowerAffected} />
             <ListRow label="permit Type" value={data?.permitType?.name} />
             <ListRow label="delay Type" value={data?.delayType?.name} />
+            <ListRow label="delay reason" value={data?.delayReason} />
+            {data?.startOfWorkDelay && <ListRow label="start Of Work Delay" value={data?.startOfWorkDelay?.name} />}
+            {data?.shiftDelay && <ListRow label="shift delay" value={data?.shiftDelay?.name} />}
+            {data?.reworkDelay && <ListRow label="rework delay" value={data?.reworkDelay?.name} />}
             <ListRow
               label="request reason"
               value={data?.reasonForRequest?.name}
             />
             <ListRow label="shift" value={data?.shift?.name} />
+            <ListRow label="permit#" value={data?.permitNo} />
             <ListRow label="work Scope" value={data?.workScope} />
-            {/* <ListRow label="description" value={data?.jobDescription} /> */}
+            <ListRow label="delay description" value={data?.delayDescription} />
           </>
         )}
         {isOverRide && (
@@ -393,12 +405,12 @@ const styles = StyleSheet.create({
   },
   tr: {
     flexDirection: "row",
-    justifyContent: 'space-between',
-    width: '100%'
+    justifyContent: "space-between",
+    width: "100%",
   },
   td: {},
-  head:{
-    fontWeight: 'bold',
-    marginBottom: 5
-  }
+  head: {
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
 });

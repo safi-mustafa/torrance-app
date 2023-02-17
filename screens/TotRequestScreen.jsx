@@ -25,7 +25,6 @@ export default function TotRequestScreen({ navigation, route }) {
         twrText: params?.twrModel?.text,
       }
     : {};
-  // console.log("🚀 ~ file: TotRequestScreen.jsx ~ line 21 ~ TotRequestScreen ~ initialValues", initialValues);
   const isEdit = params && params.id;
 
   const onSubmit = async (formValues = [], { setSubmitting }) => {

@@ -2,11 +2,15 @@ import { StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import SubmissionContentScreen from "./SubmissionContentScreen";
 import NotFoundScreen from "./NotFoundScreen";
+import { USER_ROLE } from "../constants/Misc";
+import useUserMeta from "../hooks/useUserMeta";
 
 export default function SubmissionsScreen({ navigation }) {
   const Tab = createMaterialTopTabNavigator();
+  const { role = "" } = useUserMeta();
+  const isManager = USER_ROLE.COMPANY_MANAGER == role;
 
-  const tabs = [
+  let tabs = [
     {
       name: "tot",
       tabTitle: "Time on Tools",
@@ -28,6 +32,9 @@ export default function SubmissionsScreen({ navigation }) {
       cellOptions: { titleLabel: 'PO#: ', titleField: "poNumber", subTitleField: "formattedCreatedOn" },
     },
   ];
+
+  if(isManager)
+    tabs = tabs.filter(({name})=>name=="Override")
 
   return (
     <Tab.Navigator>

@@ -23,6 +23,7 @@ export default function FormLoop({
   //   return () => {};
   // }, [values]);
   const formatedFields = getConditionalFields(fields, values);
+  // console.log("🚀 ~ file: FormLoop.jsx:26 ~ formatedFields", formatedFields)
 
   const getError = (errors, { name = "", inputType = null }) => {
     let errorField = toCapitalCase(name);
@@ -37,7 +38,7 @@ export default function FormLoop({
 
   return (
     <View style={formStyle}>
-      {formatedFields.map((elementAttribs, index) => {
+      {formatedFields.filter((elementAttribs)=> !elementAttribs?.hidden).map((elementAttribs, index) => {
         let _props = {
           form: elementAttribs,
           onChangeText: handleChange(elementAttribs.name),
@@ -117,10 +118,25 @@ function getConditionalFields(fields, values) {
           : getDefaultValue(fields, parentFieldName, "defaultIsChecked");
 
       // console.log("🚀 ~ file: FormLoop.tsx ~ line 91 ~ returnfields.map ~ parentFieldValue", field.name, parentFieldValue, JSON.parse(condition?.matchValue))
-      if (parentFieldValue == JSON.parse(condition?.matchValue)) {
+      const matchFieldValue = condition?.matchValue;
+      console.log("🚀 ~ file: FormLoop.jsx:121 ~ returnfields.map ~ matchFieldValue", matchFieldValue, parentFieldValue)
+      if (parentFieldValue == matchFieldValue) {
         return { ...field, condition, hidden: true };
       }
-    } else if (condition?.action === "useValue") {
+    }
+    else if (condition?.action == "show") {
+      parentFieldValue =
+        typeof parentFieldValue !== "undefined"
+          ? parentFieldValue
+          : getDefaultValue(fields, parentFieldName, "defaultIsChecked");
+
+      // console.log("🚀 ~ file: FormLoop.tsx ~ line 91 ~ returnfields.map ~ parentFieldValue", field.name, parentFieldValue, JSON.parse(condition?.matchValue))
+      const matchFieldValue = condition?.matchValue;
+      if (parentFieldValue !== matchFieldValue) {
+        return { ...field, condition, hidden: true };
+      }
+    }
+    else if (condition?.action === "useValue") {
       if (field?.inputType === "select") {
         const ddParentFieldObject = values[parentFieldName];
         // console.log("🚀 ~ file: FormLoop.jsx:117 ~ returnfields.map ~ ddParentFieldObject", ddParentFieldObject)

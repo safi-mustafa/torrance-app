@@ -22,5 +22,6 @@ export const STATUS = {
 
 export const USER_ROLE = {
     APPROVER: 'Approver',
-    EMPLOYEE: 'Employee'
+    EMPLOYEE: 'Employee',
+    COMPANY_MANAGER: 'CompanyManager',
 }

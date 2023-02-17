@@ -4,40 +4,47 @@ import { primaryColor } from "../constants/Colors";
 import { DashButton } from "../components/DashButton";
 import { DashboardMenu } from "../components/DashboadMenu";
 import ProfileCard from "../components/ProfileCard";
+import { USER_ROLE } from "../constants/Misc";
+import useUserMeta from "../hooks/useUserMeta";
 
 const TOT_IMAGE = require("./../assets/images/journal-book.png");
 const WRR_IMAGE = require("./../assets/images/welding.png");
 const OVERRIDE_IMAGE = require("./../assets/images/override.png");
 
 export default function DashboardScreen({ navigation }) {
+  const { role = "" } = useUserMeta();
+  const isManager = USER_ROLE.COMPANY_MANAGER == role;
+
   return (
     <View style={[styles.innerContainer]}>
-      <View style={{ height: 280 }}>
+      <View style={!isManager && { height: 280 }}>
         <ProfileCard
           footer={
-            <>
-              <DashButton
-                style={{ marginBottom: 10 }}
-                title="Submit TOT Request"
-                subtitle="Time on Tools"
-                icon={TOT_IMAGE}
-                onPress={() => navigation.push("TotRequest")}
-              />
-              <DashButton
-                style={{ marginBottom: 10 }}
-                title="Submit WRR Request"
-                subtitle="Welding Rod Record"
-                icon={WRR_IMAGE}
-                onPress={() => navigation.push("WrrRequest")}
-              />
-              <DashButton
-                style={{ marginBottom: 15 }}
-                title="Submit Override Request"
-                subtitle="Override Request Record"
-                icon={OVERRIDE_IMAGE}
-                onPress={() => navigation.push("OverrideRequest")}
-              />
-            </>
+            !isManager && (
+              <>
+                <DashButton
+                  style={{ marginBottom: 10 }}
+                  title="Submit TOT Request"
+                  subtitle="Time on Tools"
+                  icon={TOT_IMAGE}
+                  onPress={() => navigation.push("TotRequest")}
+                />
+                <DashButton
+                  style={{ marginBottom: 15 }}
+                  title="Submit Override Request"
+                  subtitle="Override Request Record"
+                  icon={OVERRIDE_IMAGE}
+                  onPress={() => navigation.push("OverrideRequest")}
+                />
+                <DashButton
+                  style={{ marginBottom: 10 }}
+                  title="Submit WRR Request"
+                  subtitle="Welding Rod Record"
+                  icon={WRR_IMAGE}
+                  onPress={() => navigation.push("WrrRequest")}
+                />
+              </>
+            )
           }
         />
       </View>

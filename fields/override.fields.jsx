@@ -150,11 +150,23 @@ export const overrideFields = [
   //   label: "Submitted Time",
   //   mode: "time",
   // },
+  // {
+  //   name: "permitNo",
+  //   placeholder: "Enter Permit",
+  //   label: "Permit#",
+  // },
   {
     name: "workScope",
     placeholder: "Enter Scope",
     label: "Work Scope",
   },
+  // {
+  //   name: "delayDescription",
+  //   placeholder: "Enter Description",
+  //   label: "Description",
+  //   required: true,
+  //   inputType: "textarea",
+  // },
   // {
   //   name: "description",
   //   placeholder: "Enter Description",
