@@ -31,6 +31,7 @@ export default function SingleSubmissionScreen({
   const { id, apiUrl, isApproval = false, ...otherRouteItems } = route.params;
   const { role = "" } = useUserMeta();
   const isManager = USER_ROLE.COMPANY_MANAGER == role;
+  const isApprover = USER_ROLE.APPROVER == role;
 
   const isWRR = apiUrl == "/WRRLog";
   // const isApproval = apiUrl == "/Approval";
@@ -210,7 +211,7 @@ export default function SingleSubmissionScreen({
   return (
     <View style={styles.container}>
       <Loader show={loading} size="large" overlay="true" color="white" />
-      {data?.status == STATUS.PENDING && !isApproval && !isManager && (
+      {data?.status == STATUS.PENDING && !isApproval && !isManager && !isApprover && (
         <Action />
       )}
       <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>

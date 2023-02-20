@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import appStyles from "../../app-styles";
 import StatusBadge from "../StatusBadge";
 import { useNavigation } from "@react-navigation/native";
+import { getApiUrl } from "../../utility";
 
 export default function ApprovalCell({ item }) {
   const navigation = useNavigation();
@@ -16,7 +17,7 @@ export default function ApprovalCell({ item }) {
             navigation.navigate("SingleSubmission", {
               ...item,
               isApproval: true,
-              apiUrl: item?.type == "TimeOnTools" ? "/TOTLog" : "/OverrideLog",
+              apiUrl: getApiUrl(item?.type),
             })
           }
           style={({ pressed }) => ({
@@ -48,6 +49,10 @@ export default function ApprovalCell({ item }) {
           <View style={[appStyles.my1, styles.section]}>
             <Text style={styles.label}>total Hours:</Text>
             <Text style={styles.values}>{item?.totalHours}</Text>
+          </View>
+          <View style={[appStyles.my1, styles.section]}>
+            <Text style={styles.label}>Department:</Text>
+            <Text style={styles.values}>{item?.department}</Text>
           </View>
         </Pressable>
       </View>

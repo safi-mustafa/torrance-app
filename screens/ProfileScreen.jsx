@@ -61,6 +61,19 @@ export default function ProfileScreen({ navigation }) {
               <Text style={styles.label}>Unit(s):</Text>
               <Text style={styles.values}>{user?.formattedUnits}</Text>
             </View>
+            <View>
+              <View style={styles.tr}>
+                <Text style={[styles.td, {fontWeight: 'bold'}]}>Department</Text>
+                <Text style={[styles.td, {fontWeight: 'bold'}]}>Unit</Text>
+              </View>
+              {user?.associations &&
+                user?.associations.map((association) => (
+                  <View style={styles.tr}>
+                    <Text style={styles.td}>{association?.department?.name}</Text>
+                    <Text style={styles.td}>{association?.unit?.name}</Text>
+                  </View>
+                ))}
+            </View>
           </>
         )}
       </View>
@@ -104,5 +117,20 @@ const styles = StyleSheet.create({
   },
   values: {
     // fontWeight: "bold",
+  },
+  tr: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginBottom: 10,
+    borderBottomColor: '#eee',
+    borderBottomWidth: 1,
+    paddingBottom:5
+  },
+  td: {
+  },
+  head: {
+    fontWeight: "bold",
+    marginBottom: 5,
   },
 });

@@ -14,7 +14,7 @@ export const getFormatedDate = (date = "", options = {
     month: "short",
     day: "numeric",
 }) => {
-    if(!date) return null;
+    if (!date) return null;
     return new Date(date).toLocaleDateString("en-US", options);
 };
 
@@ -25,4 +25,10 @@ export const toCapitalCase = (string) => {
 export const objectNotEmpty = (obj) => {
     if (typeof obj === "undefined") return false;
     return Object.keys(obj).length !== 0;
-  };
+};
+
+export const getApiUrl = (type) => {
+    if (type == "TimeOnTools") return "/TOTLog";
+    else if (type == "WeldingRodRecord") return "/WRRLog";
+    else return "/OverrideLog";
+};

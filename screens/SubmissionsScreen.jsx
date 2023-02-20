@@ -22,7 +22,7 @@ export default function SubmissionsScreen({ navigation }) {
       name: "WeldingRods",
       tabTitle: "Welding Rods",
       params: { title: "Welding Rods", url: "/WRRLog" },
-      cellOptions: { titleLabel: 'TWR-WO#: ',titleField: "twr" },
+      cellOptions: { titleLabel: 'TWR-WO#: ',titleField: "twr", subTitleField: "formattedCreatedOn" },
     },
     {
       name: "Override",
