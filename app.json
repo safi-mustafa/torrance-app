@@ -2,7 +2,7 @@
   "expo": {
     "name": "torrance-app",
     "slug": "torrance-app",
-    "version": "1.0.0",
+    "version": "2.0.7",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -18,9 +18,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.torrance.torrance",
+      "buildNumber": "2.0.7"
     },
     "android": {
+      "package": "com.torrance.torrance",
+      "versionCode": 0,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -28,6 +32,20 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#ffffff"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "2c8692f2-976a-4669-9da5-315dca556393"
+      }
     }
   }
 }
