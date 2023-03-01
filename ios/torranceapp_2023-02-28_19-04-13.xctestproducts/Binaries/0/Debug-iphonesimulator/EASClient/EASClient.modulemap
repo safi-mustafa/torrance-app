@@ -1,0 +1,12 @@
+module EASClient {
+  umbrella header "EASClient-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+
+module EASClient.Swift {
+  header "/Users/muhammadirfan/Library/Developer/Xcode/DerivedData/torranceapp-gxhozmmlrtmjsxbulnftctvckdul/Build/Products/Debug-iphonesimulator/EASClient/Swift Compatibility Header/EASClient-Swift.h"
+  requires objc
+}

@@ -1,0 +1,12 @@
+module ASN1Decoder {
+  umbrella header "ASN1Decoder-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+
+module ASN1Decoder.Swift {
+  header "/Users/muhammadirfan/Library/Developer/Xcode/DerivedData/torranceapp-gxhozmmlrtmjsxbulnftctvckdul/Build/Products/Debug-iphonesimulator/ASN1Decoder/Swift Compatibility Header/ASN1Decoder-Swift.h"
+  requires objc
+}
