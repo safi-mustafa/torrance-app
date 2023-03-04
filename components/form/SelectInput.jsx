@@ -90,6 +90,7 @@ export default function SelectInput(props) {
           {...otherProps}
         />
       ) : (
+        <>
         <RNPickerSelect
           useNativeAndroidPickerStyle={true}
           onValueChange={(value, index) => onValChange(value, index)}
@@ -118,6 +119,7 @@ export default function SelectInput(props) {
             value: null,
           }}
         />
+        </>
       )}
     </View>
   );

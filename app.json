@@ -2,7 +2,7 @@
   "expo": {
     "name": "torrance-app",
     "slug": "torrance-app",
-    "version": "2.0.9",
+    "version": "2.0.11",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,7 +20,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.torrance.torrance",
-      "buildNumber": "2.0.9"
+      "buildNumber": "2.0.11"
     },
     "android": {
       "package": "com.torrance.torrance",
