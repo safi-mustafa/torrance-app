@@ -79,7 +79,7 @@ export default function LoginScreen({ navigation }) {
       <ImageBackground
         source={BG_IMAGE}
         imageStyle={{ resizeMode: "stretch", marginRight: -5 }}
-        style={{ marginTop: Platform.OS == "ios" ? 40 : 0 }}
+        style={{ marginTop: Platform.OS == "ios" ? 50 : 0 }}
       >
         <KeyboardAwareScrollView>
           <View style={styles.container}>

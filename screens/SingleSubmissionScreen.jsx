@@ -211,9 +211,10 @@ export default function SingleSubmissionScreen({
   return (
     <View style={styles.container}>
       <Loader show={loading} size="large" overlay="true" color="white" />
-      {data?.status == STATUS.PENDING && !isApproval && !isManager && !isApprover && (
-        <Action />
-      )}
+      {data?.status == STATUS.PENDING &&
+        !isApproval &&
+        !isManager &&
+        !isApprover && <Action />}
       <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
         <ListRow label="company" value={data?.company?.name} />
         <ListRow label="Submitted" value={data?.formattedCreatedOn} />
@@ -274,35 +275,62 @@ export default function SingleSubmissionScreen({
 
         {isTOT && (
           <>
-            <ListRow label="Equipment No#" value={data?.equipmentNo} />
+            {/* <ListRow label="Equipment No#" value={data?.equipmentNo} /> */}
+            <ListRow label="shift" value={data?.shift?.name} />
+            <ListRow label="permit#" value={data?.permitNo} />
+            <ListRow label="permit Type" value={data?.permitType?.name} />
+            <ListRow label="Job description" value={data?.jobDescription} />
             <ListRow
               label="Foreman"
               value={data?.foreman?.name ? data?.foreman?.name : data?.foreman}
             />
-            <ListRow
+            {/* <ListRow
               label="Start Date"
               value={getFormatedDate(data?.formattedStartOfWork)}
-            />
-            <ListRow label="Total man Hours" value={data?.manHours} />
-            <ListRow label="Total Head Count" value={data?.manPowerAffected} />
-            <ListRow label="permit Type" value={data?.permitType?.name} />
+            /> */}
+
             <ListRow label="delay Type" value={data?.delayType?.name} />
             <ListRow label="delay reason" value={data?.delayReason} />
-            {data?.startOfWorkDelay && <ListRow label="start Of Work Delay" value={data?.startOfWorkDelay?.name} />}
-            {data?.shiftDelay && <ListRow label="shift delay" value={data?.shiftDelay?.name} />}
-            {data?.reworkDelay && <ListRow label="rework delay" value={data?.reworkDelay?.name} />}
-            <ListRow
+            {data?.startOfWorkDelay && (
+              <ListRow
+                label="start Of Work Delay"
+                value={data?.startOfWorkDelay?.name}
+              />
+            )}
+            {data?.shiftDelay && (
+              <ListRow label="shift delay" value={data?.shiftDelay?.name} />
+            )}
+            {data?.reworkDelay && (
+              <ListRow label="rework delay" value={data?.reworkDelay?.name} />
+            )}
+            <ListRow label="Total Head Count" value={data?.manPowerAffected} />
+            <ListRow label="Total man Hours" value={data?.manHours} />
+            {/* <ListRow
               label="request reason"
               value={data?.reasonForRequest?.name}
-            />
-            <ListRow label="shift" value={data?.shift?.name} />
-            <ListRow label="permit#" value={data?.permitNo} />
-            <ListRow label="work Scope" value={data?.workScope} />
-            <ListRow label="delay description" value={data?.delayDescription} />
+            /> */}
+
+            {/* <ListRow label="work Scope" value={data?.workScope} /> */}
+            {/* <ListRow label="delay description" value={data?.delayDescription} /> */}
           </>
         )}
         {isOverRide && (
           <>
+            {data?.delayReason && (
+              <ListRow label="delay reason" value={data?.delayReason} />
+            )}
+            {data?.startOfWorkDelay && (
+              <ListRow
+                label="start Of Work Delay"
+                value={data?.startOfWorkDelay?.name}
+              />
+            )}
+            {data?.shiftDelay && (
+              <ListRow label="shift delay" value={data?.shiftDelay?.name} />
+            )}
+            {data?.reworkDelay && (
+              <ListRow label="rework delay" value={data?.reworkDelay?.name} />
+            )}
             <ListRow
               label="Costs"
               value={
@@ -311,6 +339,7 @@ export default function SingleSubmissionScreen({
                     <Text style={[styles.td, styles.head]}>Type</Text>
                     <Text style={[styles.td, styles.head]}>Hours</Text>
                     <Text style={[styles.td, styles.head]}>Craft Skill</Text>
+                    <Text style={[styles.td, styles.head]}>Head Count</Text>
                   </View>
                   {data?.costs &&
                     data?.costs.map((item) => (
@@ -321,6 +350,7 @@ export default function SingleSubmissionScreen({
                           <Text style={styles.td}>
                             {item?.craftSkill?.name}
                           </Text>
+                          <Text style={styles.td}>{item?.HeadCount}</Text>
                         </View>
                       </>
                     ))}
@@ -409,9 +439,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
   },
-  td: {},
+  td: {
+    fontSize: 12,
+    textAlign: "center",
+    width: "25%",
+  },
   head: {
     fontWeight: "bold",
     marginBottom: 5,
+    fontSize: 12,
   },
 });

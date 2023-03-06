@@ -41,6 +41,7 @@ export default function TotRequestScreen({ navigation, route }) {
       formValues?.numericPart?.id == 0 ? {} : formValues?.numericPart;
     const params = {
       ...formValues,
+      company: { id: userDetail?.company?.id, name: userDetail?.company?.name },
       requester: { id: userDetail?.id, name: userDetail?.name },
       twrModel: { alphabeticPart, numericPart, text: twrText },
     };

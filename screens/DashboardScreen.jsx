@@ -30,14 +30,14 @@ export default function DashboardScreen({ navigation }) {
                   onPress={() => navigation.push("TotRequest")}
                 />
                 <DashButton
-                  style={{ marginBottom: 15 }}
+                  style={{ marginBottom: 10 }}
                   title="Submit Override Request"
                   subtitle="Override Request Record"
                   icon={OVERRIDE_IMAGE}
                   onPress={() => navigation.push("OverrideRequest")}
                 />
                 <DashButton
-                  style={{ marginBottom: 10 }}
+                  style={{ marginBottom: 18 }}
                   title="Submit WRR Request"
                   subtitle="Welding Rod Record"
                   icon={WRR_IMAGE}
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,
     backgroundColor: primaryColor,
-    marginTop: Platform.OS == "ios" ? 40 : 0,
+    marginTop: Platform.OS == "ios" ? 50 : 0,
   },
   expandSection: {
     backgroundColor: "#fff",

@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,
     backgroundColor: primaryColor,
-    marginTop: Platform.OS == "ios" ? 40 : 0,
+    marginTop: Platform.OS == "ios" ? 50 : 0,
   },
   expandSection: {
     backgroundColor: "#fff",

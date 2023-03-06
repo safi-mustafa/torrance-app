@@ -174,6 +174,11 @@ export default function OverrideRequestScreen({ navigation, route }) {
                   values={values}
                   errors={apiErrors}
                   handleSubmit={handleSubmit}
+                  formStyle={{
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                  }}
                 />
                 <OverrideCostForm
                   onFormChange={onCostFormChange}

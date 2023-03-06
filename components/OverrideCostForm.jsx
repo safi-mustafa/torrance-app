@@ -47,7 +47,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       label: "Override Type",
       zIndex: 3000,
       // labelAttributes: "text",
-      wrapperStyle: { width: "35%", marginRight: 2 },
+      wrapperStyle: { width: "25%", marginRight: 1 },
     },
     {
       name: "overrideHours",
@@ -55,7 +55,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       label: "Hours",
       // inputType: "text",
       keyboardType: "numeric",
-      wrapperStyle: { width: "25%", marginRight: 2 },
+      wrapperStyle: { width: "20%", marginRight: 1 },
     },
     {
       name: "craftSkill",
@@ -65,7 +65,15 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       label: "Craft Skill",
       required: true,
       zIndex: 3001,
-      wrapperStyle: { width: "30%", marginRight: 2 },
+      wrapperStyle: { width: "25%", marginRight: 1 },
+    },
+    {
+      name: "HeadCount",
+      placeholder: "Enter Head Count",
+      label: "Head Count",
+      // inputType: "text",
+      keyboardType: "numeric",
+      wrapperStyle: { width: "20%", marginRight: 1 },
     },
   ];
 
@@ -98,7 +106,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       return val;
     });
 
-    console.log("🚀 ~ file: OverrideCostForm.jsx:101 ~ onValueChange ~ newVals", newVals)
+    // console.log("🚀 ~ file: OverrideCostForm.jsx:101 ~ onValueChange ~ newVals", newVals)
     setRows(newVals);
     onFormChange(newVals);
   };
@@ -106,7 +114,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
   return (
     <>
       <View style={styles.container}>
-        <Text style={{ marginLeft: 3, fontSize: 15 }}>Costs</Text>
+        <Text style={{ marginLeft: 3, fontSize: 15, marginBottom: 10 }}>Costs</Text>
         <View style={[styles.tr, styles.head]}>
           {fields.map((field, i) => (
             <Text key={i} style={[styles.td, field?.wrapperStyle]}>

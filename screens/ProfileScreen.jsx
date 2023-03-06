@@ -83,7 +83,7 @@ export default function ProfileScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   innerContainer: {
-    marginTop: Platform.OS == "ios" ? 40 : 0,
+    marginTop: Platform.OS == "ios" ? 50 : 0,
     // backgroundColor: lightColor,
   },
   expandSection: {
