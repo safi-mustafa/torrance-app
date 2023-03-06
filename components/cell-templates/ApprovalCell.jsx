@@ -43,16 +43,16 @@ export default function ApprovalCell({ item }) {
             <Text style={styles.values}>{item?.unit}</Text>
           </View>
           <View style={[appStyles.my1, styles.section]}>
-            <Text style={styles.label}>reason:</Text>
-            <Text style={styles.values}>{item?.reason}</Text>
+            <Text style={styles.label}>department:</Text>
+            <Text style={styles.values}>{item?.department}</Text>
           </View>
           <View style={[appStyles.my1, styles.section]}>
             <Text style={styles.label}>total Hours:</Text>
             <Text style={styles.values}>{item?.totalHours}</Text>
           </View>
           <View style={[appStyles.my1, styles.section]}>
-            <Text style={styles.label}>Department:</Text>
-            <Text style={styles.values}>{item?.department}</Text>
+            <Text style={styles.label}>Total Head Count:</Text>
+            <Text style={styles.values}>{item?.totalHeadCount}</Text>
           </View>
         </Pressable>
       </View>

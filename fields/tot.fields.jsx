@@ -78,13 +78,6 @@ export const totFields = [
   //   label: "Work Scope",
   // },
   // {
-  //   name: "delayDescription",
-  //   placeholder: "Enter Delay Description",
-  //   label: "Delay Description",
-  //   // required: true,
-  //   inputType: "textarea",
-  // },
-  // {
   //   name: "company",
   //   inputType: "select",
   //   url: "/Company",
@@ -97,6 +90,7 @@ export const totFields = [
     name: "foreman",
     placeholder: "Enter Foreman",
     label: "Foreman",
+    required: true,
     // inputType: "select",
     // url: "/Account/getAllUsers?role=foreman",
     // labelAttributes: "userName",
@@ -113,7 +107,7 @@ export const totFields = [
     name: "twr_label",
     label: "TWR #",
     inputType: "p",
-    required: true,
+    // required: true,
     wrapperStyle: { marginBottom: -40, paddingTop: 25 },
   },
   {
@@ -286,6 +280,13 @@ export const totFields = [
     label: "Total Man Hours",
     keyboardType: "numeric",
     required: true,
+  },
+  {
+    name: "delayDescription",
+    placeholder: "Enter Delay Description",
+    label: "Delay Description",
+    required: true,
+    inputType: "textarea",
   },
   // {
   //   name: "permittingIssue",

@@ -311,7 +311,7 @@ export default function SingleSubmissionScreen({
             /> */}
 
             {/* <ListRow label="work Scope" value={data?.workScope} /> */}
-            {/* <ListRow label="delay description" value={data?.delayDescription} /> */}
+            <ListRow label="delay description" value={data?.delayDescription} />
           </>
         )}
         {isOverRide && (
@@ -350,7 +350,7 @@ export default function SingleSubmissionScreen({
                           <Text style={styles.td}>
                             {item?.craftSkill?.name}
                           </Text>
-                          <Text style={styles.td}>{item?.HeadCount}</Text>
+                          <Text style={styles.td}>{item?.headCount}</Text>
                         </View>
                       </>
                     ))}
@@ -368,10 +368,10 @@ export default function SingleSubmissionScreen({
               value={data?.formattedDateOfWorkCompleted}
             />
             <ListRow label="po Number#" value={data?.poNumber} />
-            <ListRow
+            {/* <ListRow
               label="reason For Request"
               value={data?.reasonForRequest?.name}
-            />
+            /> */}
             <ListRow label="shift" value={data?.shift?.name} />
             <ListRow label="work Scope" value={data?.workScope} />
             {/* <ListRow label="description" value={data?.description} /> */}

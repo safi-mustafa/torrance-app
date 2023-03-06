@@ -57,10 +57,10 @@ export default function ProfileScreen({ navigation }) {
           </>
         ) : (
           <>
-            <View style={[appStyles.my1, styles.section]}>
+            {/* <View style={[appStyles.my1, styles.section]}>
               <Text style={styles.label}>Unit(s):</Text>
               <Text style={styles.values}>{user?.formattedUnits}</Text>
-            </View>
+            </View> */}
             <View>
               <View style={styles.tr}>
                 <Text style={[styles.td, {fontWeight: 'bold'}]}>Department</Text>

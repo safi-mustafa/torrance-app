@@ -68,7 +68,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       wrapperStyle: { width: "25%", marginRight: 1 },
     },
     {
-      name: "HeadCount",
+      name: "headCount",
       placeholder: "Enter Head Count",
       label: "Head Count",
       // inputType: "text",
@@ -95,6 +95,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
   };
 
   const onValueChange = (key, value, index) => {
+    // console.log("🚀 ~ file: OverrideCostForm.jsx:98 ~ onValueChange ~ key, value:", key, value)
     let newVals = rows.map((val, i) => {
       if (i === index) {
         let newVal = value;

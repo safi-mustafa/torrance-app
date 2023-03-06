@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Layout from "../../constants/Layout";
 import { toCapitalCase } from "../../utility";
 
 import Putin from "./Putin";
@@ -27,12 +26,13 @@ export default function FormLoop({
 
   const getError = (errors, { name = "", inputType = null }) => {
     let errorField = toCapitalCase(name);
-    if (inputType == "select" && errorField!="AlphabeticPart" && errorField!="NumericPart") {
+    if (inputType == "select" && errorField!="AlphabeticPart" && errorField!="NumericPart" && errorField!="DelayReason") {
       errorField = `${errorField}.Id`;
     }
     if(name=="twrText"){
       errorField = `TWRModel.Text`;
     }
+    // console.log("🚀 ~ file: FormLoop.jsx:38 ~ getError ~ errors[errorField]:", errors[errorField], errorField)
     return errors[errorField];
   };
 
