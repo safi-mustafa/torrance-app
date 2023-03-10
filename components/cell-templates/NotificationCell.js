@@ -4,12 +4,13 @@ import { FontAwesome } from "@expo/vector-icons";
 
 import Layout from '../../constants/Layout';
 import { primaryColor } from '../../constants/Colors';
+import { getNotificationApiUrl } from '../../utility';
 
 export default function NotificationCell({ item = {}, navigation, template = null, cellOptions = {}, isApprover = false, ...otherProps }) {
     const { entityType, entityId, message, formattedCreatedOn = '' } = item;
     const { Message = '' } = JSON.parse(message)
     const goToScreen = () => {
-        navigation.navigate("SingleSubmission", { apiUrl: entityType == 'TOTLog' ? '/TOTLog' : '/OverrideLog', id: entityId, isApproval: isApprover })
+        navigation.navigate("SingleSubmission", { apiUrl: getNotificationApiUrl(entityType), id: entityId, isApproval: isApprover })
     };
 
     return (

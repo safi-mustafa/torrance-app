@@ -289,8 +289,8 @@ export default function SingleSubmissionScreen({
               value={getFormatedDate(data?.formattedStartOfWork)}
             /> */}
 
-            <ListRow label="delay Type" value={data?.delayType?.name} />
-            <ListRow label="delay reason" value={data?.delayReason} />
+            {/* <ListRow label="delay Type" value={data?.delayType?.name} /> */}
+            <ListRow label="delay type" value={data?.delayReason} />
             {data?.startOfWorkDelay && (
               <ListRow
                 label="start Of Work Delay"
@@ -316,7 +316,10 @@ export default function SingleSubmissionScreen({
         )}
         {isOverRide && (
           <>
-            {data?.delayReason && (
+            {data?.overrideReason && (
+              <ListRow label="override reason" value={data?.overrideReason} />
+            )}
+            {/* {data?.delayReason && (
               <ListRow label="delay reason" value={data?.delayReason} />
             )}
             {data?.startOfWorkDelay && (
@@ -330,7 +333,7 @@ export default function SingleSubmissionScreen({
             )}
             {data?.reworkDelay && (
               <ListRow label="rework delay" value={data?.reworkDelay?.name} />
-            )}
+            )} */}
             <ListRow
               label="Costs"
               value={
@@ -364,7 +367,7 @@ export default function SingleSubmissionScreen({
             {/* <ListRow label="requester Email" value={data?.requesterEmail} /> */}
             {/* <ListRow label="craft Rate" value={data?.craftRate?.name} /> */}
             <ListRow
-              label="Completed"
+              label="Work Date"
               value={data?.formattedDateOfWorkCompleted}
             />
             <ListRow label="po Number#" value={data?.poNumber} />

@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, View, ScrollView } from "react-native";
+import { StyleSheet, Platform, View, ScrollView, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { primaryColor } from "../constants/Colors";
@@ -14,7 +14,9 @@ export default function WelcomeScreen({ navigation }) {
           title="Welcome"
           header={
             <Buttonx
-              title={<Ionicons name="enter-outline" size={34} color="white" />}
+              // title={<Ionicons name="enter-outline" size={34} color="white" />}
+              title="Login"
+              titleStyle={{ fontSize: 18 }}
               style={styles.loginBtn}
               onPress={() => navigation.push('Login')}
             />
@@ -46,12 +48,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 70,
     height: 50,
-    top: 10,
+    top: 15,
     right: 0,
     paddingLeft: 10,
     alignItems: "center",
     zIndex: 99,
     backgroundColor: 'transparent',
-    borderWidth: 0
+    borderWidth: 0,
+    fontSize: 18,
   }
 });

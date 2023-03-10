@@ -32,3 +32,12 @@ export const getApiUrl = (type) => {
     else if (type == "WeldingRodRecord") return "/WRRLog";
     else return "/OverrideLog";
 };
+
+export const getNotificationApiUrl = (type) => {
+    if (type == "TOTLog")
+        return '/TOTLog';
+    else if (type == "WRRLog")
+        return '/WRRLog';
+    else
+     return '/OverrideLog'
+}

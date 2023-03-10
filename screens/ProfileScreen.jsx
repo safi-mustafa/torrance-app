@@ -35,7 +35,8 @@ export default function ProfileScreen({ navigation }) {
       <ProfileCard
         header={
           <Pressable style={styles.exitBtn} onPress={() => onLogOut()}>
-            <Ionicons name="exit-outline" size={34} color="white" />
+            {/* <Ionicons name="exit-outline" size={34} color="white" /> */}
+            <Text style={{color: 'white', fontSize: 18}}>Logout</Text>
           </Pressable>
         }
       />
@@ -96,8 +97,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 70,
     height: 50,
-    top: 15,
-    right: 0,
+    top: 25,
+    right: 15,
     paddingLeft: 10,
     alignItems: "center",
     zIndex: 99,

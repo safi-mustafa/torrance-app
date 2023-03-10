@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import * as Notifications from 'expo-notifications';
 import { useNavigation } from "@react-navigation/native";
 
-import { objectNotEmpty } from "../utility";
+import { getNotificationApiUrl, objectNotEmpty } from "../utility";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -30,22 +30,13 @@ export const usePushNotification = () => {
         }
     }, [notification]);
 
-    const getApiUrl = (type) => {
-        if (type == "TOTLog")
-            return '/TOTLog';
-        else if (type == "WRRLog")
-            return '/WRRLog';
-        else
-         return '/OverrideLog'
-    }
-
     const openDetailNotif = (item) => {
         console.log("🚀 ~ file: usePushNotification.js:32 ~ openDetailNotif ~ item", item)
         if (item?.EntityId) {
             navigation.navigate("SingleSubmission", {
                 id: item?.EntityId,
                 // apiUrl: item?.LogType == 1 ? "/TOTLog" : "/OverrideLog",
-                apiUrl: getApiUrl(item?.EntityType)
+                apiUrl: getNotificationApiUrl(item?.EntityType)
             })
 
             // if (objectNotEmpty(navigation)) {
