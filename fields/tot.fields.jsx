@@ -157,11 +157,11 @@ export const totFields = [
     inputType: "select",
     url: "/TOTLog/GetDelayReasons",
     placeholder: "Select Reason",
-    label: "Delay Reason",
+    label: "Delay Type",
     // required: true,
     zIndex: 997,
     labelAttributes: "text",
-    valueAttribute: "text",
+    // valueAttribute: "text",
     isEnum: true,
     wrapperStyle: { width: "48%", marginRight: 5 },
   },
@@ -177,7 +177,7 @@ export const totFields = [
     condition: {
       fieldName: "delayReason",
       action: "show",
-      matchValue: "StartOfWork",
+      matchValue: "0",
     },
   },
   {
@@ -192,7 +192,7 @@ export const totFields = [
     condition: {
       fieldName: "delayReason",
       action: "show",
-      matchValue: "ShiftDelay",
+      matchValue: "1",
     },
   },
   {
@@ -207,7 +207,7 @@ export const totFields = [
     condition: {
       fieldName: "delayReason",
       action: "show",
-      matchValue: "ReworkDelay",
+      matchValue: "2",
     },
   },
   // {
@@ -269,15 +269,15 @@ export const totFields = [
   // },
   {
     name: "manPowerAffected",
-    placeholder: "Enter Affected Number",
-    label: "Total Head Count",
+    placeholder: "Enter Headcount",
+    label: "Headcount",
     required: true,
     keyboardType: "numeric",
   },
   {
     name: "manHours",
-    placeholder: "Enter Man Hours",
-    label: "Total Man Hours",
+    placeholder: "Enter Hours",
+    label: "Hours",
     keyboardType: "numeric",
     required: true,
   },

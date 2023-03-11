@@ -219,6 +219,18 @@ export default function SingleSubmissionScreen({
         <ListRow label="company" value={data?.company?.name} />
         <ListRow label="Submitted" value={data?.formattedCreatedOn} />
         <ListRow label="approver" value={data?.approver?.name} />
+
+        {isApprover && (
+          <>
+            {data?.employee?.name && (
+              <ListRow label="requester" value={data?.employee?.name} />
+            )}
+          </>
+        )}
+
+        {data?.requester && (
+          <ListRow label="requester" value={data?.requester} />
+        )}
         <ListRow label="Status" value={data?.status} />
         <ListRow label="Department" value={data?.department?.name} />
         <ListRow label="unit" value={data?.unit?.name} />
@@ -290,7 +302,7 @@ export default function SingleSubmissionScreen({
             /> */}
 
             {/* <ListRow label="delay Type" value={data?.delayType?.name} /> */}
-            <ListRow label="delay type" value={data?.delayReason} />
+            <ListRow label="delay type" value={data?.formattedDelayReason} />
             {data?.startOfWorkDelay && (
               <ListRow
                 label="start Of Work Delay"
@@ -303,8 +315,9 @@ export default function SingleSubmissionScreen({
             {data?.reworkDelay && (
               <ListRow label="rework delay" value={data?.reworkDelay?.name} />
             )}
-            <ListRow label="Total Head Count" value={data?.manPowerAffected} />
-            <ListRow label="Total man Hours" value={data?.manHours} />
+            <ListRow label="Headcount" value={data?.manPowerAffected} />
+            <ListRow label="Hours" value={data?.manHours} />
+            <ListRow label="Total Hours" value={data?.totalHours} />
             {/* <ListRow
               label="request reason"
               value={data?.reasonForRequest?.name}
@@ -316,9 +329,8 @@ export default function SingleSubmissionScreen({
         )}
         {isOverRide && (
           <>
-            {data?.overrideReason && (
-              <ListRow label="override reason" value={data?.overrideReason} />
-            )}
+            <ListRow label="override reason" value={data?.reason} />
+
             {/* {data?.delayReason && (
               <ListRow label="delay reason" value={data?.delayReason} />
             )}

@@ -18,13 +18,14 @@ export default function TotRequestScreen({ navigation, route }) {
 
   const { params = {} } = route;
   const initialValues = params?.id
-    ? {
-        ...params,
-        alphabeticPart: params?.twrModel?.alphabeticPart,
-        numericPart: params?.twrModel?.numericPart,
-        twrText: params?.twrModel?.text,
-      }
-    : {};
+  ? {
+    ...params,
+    alphabeticPart: params?.twrModel?.alphabeticPart,
+    numericPart: params?.twrModel?.numericPart,
+    twrText: params?.twrModel?.text,
+  }
+  : {};
+  console.log("🚀 ~ file: TotRequestScreen.jsx:21 ~ TotRequestScreen ~ initialValues:", initialValues)
   const isEdit = params && params.id;
 
   const onSubmit = async (formValues = [], { setSubmitting }) => {

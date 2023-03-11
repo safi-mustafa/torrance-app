@@ -91,7 +91,9 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
   };
 
   const handleDelete = (index) => {
-    setRows(rows.filter((i, j) => j != index));
+    let removedRows = rows.filter((i, j) => j != index);
+    setRows(removedRows);
+    onFormChange(removedRows);
   };
 
   const onValueChange = (key, value, index) => {

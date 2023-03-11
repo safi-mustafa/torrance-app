@@ -181,7 +181,7 @@ export default function OverrideRequestScreen({ navigation, route }) {
                   }}
                 />
                 <OverrideCostForm
-                  onFormChange={onCostFormChange}
+                  onFormChange={(values)=>onCostFormChange(values)}
                   values={values}
                   key="costs"
                   errors={apiErrors}

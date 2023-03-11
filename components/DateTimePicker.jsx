@@ -8,9 +8,15 @@ export function DateTimePicker(props) {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const mode = props?.mode ? props?.mode : DATE_TIME_MODE.DATE;
 
+  const formatDate = date => {
+    return (
+      (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear()
+    );
+  };
+
   const getFormatedDate = (date = new Date()) => {
     return mode == DATE_TIME_MODE.DATE
-      ? new Date(date).toISOString().substring(0, 10)
+      ? formatDate(new Date(date)) //new Date(date).toISOString().substring(0, 10)
       : new Date(date).toLocaleTimeString().substring(0, 5);
   };
   const formatedDate = props.value ? getFormatedDate(props.value) : null;
