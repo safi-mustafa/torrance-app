@@ -162,7 +162,7 @@ export const totFields = [
     zIndex: 997,
     labelAttributes: "text",
     // valueAttribute: "text",
-    isEnum: true,
+    // isEnum: true,
     wrapperStyle: { width: "48%", marginRight: 5 },
   },
   {
