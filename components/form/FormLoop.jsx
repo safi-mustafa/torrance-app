@@ -26,10 +26,15 @@ export default function FormLoop({
 
   const getError = (errors, { name = "", inputType = null }) => {
     let errorField = toCapitalCase(name);
-    if (inputType == "select" && errorField!="AlphabeticPart" && errorField!="NumericPart" && errorField!="DelayReason") {
+    if (
+      inputType == "select" &&
+      errorField != "AlphabeticPart" &&
+      errorField != "NumericPart" &&
+      errorField != "DelayReason"
+    ) {
       errorField = `${errorField}.Id`;
     }
-    if(name=="twrText"){
+    if (name == "twrText") {
       errorField = `TWRModel.Text`;
     }
     // console.log("🚀 ~ file: FormLoop.jsx:38 ~ getError ~ errors[errorField]:", errors[errorField], errorField)
@@ -38,52 +43,57 @@ export default function FormLoop({
 
   return (
     <View style={formStyle}>
-      {formatedFields.filter((elementAttribs)=> !elementAttribs?.hidden).map((elementAttribs, index) => {
-        let _props = {
-          form: elementAttribs,
-          onChangeText: handleChange(elementAttribs.name),
-          onBlur: handleBlur(elementAttribs.name),
-          value: values[elementAttribs.name],
-          setFieldValue: setFieldValue,
-        };
-
-        if (elementAttribs?.name == "submit")
-          _props = { ..._props, onPress: handleSubmit };
-        else if (elementAttribs?.inputType == "switch")
-          _props = {
-            ..._props,
-            onValueChange: (value) => setFieldValue(elementAttribs.name, value),
+      {formatedFields
+        .filter((elementAttribs) => !elementAttribs?.hidden)
+        .map((elementAttribs, index) => {
+          let _props = {
+            form: elementAttribs,
+            onChangeText: handleChange(elementAttribs.name),
+            onBlur: handleBlur(elementAttribs.name),
+            value: values[elementAttribs.name],
+            setFieldValue: setFieldValue,
           };
 
-        return (
-          <View
-            key={elementAttribs?.name}
-            style={[{ width: "100%" }, elementAttribs?.wrapperStyle]}
-          >
-            {!elementAttribs?.hidden && (
-              <View>
-                {elementAttribs?.label && (
-                  <Text
-                    style={{ ...styles.label, ...elementAttribs?.labelStyle }}
-                  >
-                    {elementAttribs?.label}
-                    {elementAttribs?.required && (
-                      <Text style={{ color: "red", paddingLeft: 2 }}>*</Text>
-                    )}
-                  </Text>
-                )}
-                <View style={styles.inputWrapper}>
-                  <Putin {..._props} />
+          if (elementAttribs?.name == "submit")
+            _props = { ..._props, onPress: handleSubmit };
+          else if (elementAttribs?.inputType == "switch")
+            _props = {
+              ..._props,
+              onValueChange: (value) =>
+                setFieldValue(elementAttribs.name, value),
+            };
 
-                  {getError(errors, elementAttribs) && <Text style={styles.inputError}>
-                    {getError(errors, elementAttribs)}
-                  </Text>}
+          return (
+            <View
+              key={elementAttribs?.name}
+              style={[{ width: "100%" }, elementAttribs?.wrapperStyle]}
+            >
+              {!elementAttribs?.hidden && (
+                <View>
+                  {elementAttribs?.label && (
+                    <Text
+                      style={{ ...styles.label, ...elementAttribs?.labelStyle }}
+                    >
+                      {elementAttribs?.label}
+                      {elementAttribs?.required && (
+                        <Text style={{ color: "red", paddingLeft: 2 }}>*</Text>
+                      )}
+                    </Text>
+                  )}
+                  <View style={styles.inputWrapper}>
+                    <Putin {..._props} />
+
+                    {getError(errors, elementAttribs) && (
+                      <Text style={styles.inputError}>
+                        {getError(errors, elementAttribs)}
+                      </Text>
+                    )}
+                  </View>
                 </View>
-              </View>
-            )}
-          </View>
-        );
-      })}
+              )}
+            </View>
+          );
+        })}
     </View>
   );
 }
@@ -119,12 +129,15 @@ function getConditionalFields(fields, values) {
 
       // console.log("🚀 ~ file: FormLoop.tsx ~ line 91 ~ returnfields.map ~ parentFieldValue", field.name, parentFieldValue, JSON.parse(condition?.matchValue))
       const matchFieldValue = condition?.matchValue;
-      console.log("🚀 ~ file: FormLoop.jsx:121 ~ returnfields.map ~ matchFieldValue", matchFieldValue, parentFieldValue)
+      console.log(
+        "🚀 ~ file: FormLoop.jsx:121 ~ returnfields.map ~ matchFieldValue",
+        matchFieldValue,
+        parentFieldValue
+      );
       if (parentFieldValue == matchFieldValue) {
         return { ...field, condition, hidden: true };
       }
-    }
-    else if (condition?.action == "show") {
+    } else if (condition?.action == "show") {
       parentFieldValue =
         typeof parentFieldValue !== "undefined"
           ? parentFieldValue
@@ -132,11 +145,25 @@ function getConditionalFields(fields, values) {
 
       // console.log("🚀 ~ file: FormLoop.tsx ~ line 91 ~ returnfields.map ~ parentFieldValue", field.name, parentFieldValue, JSON.parse(condition?.matchValue))
       const matchFieldValue = condition?.matchValue;
+      // console.log(
+      //   "🚀 ~ file: FormLoop.jsx:135 ~ returnfields.map ~ matchFieldValue:",
+      //   matchFieldValue
+      // );
+      // console.log(
+      //   "🚀 ~ file: FormLoop.jsx:137 ~ returnfields.map ~ parentFieldValue:",
+      //   parentFieldValue
+      // );
+      // console.log(
+      //   "🚀 ~ file: FormLoop.jsx:139 ~ returnfields.map ~ field:",
+      //   field
+      // );
+      if (field.inputType == "select" && field?.isEnum != true) {
+        parentFieldValue = parentFieldValue?.id;
+      }
       if (parentFieldValue !== matchFieldValue) {
         return { ...field, condition, hidden: true };
       }
-    }
-    else if (condition?.action === "useValue") {
+    } else if (condition?.action === "useValue") {
       if (field?.inputType === "select") {
         const ddParentFieldObject = values[parentFieldName];
         // console.log("🚀 ~ file: FormLoop.jsx:117 ~ returnfields.map ~ ddParentFieldObject", ddParentFieldObject)
@@ -150,7 +177,7 @@ function getConditionalFields(fields, values) {
           ? `${conditionalOperator}${condition?.paramField}=${ddParentFieldValue}`
           : "";
         const compiledUrl = `${field?.url}${params}`;
-        
+
         return {
           ...field,
           url: compiledUrl,

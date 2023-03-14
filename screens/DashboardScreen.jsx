@@ -2,10 +2,10 @@ import { StyleSheet, Platform, View, ScrollView } from "react-native";
 
 import { primaryColor } from "../constants/Colors";
 import { DashButton } from "../components/DashButton";
-import { DashboardMenu } from "../components/DashboadMenu";
 import ProfileCard from "../components/ProfileCard";
 import { USER_ROLE } from "../constants/Misc";
 import useUserMeta from "../hooks/useUserMeta";
+import { STATUSBAR_HEIGHT } from "../utility";
 
 const TOT_IMAGE = require("./../assets/images/journal-book.png");
 const WRR_IMAGE = require("./../assets/images/welding.png");
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,
     backgroundColor: primaryColor,
-    marginTop: Platform.OS == "ios" ? 50 : 0,
+    marginTop: Platform.OS == "ios" ? 50 : STATUSBAR_HEIGHT,
   },
   expandSection: {
     backgroundColor: "#fff",

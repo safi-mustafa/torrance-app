@@ -11,7 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import appStyles from "../app-styles";
 import { lightColor } from "../constants/Colors";
 import { useEffect, useState } from "react";
-import { getKey, saveKey } from "../utility";
+import { getKey, saveKey, STATUSBAR_HEIGHT } from "../utility";
 import ProfileCard from "../components/ProfileCard";
 import useUserMeta from "../hooks/useUserMeta";
 import { USER_ROLE } from "../constants/Misc";
@@ -84,7 +84,7 @@ export default function ProfileScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   innerContainer: {
-    marginTop: Platform.OS == "ios" ? 50 : 0,
+    marginTop: Platform.OS == "ios" ? 50 : STATUSBAR_HEIGHT,
     // backgroundColor: lightColor,
   },
   expandSection: {

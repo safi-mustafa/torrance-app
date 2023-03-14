@@ -15,7 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import postData from "./../api-services/postData";
 import Loader from "../components/Loader";
 import Layout from "../constants/Layout";
-import { saveKey } from "../utility";
+import { saveKey, STATUSBAR_HEIGHT } from "../utility";
 import LoginForm from "../components/LoginForm";
 import LoginPin from "../components/LoginPin";
 import { LOGIN_TYPE } from "../constants/Misc";
@@ -79,7 +79,7 @@ export default function LoginScreen({ navigation }) {
       <ImageBackground
         source={BG_IMAGE}
         imageStyle={{ resizeMode: "stretch", marginRight: -5 }}
-        style={{ marginTop: Platform.OS == "ios" ? 50 : 0 }}
+        style={{ marginTop: Platform.OS == "ios" ? 50 : STATUSBAR_HEIGHT }}
       >
         <KeyboardAwareScrollView>
           <View style={styles.container}>

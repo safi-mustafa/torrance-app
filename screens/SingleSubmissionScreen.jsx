@@ -301,8 +301,8 @@ export default function SingleSubmissionScreen({
               value={getFormatedDate(data?.formattedStartOfWork)}
             /> */}
 
-            {/* <ListRow label="delay Type" value={data?.delayType?.name} /> */}
-            <ListRow label="delay type" value={data?.formattedDelayReason} />
+            <ListRow label="delay Type" value={data?.delayType?.name} />
+            {/* <ListRow label="delay type" value={data?.formattedDelayReason} /> */}
             {data?.startOfWorkDelay && (
               <ListRow
                 label="start Of Work Delay"

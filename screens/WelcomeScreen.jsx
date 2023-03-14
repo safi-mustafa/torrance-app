@@ -5,6 +5,7 @@ import { primaryColor } from "../constants/Colors";
 import { DashboardMenu } from "../components/DashboadMenu";
 import ProfileCard from "../components/ProfileCard";
 import Buttonx from "../components/form/Buttonx";
+import { STATUSBAR_HEIGHT } from "../utility";
 
 export default function WelcomeScreen({ navigation }) {
   return (
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,
     backgroundColor: primaryColor,
-    marginTop: Platform.OS == "ios" ? 50 : 0,
+    marginTop: Platform.OS == "ios" ? 50 : STATUSBAR_HEIGHT,
   },
   expandSection: {
     backgroundColor: "#fff",

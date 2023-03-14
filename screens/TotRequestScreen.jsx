@@ -1,13 +1,15 @@
 import { Formik } from "formik";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StyleSheet, View, Pressable, Text } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-toast-message";
+import getData from "../api-services/getData";
 import putData from "../api-services/putData";
 
 import appStyles from "../app-styles";
 import FormLoop from "../components/form/FormLoop";
 import Loader from "../components/Loader";
+import { BASE_URL } from "../constants/Misc";
 import { totFields } from "../fields/tot.fields";
 import { getKey } from "../utility";
 import postData from "./../api-services/postData";
@@ -15,6 +17,7 @@ import postData from "./../api-services/postData";
 export default function TotRequestScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [apiErrors, setApiErrors] = useState({});
+  const [delayTypes, setDelayTypes] = useState([]);
 
   const { params = {} } = route;
   const initialValues = params?.id
@@ -25,8 +28,26 @@ export default function TotRequestScreen({ navigation, route }) {
     twrText: params?.twrModel?.text,
   }
   : {};
-  console.log("🚀 ~ file: TotRequestScreen.jsx:21 ~ TotRequestScreen ~ initialValues:", initialValues)
   const isEdit = params && params.id;
+
+  useEffect(() => {
+    getDelayTypes()
+  }, [])
+  
+
+  const getDelayTypes = () => {
+    getData(
+      { url: BASE_URL+'/DelayType' },
+      (response) => {
+        const data = response?.data?.items;
+        console.log("🚀 ~ file: TotRequestScreen.jsx:36 ~ getDelayTypes ~ data:", data)
+        setDelayTypes(data);
+      },
+      (error) => {
+        console.log("🚀 ~ file: TotRequestScreen.jsx:43 ~ getDelayTypes ~ error:", error)
+      }
+    );
+  };
 
   const onSubmit = async (formValues = [], { setSubmitting }) => {
     const userMeta = await getKey("user");
@@ -40,12 +61,17 @@ export default function TotRequestScreen({ navigation, route }) {
       formValues?.alphabeticPart?.id == 0 ? {} : formValues?.alphabeticPart;
     const numericPart =
       formValues?.numericPart?.id == 0 ? {} : formValues?.numericPart;
-    const params = {
+    let params = {
       ...formValues,
       company: { id: userDetail?.company?.id, name: userDetail?.company?.name },
       requester: { id: userDetail?.id, name: userDetail?.name },
       twrModel: { alphabeticPart, numericPart, text: twrText },
     };
+
+    if(params?.delayType){
+      const selectedIdentifier = delayTypes.find(item => item.id == params?.delayType?.id)?.identifier;
+      params.delayType = { ...params?.delayType, identifier: selectedIdentifier }
+    }
 
     console.log(
       "🚀 ~ file: TotRequestScreen.jsx ~ line 25 ~ onSubmit ~ params",
