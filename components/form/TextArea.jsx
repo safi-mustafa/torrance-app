@@ -13,10 +13,11 @@ export default function TextArea({ style = {}, ...props }) {
         borderRadius: 6,
         padding: 10,
         fontSize: 16,
-        minHeight: 60,
+        minHeight: 40,
+        textAlignVertical: 'top',
         ...style,
       }}
-      numberOfLines={5}
+      numberOfLines={4}
       multiline={true}
       {...props}
     />

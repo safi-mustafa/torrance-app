@@ -37,7 +37,12 @@ export default function SubmissionsScreen({ navigation }) {
     tabs = tabs.filter(({name})=>name=="Override")
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{
+      tabBarStyle: { 
+        borderTopColor: '#eee',
+        borderTopWidth: 1,
+       },
+    }}>
       {tabs.map(
         ({
           name,

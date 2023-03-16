@@ -31,7 +31,6 @@
     "react-native": "0.70.5",
     "react-native-axios": "^0.17.1",
     "react-native-confirmation-code-field": "^7.3.1",
-    "react-native-dropdown-picker": "^5.4.4",
     "react-native-gesture-handler": "^2.9.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-modal-datetime-picker": "^14.0.1",

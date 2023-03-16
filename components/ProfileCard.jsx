@@ -43,7 +43,7 @@ export default function ProfileCard({
               { color: Colors[colorScheme].lightText, marginBottom: 15 },
             ]}
           >
-            {name} {StatusBar.currentHeight}
+            {name}
           </Text>
           {footer}
         </View>

@@ -451,17 +451,19 @@ const styles = StyleSheet.create({
   },
   tr: {
     flexDirection: "row",
-    justifyContent: "space-between",
     width: "100%",
+    justifyContent: "space-between",
   },
   td: {
     fontSize: 12,
     textAlign: "center",
-    width: "25%",
+    width: "24%",
+    padding: 3
   },
   head: {
     fontWeight: "bold",
     marginBottom: 5,
-    fontSize: 12,
+    fontSize: 11,
+    width: "24%"
   },
 });
