@@ -13,18 +13,14 @@ export default function FormLoop({
   handleSubmit,
   setFieldValue,
   formStyle = {},
+  showYupErrors = false,
 }) {
   // console.log("🚀 ~ file: FormLoop.tsx ~ line 18 ~ errors", errors);
-  // const [formatedFields, setFormatedFields] = useState(fields);
-  // useEffect(() => {
-  //   const formatedFieldsAfterChange = getConditionalFields(fields, values);
-  //   setFormatedFields(formatedFieldsAfterChange);
-  //   return () => {};
-  // }, [values]);
   const formatedFields = getConditionalFields(fields, values);
-  // console.log("🚀 ~ file: FormLoop.jsx:26 ~ formatedFields", formatedFields)
 
   const getError = (errors, { name = "", inputType = null }) => {
+    if(showYupErrors) return errors[name];
+    
     let errorField = toCapitalCase(name);
     if (
       inputType == "select" &&

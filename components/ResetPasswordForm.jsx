@@ -1,30 +1,29 @@
 import { Formik } from "formik";
 import * as Yup from "yup";
 
-import FormLoop from "../components/form/FormLoop";
-import { loginFields } from "../fields/login.fields";
+import FormLoop from "./form/FormLoop";
+import { changePasswordFields } from "../fields/changePassword.fields";
 
-const LoginSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Required"),
+const FormSchema = Yup.object().shape({
   password: Yup.string().required("Required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Required"),
 });
 
-export default function LoginForm({ navigation, onSubmit }) {
+export default function ResetPasswordForm({ onSubmit }) {
   const onFormSubmit = async (values, { setSubmitting }) => {
     onSubmit(values);
   };
 
-  const initialValues = {};
-  //{"email": "roxen@abc.com","password": "Centangle"} 
-  //{"email": "approver@centangle.com","password": "Admin@123"}
+  const initialValues = { password: "", confirmPassword: "" };
 
   return (
     <>
       <Formik
         initialValues={initialValues}
         onSubmit={onFormSubmit}
-        validationSchema={LoginSchema}
-        // valueOnChange={(a) => console.log(a)}
+        validationSchema={FormSchema}
       >
         {({
           values,
@@ -36,13 +35,14 @@ export default function LoginForm({ navigation, onSubmit }) {
         }) => (
           <>
             <FormLoop
-              fields={loginFields}
+              fields={changePasswordFields}
               handleChange={handleChange}
               handleBlur={handleBlur}
               setFieldValue={setFieldValue}
               values={values}
               errors={errors}
               handleSubmit={handleSubmit}
+              showYupErrors={true}
             />
           </>
         )}

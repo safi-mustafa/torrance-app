@@ -7,7 +7,6 @@ import {
   DarkTheme,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Pressable } from "react-native";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
@@ -27,8 +26,8 @@ import { usePushNotification } from "../hooks/usePushNotification";
 import useUserMeta from "../hooks/useUserMeta";
 import { USER_ROLE } from "../constants/Misc";
 import ApprovalCell from "../components/cell-templates/ApprovalCell";
-import BlankScreen from "../screens/BlankScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
+import ChangePasswordScreen from "../screens/ChangePasswordScreen";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -96,6 +95,11 @@ function RootNavigator() {
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
+      <Stack.Screen
+        name="ChangePassword"
+        component={ChangePasswordScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }

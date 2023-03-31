@@ -45,6 +45,7 @@ export default function WrrRequestScreen({ navigation, route }) {
       fumeControlUsed: formValues?.fumeControlUsed ? 0 : 1,
       employee: { id: userDetail?.id, name: userDetail?.name },
       twrModel: { alphabeticPart, numericPart, text: twrText },
+      company: { id: userDetail?.company?.id, name: userDetail?.company?.name },
     };
     console.log(
       "🚀 ~ file: WrrRequestScreen.jsx ~ line 22 ~ onSubmit ~ params",
