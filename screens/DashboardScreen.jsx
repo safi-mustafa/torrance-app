@@ -1,68 +1,80 @@
-import {
-  StyleSheet,
-  Dimensions,
-  ImageBackground,
-  StatusBar,
-  Platform,
-  Text, View
-} from "react-native";
+import { StyleSheet, Platform, View, ScrollView } from "react-native";
 
-import appStyles from "../app-styles";
-import useColorScheme from "../hooks/useColorScheme";
-import Colors, { primaryColor } from "../constants/Colors";
+import { primaryColor } from "../constants/Colors";
 import { DashButton } from "../components/DashButton";
-import { DashboardMenu } from "../components/DashboadMenu";
+import ProfileCard from "../components/ProfileCard";
+import { USER_ROLE } from "../constants/Misc";
+import useUserMeta from "../hooks/useUserMeta";
+import { STATUSBAR_HEIGHT } from "../utility";
 
 const TOT_IMAGE = require("./../assets/images/journal-book.png");
 const WRR_IMAGE = require("./../assets/images/welding.png");
-const BG_IMAGE = require("./../assets/images/bg-blue.png");
-const DIMENSIONS = {
-  width: Dimensions.get("window").width,
-  height: Dimensions.get("window").height,
-};
+const OVERRIDE_IMAGE = require("./../assets/images/override.png");
 
 export default function DashboardScreen({ navigation }) {
-  const colorScheme = useColorScheme();
+  const { role = "" } = useUserMeta();
+  const isManager = USER_ROLE.COMPANY_MANAGER == role;
 
   return (
     <View style={[styles.innerContainer]}>
-      <ImageBackground
-        source={BG_IMAGE}
-        imageStyle={{ resizeMode: "stretch", marginRight: -5 }}
-      >
-        <View
-          style={[appStyles.clear, { paddingTop: 80, paddingHorizontal: 30 }]}
-        >
-          <Text style={{ color: Colors[colorScheme].lightText }}>Hello,</Text>
-          <Text
-            style={[
-              appStyles.h4,
-              { color: Colors[colorScheme].lightText, marginBottom: 25 },
-            ]}
-          >
-            John Doe {StatusBar.currentHeight}
-          </Text>
+      {/* <View style={!isManager && { height: 280 }}> */}
+      <View>
+        <ProfileCard
+          footer={
+            !isManager && (
+              <>
+                {/* <DashButton
+                  style={{ marginBottom: 10 }}
+                  title="Submit TOT Request"
+                  subtitle="Time on Tools"
+                  icon={TOT_IMAGE}
+                  onPress={() => navigation.push("TotRequest")}
+                />
+                <DashButton
+                  style={{ marginBottom: 10 }}
+                  title="Submit Override Request"
+                  subtitle="Override Request Record"
+                  icon={OVERRIDE_IMAGE}
+                  onPress={() => navigation.push("OverrideRequest")}
+                />
+                <DashButton
+                  style={{ marginBottom: 18 }}
+                  title="Submit WRR Request"
+                  subtitle="Welding Rod Record"
+                  icon={WRR_IMAGE}
+                  onPress={() => navigation.push("WrrRequest")}
+                /> */}
+              </>
+            )
+          }
+        />
+      </View>
+      <View style={{ flex: 2 }}>
+        <ScrollView style={styles.expandSection}>
+          {/* <DashboardMenu navigation={navigation} /> */}
 
           <DashButton
-            style={{ marginBottom: 15 }}
+            style={styles.dashBtn}
             title="Submit TOT Request"
             subtitle="Time on Tools"
             icon={TOT_IMAGE}
             onPress={() => navigation.push("TotRequest")}
           />
-        </View>
-      </ImageBackground>
-      <View style={appStyles.clear}>
-        <View style={styles.expandSection}>
           <DashButton
-            style={{ marginHorizontal: 20, marginBottom: 10 }}
+            style={styles.dashBtn}
+            title="Submit Override Request"
+            subtitle="Override Request Record"
+            icon={OVERRIDE_IMAGE}
+            onPress={() => navigation.push("OverrideRequest")}
+          />
+          <DashButton
+            style={styles.dashBtn}
             title="Submit WRR Request"
             subtitle="Welding Rod Record"
             icon={WRR_IMAGE}
-            onPress={() => console.log("hello")}
+            onPress={() => navigation.push("WrrRequest")}
           />
-          <DashboardMenu />
-        </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -70,13 +82,21 @@ export default function DashboardScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   innerContainer: {
+    flex: 1,
     backgroundColor: primaryColor,
-    marginTop: Platform.OS == "ios" ? 40 : 0,
+    marginTop: Platform.OS == "ios" ? 50 : STATUSBAR_HEIGHT,
   },
   expandSection: {
     backgroundColor: "#fff",
-    width: DIMENSIONS.width,
     height: "100%",
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 30
   },
+  dashBtn: { 
+    marginBottom: 15,
+    paddingVertical: 15, 
+    paddingHorizontal: 10, 
+    maxWidth: 320,
+    alignSelf: "center"
+  }
 });

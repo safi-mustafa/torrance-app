@@ -1,8 +1,3 @@
-/**
- * If you are not familiar with React Navigation, refer to the "Fundamentals" guide:
- * https://reactnavigation.org/docs/getting-started
- *
- */
 import * as React from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -12,7 +7,6 @@ import {
   DarkTheme,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Pressable } from "react-native";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
@@ -22,6 +16,19 @@ import DashboardScreen from "../screens/DashboardScreen";
 import SubmissionsScreen from "../screens/SubmissionsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import TotRequestScreen from "../screens/TotRequestScreen";
+import WrrRequestScreen from "../screens/WrrRequestScreen";
+import LoginScreen from "../screens/LoginScreen";
+import SubmissionContentScreen from "../screens/SubmissionContentScreen";
+import SingleSubmissionScreen from "../screens/SingleSubmissionScreen";
+import OverrideRequestScreen from "../screens/OverrideRequestScreen";
+import NotificationScreen from "../screens/NotificationScreen";
+import { usePushNotification } from "../hooks/usePushNotification";
+import useUserMeta from "../hooks/useUserMeta";
+import { USER_ROLE } from "../constants/Misc";
+import ApprovalCell from "../components/cell-templates/ApprovalCell";
+import WelcomeScreen from "../screens/WelcomeScreen";
+import ChangePasswordScreen from "../screens/ChangePasswordScreen";
+import SignupScreen from "../screens/SignupScreen";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -33,17 +40,24 @@ export default function Navigation({ colorScheme }) {
   );
 }
 
-/**
- * A root stack navigator is often used for displaying modals on top of all other content.
- * https://reactnavigation.org/docs/modal
- */
 const Stack = createNativeStackNavigator();
 
 function RootNavigator() {
+  const pushNotif = usePushNotification({});
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Root"
+        component={WelcomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="BottomTabNav"
         component={BottomTabNavigator}
         options={{ headerShown: false }}
       />
@@ -55,11 +69,43 @@ function RootNavigator() {
       <Stack.Screen
         name="TotRequest"
         component={TotRequestScreen}
-        options={{ title: "New TOT Request" }}
+        options={{ title: "TOT Request" }}
       />
+      <Stack.Screen
+        name="WrrRequest"
+        component={WrrRequestScreen}
+        options={{ title: "WRR Request" }}
+      />
+      <Stack.Screen
+        name="OverrideRequest"
+        component={OverrideRequestScreen}
+        options={{ title: "Override Request" }}
+      />
+      <Stack.Screen
+        name="SubmissionContent"
+        component={SubmissionContentScreen}
+        options={{ title: "Content" }}
+      />
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Screen
+          name="SingleSubmission"
+          component={SingleSubmissionScreen}
+          options={{ title: "Submission" }}
+        />
+      </Stack.Group>
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
+      <Stack.Screen
+        name="ChangePassword"
+        component={ChangePasswordScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Signup"
+        component={SignupScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }
@@ -72,57 +118,116 @@ const BottomTab = createBottomTabNavigator();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
+  const { role = "", userMeta } = useUserMeta();
+
+  const isApprover = USER_ROLE.APPROVER == role;
+  const isEmployee = USER_ROLE.EMPLOYEE == role;
+  const isManager = USER_ROLE.COMPANY_MANAGER == role;
+  // console.log("🚀 ~ file: index.jsx:109 ~ BottomTabNavigator ~ isApprover - isEmployee",isApprover, isEmployee)
+
+  const dashboardScreen = {
+    name: "TapDashboard",
+    component: DashboardScreen,
+    options: {
+      title: "Dashboard",
+      headerShown: false,
+      tabBarIcon: ({ color }) => (
+        <TabBarIcon name="home" size={34} color={color} />
+      ),
+    },
+  };
+  const employeeTabs = [
+    dashboardScreen
+  ];
+
+  const approverTabs = [
+    {
+      name: "TabApprovals",
+      component: SubmissionContentScreen,
+      options: {
+        title: "Pending Approvals",
+        tabBarIcon: ({ color }) => (
+          <TabBarIcon name="home" color={color} size={34} />
+        ),
+      },
+      initialParams: {
+        title: "Pending Approvals",
+        url: "/Approval",
+        name: "TabApprovals",
+        template: <ApprovalCell />,
+      },
+    },
+  ];
+
+  const commonTabs = [
+    {
+      name: "TabSubmissions",
+      component: SubmissionsScreen,
+      options: {
+        title: isApprover ? "Reviewed Logs" : "My Submissions",
+        tabBarIcon: ({ color }) => (
+          <TabBarIcon name="file-text" color={color} size={28} />
+        ),
+      },
+    },
+    {
+      name: "TabNotification",
+      component: NotificationScreen,
+      options: {
+        title: "Notifications",
+        // headerShown: false,
+        tabBarIcon: ({ color }) => <TabBarIcon name="inbox" color={color} />,
+      },
+    },
+    {
+      name: "TabProfile",
+      component: ProfileScreen,
+      options: {
+        title: "My Profile",
+        headerShown: false,
+        tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+      },
+    },
+  ];
+
+  const managerTabs = [
+    ...commonTabs.filter(({ name }) => name != "TabNotification"),
+  ];
+  console.log("🚀 ~ file: index.jsx:185 ~ BottomTabNavigator ~ managerTabs", managerTabs)
+
+  let tabs = isApprover ? approverTabs : employeeTabs;
+  tabs = [...tabs, ...commonTabs];
+
+  if(isManager){
+    tabs = [dashboardScreen,...managerTabs];
+    console.log("🚀 ~ file: index.jsx:193 ~ BottomTabNavigator ~ tabs", tabs)
+  }
+
+  const defaultInitialScreen = () => {
+    return isApprover ? "TabApprovals" : "TapDashboard";
+  };
+
+  const initialScreen = defaultInitialScreen();
+
+  if (!role) return <></>;
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TapDashboard"
+      initialRouteName={initialScreen}
       screenOptions={{
         tabBarShowLabel: false,
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}
     >
-      <BottomTab.Screen
-        name="TapDashboard"
-        component={DashboardScreen}
-        options={({ navigation }) => ({
-          title: "Dashboard",
-          headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("Modal")}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
-        })}
-      />
-      <BottomTab.Screen
-        name="TabSubmissions"
-        component={SubmissionsScreen}
-        options={{
-          title: "My Submissions",
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="file-text" color={color} />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="TabProfile"
-        component={ProfileScreen}
-        options={{
-          title: "My Profile",
-          tabBarIcon: ({ color }) => <TabBarIcon name="user-o" color={color} />,
-        }}
-      />
+      {tabs.map(({ name, component, options, ...otherProps }) => (
+        <BottomTab.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={options}
+          {...otherProps}
+        />
+      ))}
     </BottomTab.Navigator>
   );
 }

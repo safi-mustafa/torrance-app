@@ -1,4 +1,5 @@
 import { StyleSheet, StyleProp } from "react-native";
+import Colors, { lightColor, primaryColor } from "./constants/Colors";
 
 const defaultFontSize = 16;
 const appStyles = StyleSheet.create({
@@ -29,8 +30,8 @@ const appStyles = StyleSheet.create({
   h5: {
     fontSize: defaultFontSize * 1.2,
   },
-  my1:{
-    marginVertical: 2
+  my1: {
+    marginVertical: 2,
   },
   title: {
     fontSize: 20,
@@ -50,6 +51,32 @@ const appStyles = StyleSheet.create({
     backgroundColor: "transparent",
     margin: 0,
     padding: 0,
-  }
+  },
+  btn: {
+    backgroundColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 4,
+    padding: 10,
+    borderColor: "#ccc",
+  },
+  btnText: {
+    fontSize: 16,
+    textAlign: "center",
+  },
+  btnPrimary: {
+    backgroundColor: primaryColor,
+    borderColor: primaryColor,
+  },
+  btnTextPrimary: {
+    color: lightColor,
+  },
+  input: {
+    backgroundColor: "#fff",
+    borderColor: "#ccc",
+    fontSize: 16,
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 6,
+  },
 });
 export default appStyles;

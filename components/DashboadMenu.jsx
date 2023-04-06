@@ -1,80 +1,163 @@
-import { Image, ScrollView, StyleSheet, TouchableOpacity,  Text, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
+  Linking,
+} from "react-native";
+import getData from "../api-services/getData";
 
 import appStyles from "../app-styles";
+// import Layout from "../constants/Layout";
+import FileCell from "./cell-templates/FileCell";
+import Loader from "../components/Loader";
+import { useEffect, useState } from "react";
+import { BASE_URL, STORAGE_URL } from "../constants/Misc";
+
+const MENU_TYPE = {
+  EXTERNAL_LINK: "EXTERNAL_LINK",
+  ROUTE_REDIRECT: "ROUTE_REDIRECT",
+};
 
 const items = [
-  {
-    title: "Submit Override",
-    subtitle: "Overtime Request",
-    icon: require("./../assets/images/journal-book.png"),
-    link: 'main'
-  },
-  {
-    title: "Unlocked WRRs",
-    subtitle: "Update WWR Returns",
-    icon: require("./../assets/images/welding.png"),
-    link: 'main'
-  },
-  {
-    title: "Maps",
-    subtitle: "View Maps",
-    icon: require("./../assets/images/maps.png"),
-    link: 'main'
-  },
-  {
-    title: "Badge Room",
-    subtitle: "View Files",
-    icon: require("./../assets/images/worker.png"),
-    link: 'main'
-  },
-  {
-    title: "Delivery",
-    subtitle: "View Files",
-    icon: require("./../assets/images/delivery.png"),
-    link: 'main'
-  },
-  {
-    title: "Passport",
-    subtitle: "View Files",
-    icon: require("./../assets/images/passport.png"),
-    link: 'main'
-  },
-  {
-    title: "Vehicle Pass",
-    subtitle: "View Pass",
-    icon: require("./../assets/images/pass.png"),
-    link: 'main'
-  },
-  {
-    title: "Dropbox",
-    subtitle: "Dropbox Link",
-    icon: require("./../assets/images/dropbox.png"),
-    link: 'main'
-  },
+  // {
+  //   title: "Submit Override",
+  //   subtitle: "Overtime Request",
+  //   icon: require("./../assets/images/journal-book.png"),
+  //   url: "NotFound",
+  //   type: MENU_TYPE.ROUTE_REDIRECT,
+  // },
+  // {
+  //   title: "Dropbox",
+  //   subtitle: "Dropbox Link",
+  //   icon: require("./../assets/images/dropbox.png"),
+  //   url: "https://dropbox.com/",
+  //   type: MENU_TYPE.EXTERNAL_LINK,
+  // },
 ];
 
-export function DashboardMenu(props) {
+export function DashboardMenu({ navigation }) {
+  const [folders, setFolders] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [dropboxUrl, setDropbox] = useState(null);
+
+  useEffect(() => {
+    getFolders();
+    // getDropboxUrl();
+    return () => {};
+  }, []);
+
+  const getFolders = () => {
+    setLoading(true);
+    getData(
+      { url: "/Folder" },
+      (response) => {
+        setLoading(false);
+        const { items = [] } = response?.data;
+        // console.log("🚀 ~ file: DashboadMenu.jsx ~ line 99 ~ getFolders ~ items", items)
+        setFolders(items);
+      },
+      (error) => {
+        console.log(
+          "🚀 ~ file: DashboadMenu.jsx ~ line 95 ~ getFolders ~ error",
+          error
+        );
+        setLoading(false);
+      }
+    );
+  };
+
+  const getDropboxUrl = () => {
+    // setLoading(true);
+    getData(
+      { url: "/Dropbox" },
+      (response) => {
+        setLoading(false);
+        const { items = [] } = response?.data;
+
+        setDropbox(items.length > 0 ? items[0]?.url : null);
+      },
+      (error) => {
+        console.log(
+          "🚀 ~ file: DashboadMenu.jsx ~ line 95 ~ getFolders ~ error",
+          error
+        );
+        setLoading(false);
+      }
+    );
+  };
+
+  const onMenuPress = ({ type = null, ...item }) => {
+    if (type === MENU_TYPE.ROUTE_REDIRECT) {
+      navigation.push(
+        item?.url,
+        item?.params && {
+          ...item?.params,
+        }
+      );
+    } else if (type === MENU_TYPE.EXTERNAL_LINK) {
+      Linking.openURL(item?.url).catch((err) => console.error("Error", err));
+    } else {
+      navigation.push("SubmissionContent", {
+        ...item,
+      });
+    }
+  };
+
   return (
-    <ScrollView>
+    <>
+      <Loader show={loading} size="large" overlay="true" color="white" />
       <View style={styles.section}>
-        {items.map(({ title, subtitle, icon }, index) => (
-          <TouchableOpacity key={index} style={styles.btnWrapper}>
+        {folders.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.btnWrapper}
+            onPress={() => onMenuPress({...item,url:`/Folder/${item?.id}`, template: <FileCell />})}
+          >
+            <View style={styles.innerBtnWrapper}>
+              <View style={{width:"70%"}}>
+                <Text style={[appStyles.fw500, appStyles.my1]}>
+                  {item?.name}
+                </Text>
+                {/* <Text style={{ color: "#999", fontSize: 11 }}>{subtitle}</Text> */}
+              </View>
+              {item?.iconUrl && (
+                <Image
+                  style={styles.icon}
+                  source={{ uri: STORAGE_URL + item?.iconUrl }}
+                  resizeMode="contain"
+                />
+              )}
+            </View>
+          </TouchableOpacity>
+        ))}
+        {items.map(({ subtitle, icon, ...item }, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.btnWrapper}
+            onPress={() => onMenuPress({ ...item, url: dropboxUrl })}
+          >
             <View style={styles.innerBtnWrapper}>
               <View>
-                <Text style={[appStyles.fw500, appStyles.my1]}>{title}</Text>
-                <Text style={{ color: "#999", fontSize: 12 }}>{subtitle}</Text>
+                <Text style={[appStyles.fw500, appStyles.my1]}>
+                  {item?.title}
+                </Text>
+                <Text style={{ color: "#999", fontSize: 11 }}>{subtitle}</Text>
               </View>
               <Image style={styles.icon} source={icon} />
             </View>
           </TouchableOpacity>
         ))}
       </View>
-    </ScrollView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   section: {
+    flex: 1,
     flexWrap: "wrap",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -84,7 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingHorizontal: 10,
     paddingVertical: 15,
-    marginBottom: 20,
+    marginBottom: 15,
     borderRadius: 6,
     width: "48%",
     shadowColor: "#000",
@@ -96,7 +179,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 6,
   },
-  icon: { height: 35, width: 35, marginLeft: 10 },
+  icon: { height: 38, width: 38, marginLeft: 10 },
   innerBtnWrapper: {
     flexDirection: "row",
     alignItems: "center",
