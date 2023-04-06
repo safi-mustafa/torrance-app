@@ -32,6 +32,10 @@ export default function LoginScreen({ navigation }) {
   // console.log("🚀 ~ file: LoginScreen.jsx:30 ~ LoginScreen ~ expoToken", expoToken)
 
   const onSubmit = (values) => {
+    if (values == 9999) {
+      navigation.replace("Signup");
+      return;
+    }
     setLoading(true);
     const url =
       loginType === LOGIN_TYPE.PIN
@@ -106,15 +110,24 @@ export default function LoginScreen({ navigation }) {
               )}
               <Pressable
                 onPress={() => toggleLoginType()}
-                style={({ pressed }) => ({
-                  opacity: pressed ? 0.5 : 1,
-                })}
+                style={{ alignSelf: "center", marginTop: 20 }}
               >
-                <Text style={styles.loginViaText}>
+                {/* <Text style={styles.loginViaText}>
                   Login via {loginType == LOGIN_TYPE.FORM ? "Pin" : "Email"}
-                </Text>
+                </Text> */}
                 <Buttonx
-                  title={<Ionicons name="arrow-back" size={34} color="white" />}
+                  title={
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center" }}
+                    >
+                      <Ionicons name="arrow-back" size={24} color="white" />
+                      <Text
+                        style={{ color: "white", fontSize: 18, marginLeft: 5 }}
+                      >
+                        Back
+                      </Text>
+                    </View>
+                  }
                   style={{ backgroundColor: "transparent", borderWidth: 0 }}
                   onPress={() => navigation.pop()}
                 />

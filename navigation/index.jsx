@@ -28,6 +28,7 @@ import { USER_ROLE } from "../constants/Misc";
 import ApprovalCell from "../components/cell-templates/ApprovalCell";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import ChangePasswordScreen from "../screens/ChangePasswordScreen";
+import SignupScreen from "../screens/SignupScreen";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -98,6 +99,11 @@ function RootNavigator() {
       <Stack.Screen
         name="ChangePassword"
         component={ChangePasswordScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Signup"
+        component={SignupScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

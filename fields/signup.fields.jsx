@@ -1,0 +1,45 @@
+export const signupFields = [
+  {
+    name: "fullName",
+    placeholder: "Enter Full Name",
+    label: "Full Name",
+    labelStyle: { color: "#fff" },
+  },
+  {
+    name: "email",
+    placeholder: "Enter Email Address",
+    label: "Email Address",
+    type: "email",
+    labelStyle: { color: "#fff" },
+  },
+  // {
+  //   name: "contractor",
+  //   inputType: "select",
+  //   url: "/Contractor",
+  //   placeholder: "Select Contractor",
+  //   label: "Contractor",
+  //   labelStyle: { color: "#fff" },
+  // },
+  {
+    name: "company",
+    inputType: "select",
+    url: "/Company",
+    placeholder: "Select Company",
+    label: "Company",
+    labelStyle: { color: "#fff" },
+  },
+  {
+    name: "accessCode",
+    placeholder: "Enter Pin Name",
+    label: "Pin",
+    keyboardType: "numeric",
+    labelStyle: { color: "#fff" },
+  },
+  {
+    inputType: "button",
+    name: "submit",
+    title: "Submit",
+    titleStyle: { fontSize: 16 },
+    style: { marginTop: 10 },
+  },
+];
