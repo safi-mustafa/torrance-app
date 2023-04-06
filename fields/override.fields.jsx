@@ -77,6 +77,7 @@ export const overrideFields = [
     inputType: "datetime",
     placeholder: "Select Date",
     label: "Work Date",
+    required: true,
   },
    {
     name: "reason",

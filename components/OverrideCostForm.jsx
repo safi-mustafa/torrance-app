@@ -7,12 +7,14 @@ import FormLoop from "./form/FormLoop";
 import { getKey } from "../utility";
 
 const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
-
-  const formatCostValues = (costValues) =>{
-    let t= costValues.map((cost) => ({...cost, overrideType:{id: cost.overrideType, name: cost.overrideType}}))
+  const formatCostValues = (costValues) => {
+    let t = costValues.map((cost) => ({
+      ...cost,
+      overrideType: { id: cost.overrideType, name: cost.overrideType },
+    }));
     // console.log("🚀 ~ file: OverrideCostForm.jsx:12 ~ formatCostValues ~ t", t)
     return t;
-  }
+  };
 
   const defaultValues = values?.costs ? formatCostValues(values?.costs) : [];
   const [rows, setRows] = useState(defaultValues);
@@ -32,22 +34,22 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       options: [
         {
           value: "ST",
-          label: "ST"
+          label: "ST",
         },
         {
           value: "OT",
-          label: "OT"
+          label: "OT",
         },
         {
           value: "DT",
-          label: "DT"
-        }
+          label: "DT",
+        },
       ],
       placeholder: "Select Type",
       label: "Override Type",
       zIndex: 3000,
       // labelAttributes: "text",
-      wrapperStyle: { width: "25%", marginRight: 1 },
+      wrapperStyle: { width: "48%", marginRight: 1 },
     },
     {
       name: "overrideHours",
@@ -55,7 +57,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       label: "Hours",
       // inputType: "text",
       keyboardType: "numeric",
-      wrapperStyle: { width: "20%", marginRight: 1 },
+      wrapperStyle: { width: "48%", marginRight: 1 },
     },
     {
       name: "craftSkill",
@@ -65,7 +67,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       label: "Craft Skill",
       required: true,
       zIndex: 3001,
-      wrapperStyle: { width: "25%", marginRight: 1 },
+      wrapperStyle: { width: "48%", marginRight: 1 },
     },
     {
       name: "headCount",
@@ -73,14 +75,13 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       label: "Head Count",
       // inputType: "text",
       keyboardType: "numeric",
-      wrapperStyle: { width: "20%", marginRight: 1 },
+      wrapperStyle: { width: "48%", marginRight: 1 },
     },
   ];
 
   useEffect(() => {
     getUserDetail();
-  }, [])
-  
+  }, []);
 
   const handleAdd = () => {
     const updatedRows = [...rows, { edit: false }];
@@ -117,14 +118,10 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
   return (
     <>
       <View style={styles.container}>
-        <Text style={{ marginLeft: 3, fontSize: 15, marginBottom: 10 }}>Costs</Text>
-        <View style={[styles.tr, styles.head]}>
-          {fields.map((field, i) => (
-            <Text key={i} style={[styles.td, field?.wrapperStyle]}>
-              {field?.label}
-            </Text>
-          ))}
-          <Text style={styles.td}>
+        <View style={[styles.tr, {justifyContent:'space-between', marginBottom: 20}]}>
+          <Text style={{ marginLeft: 3, fontSize: 15, alignSelf:'center' }}>
+            Costs
+          </Text>
             <Buttonx
               title={<Ionicons name="add-circle" size={30} color="black" />}
               style={{
@@ -134,13 +131,19 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
               }}
               onPress={() => handleAdd()}
             />
-          </Text>
+        </View>
+        <View style={[styles.tr, styles.head]}>
+          {/* {fields.map((field, i) => (
+            <Text key={i} style={[styles.td, field?.wrapperStyle]}>
+              {field?.label}
+            </Text>
+          ))} */}
         </View>
         {rows &&
           rows.map((row, i) => (
             <View key={i} style={[styles.tr, styles.body]}>
               <FormLoop
-                fields={fields.map((field) => ({ ...field, label: "" }))}
+                fields={fields.map((field) => ({ ...field }))}
                 handleChange={(key, value) => {}}
                 handleBlur={(key, value) => {}}
                 setFieldValue={(key, value) => {
@@ -153,12 +156,15 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
               />
               <Buttonx
                 title={
-                  <Ionicons name="remove-circle" size={30} color="black" />
+                  <Ionicons name="remove-circle" size={30} color="darkred" />
                 }
                 style={{
                   backgroundColor: "transparent",
                   borderWidth: 0,
                   padding: 0,
+                  position: "absolute",
+                  top: -10,
+                  right: -10,
                 }}
                 onPress={() => handleDelete(i)}
               />
@@ -176,6 +182,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
+    flexWrap: "wrap",
   },
   td: {
     // textAlign: "left",
@@ -187,7 +194,13 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   body: {
-    // marginBottom: 10,
+    justifyContent: "flex-end",
+    // borderWidth: 1,
+    backgroundColor: "#ddd",
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    borderRadius: 8,
   },
 });
 

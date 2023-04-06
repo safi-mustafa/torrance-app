@@ -28,7 +28,7 @@ export default function FormLoop({
       if(typeof errors[name] === "object"){
         return errors[name].name;
       }
-      return touched[name] || errors[name]
+      return errors[name]
     };
     
     let errorField = toCapitalCase(name);

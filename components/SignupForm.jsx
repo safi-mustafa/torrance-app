@@ -37,7 +37,7 @@ const FormSchema = Yup.object().shape({
     ),
 });
 
-export default function SignupForm({ onSubmit }) {
+export default function SignupForm({ onSubmit, apiErrors }) {
   const onFormSubmit = async (values, { setSubmitting }) => {
     console.log(
       "🚀 ~ file: SignupForm.jsx:33 ~ onFormSubmit ~ values:",
@@ -53,7 +53,7 @@ export default function SignupForm({ onSubmit }) {
       <Formik
         initialValues={initialValues}
         onSubmit={onFormSubmit}
-        validationSchema={FormSchema}
+        // validationSchema={FormSchema}
         validateOnBlur={true}
       >
         {({
@@ -72,9 +72,9 @@ export default function SignupForm({ onSubmit }) {
               handleBlur={handleBlur}
               setFieldValue={setFieldValue}
               values={values}
-              errors={errors}
+              errors={apiErrors}
               handleSubmit={handleSubmit}
-              showYupErrors={true}
+              // showYupErrors={true}
               touched={touched}
             />
           </>
