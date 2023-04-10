@@ -41,7 +41,7 @@ export default function WrrRequestScreen({ navigation, route }) {
 
     const params = {
       ...formValues,
-      contractor: { id: userDetail?.company?.id, name: userDetail?.company?.name },
+      // contractor: { id: userDetail?.company?.id, name: userDetail?.company?.name },
       fumeControlUsed: formValues?.fumeControlUsed ? 0 : 1,
       employee: { id: userDetail?.id, name: userDetail?.name },
       twrModel: { alphabeticPart, numericPart, text: twrText },
@@ -98,52 +98,64 @@ export default function WrrRequestScreen({ navigation, route }) {
   };
 
   const dummyVal = {
+    "numericPart": {
+        "id": "04",
+        "name": "04"
+    },
+    "rodType": {
+        "id": 10002,
+        "name": "6012"
+    },
+    "alphabeticPart": {
+        "id": "CC",
+        "name": "CC-Chem Clean"
+    },
     "unit": {
-        "id": 1,
-        "name": "Unit A"
+        "id": 25,
+        "name": "Boiler"
     },
     "department": {
-        "id": 1,
-        "name": "Management"
-    },
-    "employee": {
-        "id": 10,
-        "name": "Nunez Adrian"
-    },
-    "weldingMethod": {
-        "id": 1
-    },
-    "weldingRod": {
-        "id": 1,
-        "name": "Plastic rod"
-    },
-    "fumeControlUsed": 1,
-    "twr": "3",
-    "email": "Abc@zs.com",
-    "location": {
-        "id": 1,
-        "name": "Islamabad"
-    },
-    "rodCheckedOutLbs": "12",
-    "rodReturnedWasteLbs": "3",
-    "contractor": {
-        "id": 1,
-        "name": "Brand Scaffold"
+        "id": 10003,
+        "name": "2. Capital "
     },
     "weldMethod": {
         "id": 1,
-        "name": "Method 1"
+        "name": "Resistance"
     },
-    "rodType": {
-        "id": 1,
-        "name": "Steel Rod"
+    "location": {
+        "id": 4,
+        "name": "Overhead"
     },
-    "approver": {
-        "id": 11,
-        "name": "approver@centangle.com"
+    "calibrationDate": "4/15/2023",
+    "fumeControlUsed": 1,
+    "twrText": "985",
+    "rodCheckedOut": "4/16/2023",
+    "rodCheckedOutLbs": "32",
+    "rodReturnedWasteLbs": "89",
+    "dateRodReturned": "4/16/2023",
+    "contractor": {
+        "id": 8,
+        "name": "Ametek"
     },
-    "dateRodReturned": "2023-02-02",
-    "calibrationDate": "2023-02-02"
+    "employee": {
+        "id": 40123,
+        "name": "Khalid Saeed"
+    },
+    "twrModel": {
+        "alphabeticPart": {
+            "id": "CC",
+            "name": "CC-Chem Clean"
+        },
+        "numericPart": {
+            "id": "04",
+            "name": "04"
+        },
+        "text": "985"
+    },
+    "company": {
+        "id": 8,
+        "name": "Ametek"
+    }
 };
 
   return (

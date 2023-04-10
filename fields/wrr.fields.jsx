@@ -33,7 +33,8 @@ export const wrrFields = [
     name: "fumeControlUsed",
     placeholder: "Enter Fume Control Used",
     label: "Fume Control Used",
-    inputType: 'switch'
+    inputType: 'switch',
+    style: { alignSelf: 'flex-start' },
   },
   {
     name: "rodType",

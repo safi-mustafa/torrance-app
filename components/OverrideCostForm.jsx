@@ -8,16 +8,26 @@ import { getKey } from "../utility";
 
 const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
   const formatCostValues = (costValues) => {
+    // console.log("🚀 ~ file: OverrideCostForm.jsx:11 ~ formatCostValues ~ costValues:", costValues)
     let t = costValues.map((cost) => ({
       ...cost,
       overrideType: { id: cost.overrideType, name: cost.overrideType },
+      craftSkill: { id: cost.craftSkill.id, name: cost.craftSkill.name },
     }));
-    // console.log("🚀 ~ file: OverrideCostForm.jsx:12 ~ formatCostValues ~ t", t)
+    // console.log("🚀 ~ file: OverrideCostForm.jsx:16 ~ formatCostValues ~ t", t)
     return t;
   };
 
   const defaultValues = values?.costs ? formatCostValues(values?.costs) : [];
-  const [rows, setRows] = useState(defaultValues);
+  console.log(
+    "🚀 ~ file: OverrideCostForm.jsx:21 ~ OverrideCostForm ~ defaultValues:",
+    defaultValues
+  );
+  const [rows, setRows] = useState([...defaultValues]);
+  console.log(
+    "🚀 ~ file: OverrideCostForm.jsx:23 ~ OverrideCostForm ~ rows:",
+    rows
+  );
   const [user, setUser] = useState({});
 
   const getUserDetail = async () => {
@@ -65,7 +75,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       url: "/CraftSkill?Company.Id=" + user?.company?.id,
       placeholder: "Select Skill",
       label: "Craft Skill",
-      required: true,
+      // required: true,
       zIndex: 3001,
       wrapperStyle: { width: "48%", marginRight: 1 },
     },
@@ -98,7 +108,6 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
   };
 
   const onValueChange = (key, value, index) => {
-    // console.log("🚀 ~ file: OverrideCostForm.jsx:98 ~ onValueChange ~ key, value:", key, value)
     let newVals = rows.map((val, i) => {
       if (i === index) {
         let newVal = value;
@@ -110,7 +119,10 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       return val;
     });
 
-    // console.log("🚀 ~ file: OverrideCostForm.jsx:101 ~ onValueChange ~ newVals", newVals)
+    console.log(
+      "🚀 ~ file: OverrideCostForm.jsx:117 ~ onValueChange ~ newVals",
+      newVals
+    );
     setRows(newVals);
     onFormChange(newVals);
   };
@@ -118,19 +130,24 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
   return (
     <>
       <View style={styles.container}>
-        <View style={[styles.tr, {justifyContent:'space-between', marginBottom: 20}]}>
-          <Text style={{ marginLeft: 3, fontSize: 15, alignSelf:'center' }}>
+        <View
+          style={[
+            styles.tr,
+            { justifyContent: "space-between", marginBottom: 20 },
+          ]}
+        >
+          <Text style={{ marginLeft: 3, fontSize: 15, alignSelf: "center" }}>
             Costs
           </Text>
-            <Buttonx
-              title={<Ionicons name="add-circle" size={30} color="black" />}
-              style={{
-                backgroundColor: "transparent",
-                borderWidth: 0,
-                padding: 0,
-              }}
-              onPress={() => handleAdd()}
-            />
+          <Buttonx
+            title={<Ionicons name="add-circle" size={30} color="black" />}
+            style={{
+              backgroundColor: "transparent",
+              borderWidth: 0,
+              padding: 0,
+            }}
+            onPress={() => handleAdd()}
+          />
         </View>
         <View style={[styles.tr, styles.head]}>
           {/* {fields.map((field, i) => (
@@ -139,7 +156,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
             </Text>
           ))} */}
         </View>
-        {rows &&
+        {user?.company && rows &&
           rows.map((row, i) => (
             <View key={i} style={[styles.tr, styles.body]}>
               <FormLoop
@@ -147,6 +164,11 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
                 handleChange={(key, value) => {}}
                 handleBlur={(key, value) => {}}
                 setFieldValue={(key, value) => {
+                  console.log(
+                    "🚀 ~ file: OverrideCostForm.jsx:176 ~ OverrideCostForm ~ key, value:",
+                    key,
+                    value
+                  );
                   onValueChange(key, value, i);
                 }}
                 values={rows[i]}
