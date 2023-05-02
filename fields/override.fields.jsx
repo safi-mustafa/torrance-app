@@ -163,6 +163,14 @@ export const overrideFields = [
   //   zIndex: 986,
   // },
   {
+    name: "company",
+    inputType: "select",
+    url: "/Company?DisablePagination=true",
+    placeholder: "Select Company",
+    label: "Company",
+    required: true,
+  },
+  {
     name: "poNumber",
     placeholder: "Enter number",
     label: "PO Number#",

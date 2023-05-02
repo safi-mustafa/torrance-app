@@ -9,10 +9,11 @@ import putData from "../api-services/putData";
 import appStyles from "../app-styles";
 import FormLoop from "../components/form/FormLoop";
 import Loader from "../components/Loader";
-import { BASE_URL } from "../constants/Misc";
+import { BASE_URL, USER_ROLE } from "../constants/Misc";
 import { totFields } from "../fields/tot.fields";
 import { getKey } from "../utility";
 import postData from "./../api-services/postData";
+import useUserMeta from "../hooks/useUserMeta";
 
 export default function TotRequestScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
@@ -28,7 +29,12 @@ export default function TotRequestScreen({ navigation, route }) {
     twrText: params?.twrModel?.text,
   }
   : {};
+
   const isEdit = params && params.id;
+
+  const { role = "", userMeta } = useUserMeta();
+  const isEmployee = USER_ROLE.EMPLOYEE == role;
+  const formFields = isEmployee ? totFields.filter(({name})=>name!=='company') : totFields;
 
   useEffect(() => {
     getDelayTypes()
@@ -50,8 +56,6 @@ export default function TotRequestScreen({ navigation, route }) {
   };
 
   const onSubmit = async (formValues = [], { setSubmitting }) => {
-    const userMeta = await getKey("user");
-    const { userDetail = {} } = JSON.parse(userMeta);
     const {
       // alphabeticPart = null,
       // numericPart = null,
@@ -63,10 +67,11 @@ export default function TotRequestScreen({ navigation, route }) {
       formValues?.numericPart?.id == 0 ? {} : formValues?.numericPart;
     let params = {
       ...formValues,
-      company: { id: userDetail?.company?.id, name: userDetail?.company?.name },
-      requester: { id: userDetail?.id, name: userDetail?.name },
+      requester: { id: userMeta?.id, name: userMeta?.name },
       twrModel: { alphabeticPart, numericPart, text: twrText },
     };
+
+    params = isEmployee ? { ...params, company: { id: userMeta?.company?.id, name: userMeta?.company?.name } } : params;
 
     if(params?.delayType){
       const selectedIdentifier = delayTypes.find(item => item.id == params?.delayType?.id)?.identifier;
@@ -74,7 +79,7 @@ export default function TotRequestScreen({ navigation, route }) {
     }
 
     console.log(
-      "🚀 ~ file: TotRequestScreen.jsx ~ line 25 ~ onSubmit ~ params",
+      "🚀 ~ file: TotRequestScreen.jsx ~ line 82 ~ onSubmit ~ params",
       params
     );
     // return;
@@ -181,7 +186,7 @@ export default function TotRequestScreen({ navigation, route }) {
             }) => (
               <>
                 <FormLoop
-                  fields={totFields}
+                  fields={formFields}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
                   setFieldValue={setFieldValue}

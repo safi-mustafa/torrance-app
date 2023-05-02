@@ -6,6 +6,16 @@ export const useRegisterExpoToken = () => {
     const [token, setExpoNotificationToken] = useState('');
     async function registerForPushNotificationsAsync() {
         let token;
+
+        if (Platform.OS === 'android') {
+            await Notifications.setNotificationChannelAsync('default', {
+              name: 'default',
+              importance: Notifications.AndroidImportance.MAX,
+              vibrationPattern: [0, 250, 250, 250],
+              lightColor: '#FF231F7C',
+            });
+          }
+
         if (Device.isDevice) {
             const { status: existingStatus } = await Notifications.getPermissionsAsync();
             let finalStatus = existingStatus;
@@ -23,14 +33,14 @@ export const useRegisterExpoToken = () => {
             console.log("🚀 ~ file: PushNotifications.js ~ line 23 ~ registerForPushNotificationsAsync ~ Must use physical device for Push Notifications")
         }
 
-        if (Platform.OS === 'android') {
-            Notifications.setNotificationChannelAsync('default', {
-                name: 'default',
-                importance: Notifications.AndroidImportance.MAX,
-                vibrationPattern: [0, 250, 250, 250],
-                lightColor: '#FF231F7C',
-            });
-        }
+        // if (Platform.OS === 'android') {
+        //     Notifications.setNotificationChannelAsync('default', {
+        //         name: 'default',
+        //         importance: Notifications.AndroidImportance.MAX,
+        //         vibrationPattern: [0, 250, 250, 250],
+        //         lightColor: '#FF231F7C',
+        //     });
+        // }
 
         return token;
     }

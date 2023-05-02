@@ -23,7 +23,7 @@ export const signupFields = [
   {
     name: "company",
     inputType: "select",
-    url: "/Company",
+    url: "/Company?DisablePagination=true",
     placeholder: "Select Company",
     label: "Company",
     labelStyle: { color: "#fff" },

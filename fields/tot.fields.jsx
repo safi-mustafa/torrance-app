@@ -77,15 +77,14 @@ export const totFields = [
   //   placeholder: "Enter Scope",
   //   label: "Work Scope",
   // },
-  // {
-  //   name: "company",
-  //   inputType: "select",
-  //   url: "/Company",
-  //   placeholder: "Select Company",
-  //   label: "Company",
-  //   required: true,
-  //   zIndex: 986,
-  // },
+  {
+    name: "company",
+    inputType: "select",
+    url: "/Company?DisablePagination=true",
+    placeholder: "Select Company",
+    label: "Company",
+    required: true,
+  },
   {
     name: "foreman",
     placeholder: "Enter Foreman",
@@ -227,18 +226,6 @@ export const totFields = [
   //   label: "Delay Reason",
   //   required: true,
   //   inputType: "textarea",
-  // },
-
-  // {
-  //   name: "company",
-  //   inputType: "select",
-  //   options: [
-  //     { value: 1, label: "Option 1" },
-  //     { value: 2, label: "Option 2" },
-  //   ],
-  //   placeholder: "Select Company",
-  //   label: "Company",
-  //   zIndex: 994,
   // },
   // {
   //   name: "timeRequested",

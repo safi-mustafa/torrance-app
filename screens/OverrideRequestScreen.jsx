@@ -12,6 +12,8 @@ import { overrideFields } from "../fields/override.fields";
 import { getKey } from "../utility";
 import postData from "./../api-services/postData";
 import OverrideCostForm from "../components/OverrideCostForm";
+import useUserMeta from "../hooks/useUserMeta";
+import { USER_ROLE } from "../constants/Misc";
 
 export default function OverrideRequestScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
@@ -22,6 +24,16 @@ export default function OverrideRequestScreen({ navigation, route }) {
   const initialValues = params?.id ? { ...params } : {};
   const isEdit = params && params.id;
 
+  const { role = "", userMeta } = useUserMeta();
+  console.log(
+    "🚀 ~ file: OverrideRequestScreen.jsx:28 ~ OverrideRequestScreen ~ userMeta:",
+    userMeta
+  );
+  const isEmployee = USER_ROLE.EMPLOYEE == role;
+  const formFields = isEmployee
+    ? overrideFields.filter(({ name }) => name !== "company")
+    : overrideFields;
+
   const formatCostRows = (rows) => {
     return rows.map((row) => {
       if (typeof row.overrideType === "object") {
@@ -31,19 +43,23 @@ export default function OverrideRequestScreen({ navigation, route }) {
   };
 
   const onSubmit = async (formValues = [], { setSubmitting }) => {
-    const userMeta = await getKey("user");
-    const { userDetail = {} } = JSON.parse(userMeta);
-
     console.log(
       "🚀 ~ file: OverrideRequestScreen.jsx:35 ~ onSubmit ~ costFormValues",
       costFormValues
     );
-    const params = {
+
+    let params = {
       ...formValues,
-      requester: { id: userDetail?.id, name: userDetail?.name },
-      company: { id: userDetail?.company?.id, name: userDetail?.company?.name },
+      requester: { id: userMeta?.id, name: userMeta?.name },
       costs: formatCostRows(costFormValues),
     };
+
+    params = isEmployee
+      ? {
+          ...params,
+          company: { id: userMeta?.company?.id, name: userMeta?.company?.name },
+        }
+      : params;
 
     console.log(
       "🚀 ~ file: OverrideRequestScreen.jsx ~ line 25 ~ onSubmit ~ params",
@@ -155,7 +171,6 @@ export default function OverrideRequestScreen({ navigation, route }) {
           <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}
-            valueOnChange={(a) => console.log(a)}
           >
             {({
               values,
@@ -167,7 +182,7 @@ export default function OverrideRequestScreen({ navigation, route }) {
             }) => (
               <>
                 <FormLoop
-                  fields={overrideFields}
+                  fields={formFields}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
                   setFieldValue={setFieldValue}
@@ -181,7 +196,7 @@ export default function OverrideRequestScreen({ navigation, route }) {
                   }}
                 />
                 <OverrideCostForm
-                  onFormChange={(values)=>onCostFormChange(values)}
+                  onFormChange={(values) => onCostFormChange(values)}
                   values={values}
                   key="costs"
                   errors={apiErrors}

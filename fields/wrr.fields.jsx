@@ -24,6 +24,14 @@ export const wrrFields = [
     },
   },
   {
+    name: "company",
+    inputType: "select",
+    url: "/Company?DisablePagination=true",
+    placeholder: "Select Company",
+    label: "Company",
+    required: true,
+  },
+  {
     name: "calibrationDate",
     inputType: "datetime",
     placeholder: "Select Date",

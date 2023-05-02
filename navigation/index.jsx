@@ -121,7 +121,7 @@ function BottomTabNavigator() {
   const { role = "", userMeta } = useUserMeta();
 
   const isApprover = USER_ROLE.APPROVER == role;
-  const isEmployee = USER_ROLE.EMPLOYEE == role;
+  // const isEmployee = USER_ROLE.EMPLOYEE == role;
   const isManager = USER_ROLE.COMPANY_MANAGER == role;
   // console.log("🚀 ~ file: index.jsx:109 ~ BottomTabNavigator ~ isApprover - isEmployee",isApprover, isEmployee)
 
@@ -132,22 +132,22 @@ function BottomTabNavigator() {
       title: "Dashboard",
       headerShown: false,
       tabBarIcon: ({ color }) => (
-        <TabBarIcon name="home" size={34} color={color} />
+        <TabBarIcon name="home" size={32} color={color} />
       ),
     },
   };
-  const employeeTabs = [
-    dashboardScreen
-  ];
+  const employeeTabs = [dashboardScreen];
 
-  const approverTabs = [
+  let approverTabs = userMeta?.canAddLogs ? [dashboardScreen] : [];
+  approverTabs = [
+    ...approverTabs,
     {
       name: "TabApprovals",
       component: SubmissionContentScreen,
       options: {
-        title: "Pending Approvals",
+        title: "Pending",
         tabBarIcon: ({ color }) => (
-          <TabBarIcon name="home" color={color} size={34} />
+          <TabBarIcon name={userMeta?.canAddLogs ? "clipboard":"home"}color={color} size={userMeta?.canAddLogs ? 30:32} />
         ),
       },
       initialParams: {
@@ -193,18 +193,21 @@ function BottomTabNavigator() {
   const managerTabs = [
     ...commonTabs.filter(({ name }) => name != "TabNotification"),
   ];
-  console.log("🚀 ~ file: index.jsx:185 ~ BottomTabNavigator ~ managerTabs", managerTabs)
+  // console.log(
+  //   "🚀 ~ file: index.jsx:185 ~ BottomTabNavigator ~ managerTabs",
+  //   managerTabs
+  // );
 
   let tabs = isApprover ? approverTabs : employeeTabs;
   tabs = [...tabs, ...commonTabs];
 
-  if(isManager){
-    tabs = [dashboardScreen,...managerTabs];
-    console.log("🚀 ~ file: index.jsx:193 ~ BottomTabNavigator ~ tabs", tabs)
+  if (isManager) {
+    tabs = [dashboardScreen, ...managerTabs];
+    console.log("🚀 ~ file: index.jsx:193 ~ BottomTabNavigator ~ tabs", tabs);
   }
 
   const defaultInitialScreen = () => {
-    return isApprover ? "TabApprovals" : "TapDashboard";
+    return isApprover && !userMeta?.canAddLogs ?  "TabApprovals" : "TapDashboard";
   };
 
   const initialScreen = defaultInitialScreen();
@@ -215,8 +218,14 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName={initialScreen}
       screenOptions={{
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
         tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarLabelStyle: {
+          marginBottom: -10
+        },
+        tabBarIconStyle: {
+          marginTop: 3
+        }
       }}
     >
       {tabs.map(({ name, component, options, ...otherProps }) => (
@@ -236,5 +245,5 @@ function BottomTabNavigator() {
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
 function TabBarIcon(props) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }

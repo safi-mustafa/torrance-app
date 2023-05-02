@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import Toast from "react-native-toast-message";
 
 import Buttonx from "./form/Buttonx";
 import FormLoop from "./form/FormLoop";
-import { getKey } from "../utility";
+import { USER_ROLE } from "../constants/Misc";
+import useUserMeta from "../hooks/useUserMeta";
 
 const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
   const formatCostValues = (costValues) => {
@@ -18,23 +20,14 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
     return t;
   };
 
+  const { role = "", userMeta } = useUserMeta();
+  const isApprover = USER_ROLE.APPROVER == role;
   const defaultValues = values?.costs ? formatCostValues(values?.costs) : [];
-  console.log(
-    "🚀 ~ file: OverrideCostForm.jsx:21 ~ OverrideCostForm ~ defaultValues:",
-    defaultValues
-  );
+  // console.log(
+  //   "🚀 ~ file: OverrideCostForm.jsx:21 ~ OverrideCostForm ~ defaultValues:",
+  //   defaultValues
+  // );
   const [rows, setRows] = useState([...defaultValues]);
-  console.log(
-    "🚀 ~ file: OverrideCostForm.jsx:23 ~ OverrideCostForm ~ rows:",
-    rows
-  );
-  const [user, setUser] = useState({});
-
-  const getUserDetail = async () => {
-    const userMeta = await getKey("user");
-    const { userDetail = {} } = JSON.parse(userMeta);
-    setUser(userDetail);
-  };
 
   const fields = [
     {
@@ -72,7 +65,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
     {
       name: "craftSkill",
       inputType: "select",
-      url: "/CraftSkill?Company.Id=" + user?.company?.id,
+      url: "/CraftSkill?Company.Id=" + userMeta?.company?.id,
       placeholder: "Select Skill",
       label: "Craft Skill",
       // required: true,
@@ -89,11 +82,16 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
     },
   ];
 
-  useEffect(() => {
-    getUserDetail();
-  }, []);
-
   const handleAdd = () => {
+    if(isApprover && userMeta?.canAddLogs && !values.company?.name){
+      Toast.show({
+        type: "error",
+        text1: "Override Cost",
+        text2: "Please choose company to add cost.",
+      });
+      return;
+    }
+    console.log("🚀 ~ file: OverrideCostForm.jsx:98 ~ handleAdd ~ rows:", rows)
     const updatedRows = [...rows, { edit: false }];
     setRows(updatedRows);
     // handleSubmitChanges(updatedRows);
@@ -156,7 +154,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
             </Text>
           ))} */}
         </View>
-        {user?.company && rows &&
+        {(isApprover && userMeta?.canAddLogs ? values.company?.name : userMeta?.company) && rows &&
           rows.map((row, i) => (
             <View key={i} style={[styles.tr, styles.body]}>
               <FormLoop

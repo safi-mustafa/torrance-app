@@ -11,6 +11,8 @@ import { wrrFields } from "../fields/wrr.fields";
 import { getKey } from "../utility";
 import postData from "./../api-services/postData";
 import putData from "./../api-services/putData";
+import { USER_ROLE } from "../constants/Misc";
+import useUserMeta from "../hooks/useUserMeta";
 
 export default function WrrRequestScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
@@ -25,9 +27,11 @@ export default function WrrRequestScreen({ navigation, route }) {
   } : {};
   const isEdit = params && params.id;
 
+  const { role = "", userMeta } = useUserMeta();
+  const isEmployee = USER_ROLE.EMPLOYEE == role;
+  const formFields = isEmployee ? wrrFields.filter(({name})=>name!=='company') : wrrFields;
+
   const onSubmit = async (formValues = []) => {
-    const userMeta = await getKey("user");
-    const { userDetail = {} } = JSON.parse(userMeta);
 
     const {
       // alphabeticPart = null,
@@ -39,14 +43,16 @@ export default function WrrRequestScreen({ navigation, route }) {
     const numericPart =
       formValues?.numericPart?.id == 0 ? {} : formValues?.numericPart;
 
-    const params = {
+    let params = {
       ...formValues,
-      // contractor: { id: userDetail?.company?.id, name: userDetail?.company?.name },
+      // contractor: { id: userMeta?.company?.id, name: userMeta?.company?.name },
       fumeControlUsed: formValues?.fumeControlUsed ? 0 : 1,
-      employee: { id: userDetail?.id, name: userDetail?.name },
+      employee: { id: userMeta?.id, name: userMeta?.name },
       twrModel: { alphabeticPart, numericPart, text: twrText },
-      company: { id: userDetail?.company?.id, name: userDetail?.company?.name },
     };
+
+    params = isEmployee ? { ...params, company: { id: userMeta?.company?.id, name: userMeta?.company?.name } } : params;
+
     console.log(
       "🚀 ~ file: WrrRequestScreen.jsx ~ line 22 ~ onSubmit ~ params",
       params
@@ -178,7 +184,7 @@ export default function WrrRequestScreen({ navigation, route }) {
             }) => (
               <>
                 <FormLoop
-                  fields={wrrFields}
+                  fields={formFields}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
                   setFieldValue={setFieldValue}
