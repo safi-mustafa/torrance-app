@@ -7,8 +7,8 @@ export default function useUserMeta() {
     async function fetchUserMeta() {
       try {
         let userMeta = await getKey("user");
-        const { userDetail } = JSON.parse(userMeta);
-        setUserMeta(userDetail);
+        const { userDetail, token } = JSON.parse(userMeta);
+        setUserMeta({...userDetail, token});
       } catch (e) {
         console.warn(e);
         setUserMeta(null)

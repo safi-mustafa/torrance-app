@@ -15,7 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import postData from "./../api-services/postData";
 import Loader from "../components/Loader";
 import Layout from "../constants/Layout";
-import { saveKey, STATUSBAR_HEIGHT } from "../utility";
+import { saveKey, STATUSBAR_HEIGHT, getNotificationApiUrl } from "../utility";
 import LoginForm from "../components/LoginForm";
 import LoginPin from "../components/LoginPin";
 import { LOGIN_TYPE } from "../constants/Misc";
@@ -25,9 +25,12 @@ import Buttonx from "../components/form/Buttonx";
 const BG_IMAGE = require("./../assets/images/bg-blue.png");
 const LOGO = require("./../assets/images/app-logo.png");
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen({ navigation, route = { params: {} } }) {
   const [loading, setLoading] = useState(false);
   const [loginType, setLoginType] = useState(LOGIN_TYPE.PIN);
+  const { params } = route;
+  const notification = params?.notification;
+
   const expoToken = useRegisterExpoToken();
   // console.log("🚀 ~ file: LoginScreen.jsx:30 ~ LoginScreen ~ expoToken", expoToken)
 
@@ -48,33 +51,43 @@ export default function LoginScreen({ navigation }) {
       { url, params, showErrorMessage: false },
       ({ data }) => {
         setLoading(false);
-        console.log(
-          "🚀 ~ file: LoginScreen.jsx ~ line 40 ~ onSubmit ~ data",
-          data
-        );
-        saveKey("user", JSON.stringify(data));
-        if (data?.userDetail?.changePassword) {
-          navigation.navigate("ChangePassword");
-        } else {
-          navigation.replace("BottomTabNav");
-        }
+        onLoginSuccess(data);
       },
       (error) => {
         setLoading(false);
-        console.log("🚀 ~ file: LoginScreen.jsx:51 ~ onSubmit ~ error", error);
-        const { errors = [] } = error?.data;
-        let message = "Something went wrong, Please try again.";
-        if (typeof errors === "object") {
-          message = Object.entries(errors).map(([key, value]) => `${value}`);
-          if (Array.isArray(message)) message = message.join(",");
-        }
-        Toast.show({
-          type: "error",
-          text1: "Login error",
-          text2: message,
-        });
+        onLoginError(error);
       }
     );
+  };
+
+  const onLoginSuccess = (data) => {
+    console.log("🚀 ~ file: LoginScreen.jsx:63 ~ onLoginSuccess ~ data:", data);
+    saveKey("user", JSON.stringify(data));
+    if (data?.userDetail?.changePassword) {
+      navigation.navigate("ChangePassword");
+    } else {
+      if (notification) {
+        navigation.replace("SingleSubmission", {
+          id: notification?.EntityId,
+          apiUrl: getNotificationApiUrl(notification?.EntityType),
+        });
+      } else navigation.replace("BottomTabNav");
+    }
+  };
+
+  const onLoginError = (error) => {
+    console.log("🚀 ~ file: LoginScreen.jsx:81 ~ onSubmit ~ error", error);
+    const { errors = [] } = error?.data;
+    let message = "Something went wrong, Please try again.";
+    if (typeof errors === "object") {
+      message = Object.entries(errors).map(([key, value]) => `${value}`);
+      if (Array.isArray(message)) message = message.join(",");
+    }
+    Toast.show({
+      type: "error",
+      text1: "Login error",
+      text2: message,
+    });
   };
 
   const toggleLoginType = () => {
@@ -102,6 +115,8 @@ export default function LoginScreen({ navigation }) {
               Torrance App
             </Text> */}
             <Image source={LOGO} style={styles.applogo} />
+            <Text>{JSON.stringify(expoToken)}</Text>
+            <Text>{expoToken?.token}</Text>
             <View style={styles.formWrapper}>
               {loginType == LOGIN_TYPE.FORM ? (
                 <LoginForm onSubmit={onSubmit} />

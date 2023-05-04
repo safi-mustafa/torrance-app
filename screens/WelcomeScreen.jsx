@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { StyleSheet, Platform, View, ScrollView, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -6,8 +7,19 @@ import { DashboardMenu } from "../components/DashboadMenu";
 import ProfileCard from "../components/ProfileCard";
 import Buttonx from "../components/form/Buttonx";
 import { STATUSBAR_HEIGHT } from "../utility";
+import useUserMeta from "../hooks/useUserMeta";
 
 export default function WelcomeScreen({ navigation }) {
+  const { userMeta } = useUserMeta();
+  
+  useEffect(() => {
+    if (userMeta?.token) {
+      navigation.navigate("BottomTabNav");
+    }
+
+    return () => {};
+  }, [userMeta]);
+
   return (
     <View style={[styles.innerContainer]}>
       <View>
@@ -19,7 +31,7 @@ export default function WelcomeScreen({ navigation }) {
               title="Login"
               titleStyle={{ fontSize: 18 }}
               style={styles.loginBtn}
-              onPress={() => navigation.push('Login')}
+              onPress={() => navigation.push("Login")}
             />
           }
         />
@@ -45,7 +57,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
   },
-  loginBtn:{
+  loginBtn: {
     position: "absolute",
     width: 70,
     height: 50,
@@ -54,8 +66,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     alignItems: "center",
     zIndex: 99,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     borderWidth: 0,
     fontSize: 18,
-  }
+  },
 });

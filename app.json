@@ -21,7 +21,10 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.torrance.torrance",
       "buildNumber": "2.0.17",
-      "userInterfaceStyle": "light"
+      "userInterfaceStyle": "light",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.torrance.torrance",
@@ -30,7 +33,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"

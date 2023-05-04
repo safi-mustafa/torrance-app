@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "70630342967",
+    "project_id": "torrancepmm",
+    "storage_bucket": "torrancepmm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70630342967:android:e1d485861ae3541766dab2",
+        "android_client_info": {
+          "package_name": "com.torrance.torrance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "70630342967-0a1360od8phlbi90a00631d3615k8mv4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1VSwcuXGCUdfHYJhs4Q1JhHPggiK6pq4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "70630342967-0a1360od8phlbi90a00631d3615k8mv4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

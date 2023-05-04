@@ -3,6 +3,7 @@ import * as Notifications from 'expo-notifications';
 import { useNavigation } from "@react-navigation/native";
 
 import { getNotificationApiUrl, objectNotEmpty } from "../utility";
+import useUserMeta from "./useUserMeta";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -15,6 +16,7 @@ Notifications.setNotificationHandler({
 export const usePushNotification = () => {
     const [notification, setNotification] = useState(false);
     const navigation = useNavigation();
+    const { userMeta } = useUserMeta();
 
     const notificationListener = useRef();
     const responseListener = useRef();
@@ -32,18 +34,24 @@ export const usePushNotification = () => {
 
     const openDetailNotif = (item) => {
         console.log("🚀 ~ file: usePushNotification.js:32 ~ openDetailNotif ~ item", item)
-        if (item?.EntityId) {
-            navigation.navigate("SingleSubmission", {
-                id: item?.EntityId,
-                // apiUrl: item?.LogType == 1 ? "/TOTLog" : "/OverrideLog",
-                apiUrl: getNotificationApiUrl(item?.EntityType)
-            })
+        alert(JSON.stringify(item))
+        alert(JSON.stringify(userMeta))
+        if (!userMeta?.token) {
+            navigation.navigate("Login", { notification: item })
+        } else {
+            if (item?.EntityId) {
+                navigation.navigate("SingleSubmission", {
+                    id: item?.EntityId,
+                    // apiUrl: item?.LogType == 1 ? "/TOTLog" : "/OverrideLog",
+                    apiUrl: getNotificationApiUrl(item?.EntityType)
+                })
 
-            // if (objectNotEmpty(navigation)) {
-            // const routeName = TASK_TYPE.AUDIT === item?.TaskType ? 'AuditDetails' : 'TaskDetails';
-            // navigation.navigate(routeName, { id: item?.TaskId });
-            // }
-            setNotification(false)
+                // if (objectNotEmpty(navigation)) {
+                // const routeName = TASK_TYPE.AUDIT === item?.TaskType ? 'AuditDetails' : 'TaskDetails';
+                // navigation.navigate(routeName, { id: item?.TaskId });
+                // }
+                setNotification(false)
+            }
         }
     }
 
