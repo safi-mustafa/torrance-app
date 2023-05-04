@@ -214,11 +214,11 @@ export default function SingleSubmissionScreen({
       {data?.status == STATUS.PENDING &&
         !isApproval &&
         !isManager &&
-        !isApprover && <Action />}
+        !isApprover && <Action />} 
       <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
         <ListRow label="company" value={data?.company?.name} />
         <ListRow label="Submitted" value={data?.formattedCreatedOn} />
-        <ListRow label="approver" value={data?.approver?.name} />
+        <ListRow label="approver" value={data?.approver?.name || data?.possibleApprovers} />
 
         {isApprover && (
           <>
