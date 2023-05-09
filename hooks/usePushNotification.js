@@ -44,19 +44,20 @@ export const usePushNotification = () => {
     const openDetailNotif = (item, userMeta) => {
         // console.log("🚀 ~ file: usePushNotification.js:32 ~ openDetailNotif ~ item", item)
         console.log("🚀 ~ file: usePushNotification.js:40 ~ openDetailNotif ~ userMeta:", userMeta)
-        ToastAndroid.showWithGravityAndOffset(
-            JSON.stringify(userMeta),
-            ToastAndroid.LONG,
-            ToastAndroid.BOTTOM,
-            25,
-            50
-        );
+        // ToastAndroid.showWithGravityAndOffset(
+        //     JSON.stringify(userMeta),
+        //     ToastAndroid.LONG,
+        //     ToastAndroid.BOTTOM,
+        //     25,
+        //     50
+        // );
         // alert(JSON.stringify(userMeta))
         if (!userMeta?.token) {
             // console.log("🚀 ~ file: usePushNotification.js:48 ~ openDetailNotif ~ userMeta?.token:", userMeta?.token)
             navigation.navigate("Login", { notification: item })
         } else {
             if (item?.EntityId) {
+                Notifications.setBadgeCountAsync(0);
                 navigation.navigate("SingleSubmission", {
                     id: item?.EntityId,
                     // apiUrl: item?.LogType == 1 ? "/TOTLog" : "/OverrideLog",

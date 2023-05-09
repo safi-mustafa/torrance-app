@@ -116,7 +116,7 @@ export default function LoginScreen({ navigation, route = { params: {} } }) {
             </Text> */}
             <Image source={LOGO} style={styles.applogo} />
             {/* <Text>{JSON.stringify(expoToken)}</Text> */}
-            <Text style={{color: '#fff'}}>{expoToken?.token}</Text>
+            {/* <Text style={{color: '#fff'}}>{expoToken?.token}</Text> */}
             <View style={styles.formWrapper}>
               {loginType == LOGIN_TYPE.FORM ? (
                 <LoginForm onSubmit={onSubmit} />

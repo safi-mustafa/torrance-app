@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 
 export const useRegisterExpoToken = () => {
+    // console.log("🚀 ~ file: useRegisterNotification.js:5 ~ Constants:", Constants)
+    console.log("🚀 ~ file: useRegisterNotification.js:8 ~ Constants:", Constants?.expoConfig?.extra?.eas?.projectId)
+    const projectId = Constants?.expoConfig?.extra?.eas?.projectId;
+
     const [token, setExpoNotificationToken] = useState('');
     async function registerForPushNotificationsAsync() {
         let token;
@@ -27,7 +32,7 @@ export const useRegisterExpoToken = () => {
                 alert('Failed to get push token for push notification!');
                 return;
             }
-            token = (await Notifications.getExpoPushTokenAsync()).data;
+            token = (await Notifications.getExpoPushTokenAsync({projectId})).data;
             console.log("🚀 ~ file: useRegisterNotification.js ~ line 21 ~ registerForPushNotificationsAsync ~ token", token)
         } else {
             console.log("🚀 ~ file: PushNotifications.js ~ line 23 ~ registerForPushNotificationsAsync ~ Must use physical device for Push Notifications")
