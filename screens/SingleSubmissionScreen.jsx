@@ -389,6 +389,7 @@ export default function SingleSubmissionScreen({
             /> */}
             <ListRow label="shift" value={data?.shift?.name} />
             <ListRow label="work Scope" value={data?.workScope} />
+            <ListRow label="Employee Names" value={data?.employeeNames} />
             {/* <ListRow label="description" value={data?.description} /> */}
           </>
         )}

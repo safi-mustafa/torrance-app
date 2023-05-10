@@ -277,5 +277,6 @@ export const overrideFields = [
     name: "employeeNames",
     placeholder: "Enter Employee Names",
     label: "Employee Name(s)",
+    required: true
   },
 ];
