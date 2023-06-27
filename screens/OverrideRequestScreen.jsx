@@ -9,7 +9,6 @@ import appStyles from "../app-styles";
 import FormLoop from "../components/form/FormLoop";
 import Loader from "../components/Loader";
 import { overrideFields } from "../fields/override.fields";
-import { getKey } from "../utility";
 import postData from "./../api-services/postData";
 import OverrideCostForm from "../components/OverrideCostForm";
 import useUserMeta from "../hooks/useUserMeta";
@@ -25,10 +24,7 @@ export default function OverrideRequestScreen({ navigation, route }) {
   const isEdit = params && params.id;
 
   const { role = "", userMeta } = useUserMeta();
-  console.log(
-    "🚀 ~ file: OverrideRequestScreen.jsx:28 ~ OverrideRequestScreen ~ userMeta:",
-    userMeta
-  );
+
   const isEmployee = USER_ROLE.EMPLOYEE == role;
   const formFields = isEmployee
     ? overrideFields.filter(({ name }) => name !== "company")
@@ -43,10 +39,10 @@ export default function OverrideRequestScreen({ navigation, route }) {
   };
 
   const onSubmit = async (formValues = [], { setSubmitting }) => {
-    console.log(
-      "🚀 ~ file: OverrideRequestScreen.jsx:35 ~ onSubmit ~ costFormValues",
-      costFormValues
-    );
+    // console.log(
+    //   "🚀 ~ file: OverrideRequestScreen.jsx:35 ~ onSubmit ~ costFormValues",
+    //   costFormValues
+    // );
 
     let params = {
       ...formValues,

@@ -107,13 +107,13 @@ export const totFields = [
     label: "TWR #",
     inputType: "p",
     // required: true,
-    wrapperStyle: { marginBottom: -40, paddingTop: 25 },
+    wrapperStyle: { marginBottom: -20, paddingTop: 10 },
   },
   {
     name: "twr_text",
     children: "TWR-",
     inputType: "p",
-    wrapperStyle: { width: "12%", marginRight: 5 },
+    wrapperStyle: { width: "12%", marginRight: 5, paddingTop: 10 },
   },
   {
     name: "numericPart",
@@ -141,6 +141,12 @@ export const totFields = [
     required: true,
     keyboardType: "numeric",
     wrapperStyle: { width: "20%" },
+  },
+  {
+    name: "sep_text",
+    children: "",
+    inputType: "p",
+    wrapperStyle: { height: 5 },
   },
   {
     name: "delayType",
@@ -209,6 +215,21 @@ export const totFields = [
       fieldName: "delayType",
       action: "show",
       matchValue: 3,
+    },
+  },
+  {
+    name: "OngoingWorkDelay",
+    inputType: "select",
+    url: "/OngoingWorkDelay",
+    placeholder: "Select OnGoing Work",
+    label: "OnGoing Work Delay",
+    // required: true,
+    zIndex: 996,
+    wrapperStyle: { width: "48%", marginRight: 5 },
+    condition: {
+      fieldName: "delayType",
+      action: "show",
+      matchValue: 4,
     },
   },
   // {

@@ -16,11 +16,12 @@ export default function FormLoop({
   showYupErrors = false,
   touched,
 }) {
+  // console.log("🚀 ~ file: FormLoop.jsx:19 ~ fields:", fields)
   // console.log("🚀 ~ file: FormLoop.tsx ~ line 18 ~ errors", errors);
   const formatedFields = getConditionalFields(fields, values);
 
   const getError = (errors, { name = "", inputType = null }) => {
-    // console.log("🚀 ~ file: FormLoop.jsx:22 ~ getError ~ errors:", errors)
+    // console.log("🚀 ~ file: FormLoop.jsx:22 ~ getError ~ errors:", errors, name)
     if(typeof errors!="object") return null;
 
     if(showYupErrors && errors[name]) {
@@ -43,6 +44,11 @@ export default function FormLoop({
     if (name == "twrText") {
       errorField = `TWRModel.Text`;
     }
+    if (errorField == "OverrideType.Id") {
+      errorField = `OverrideType`;
+    }
+    // console.log("🚀 ~ file: FormLoop.jsx:22 ~ getError ~ errors:", errors, name, errorField)
+
     // console.log("🚀 ~ file: FormLoop.jsx:38 ~ getError ~ errors[errorField]:", errors[errorField], errorField)
     return errors[errorField];
   };
@@ -72,7 +78,7 @@ export default function FormLoop({
           return (
             <View
               key={elementAttribs?.name}
-              style={[{ width: "100%" }, elementAttribs?.wrapperStyle]}
+              style={[{ width: "100%", alignSelf: 'flex-start' }, elementAttribs?.wrapperStyle]}
             >
               {!elementAttribs?.hidden && (
                 <View>

@@ -2,7 +2,8 @@
   "expo": {
     "name": "Torrance - Time of Tools",
     "slug": "torrance-app",
-    "version": "2.0.21",
+    "scheme": "torranceapp",
+    "version": "2.0.22",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,7 +21,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.torrance.torrance",
-      "buildNumber": "2.0.21",
+      "buildNumber": "2.0.22",
       "userInterfaceStyle": "light",
       "config": {
         "usesNonExemptEncryption": false
@@ -28,7 +29,7 @@
     },
     "android": {
       "package": "com.torrance.torrance",
-      "versionCode": 6,
+      "versionCode": 7,
       "userInterfaceStyle": "light",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

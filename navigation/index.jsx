@@ -31,6 +31,7 @@ import ChangePasswordScreen from "../screens/ChangePasswordScreen";
 import SignupScreen from "../screens/SignupScreen";
 
 export default function Navigation({ colorScheme }) {
+
   return (
     <NavigationContainer
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}

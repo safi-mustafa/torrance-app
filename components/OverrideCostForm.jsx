@@ -7,8 +7,13 @@ import Buttonx from "./form/Buttonx";
 import FormLoop from "./form/FormLoop";
 import { USER_ROLE } from "../constants/Misc";
 import useUserMeta from "../hooks/useUserMeta";
+import { parseCostsModelState, parseModelState } from "../utility";
 
-const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
+const OverrideCostForm = ({ onFormChange, values = [], errors = {} }) => {
+
+  const newErrors = parseCostsModelState(errors);
+  // console.log("🚀 ~ file: OverrideCostForm.jsx:21 ~ OverrideCostForm ~ newErrors:", newErrors)
+
   const formatCostValues = (costValues) => {
     // console.log("🚀 ~ file: OverrideCostForm.jsx:11 ~ formatCostValues ~ costValues:", costValues)
     let t = costValues.map((cost) => ({
@@ -51,6 +56,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       placeholder: "Select Type",
       label: "Override Type",
       zIndex: 3000,
+      required: true,
       // labelAttributes: "text",
       wrapperStyle: { width: "48%", marginRight: 1 },
     },
@@ -58,6 +64,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       name: "overrideHours",
       placeholder: "Enter hours",
       label: "Hours",
+      required: true,
       // inputType: "text",
       keyboardType: "numeric",
       wrapperStyle: { width: "48%", marginRight: 1 },
@@ -68,7 +75,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       url: "/CraftSkill?Company.Id=" + userMeta?.company?.id,
       placeholder: "Select Skill",
       label: "Craft Skill",
-      // required: true,
+      required: true,
       zIndex: 3001,
       wrapperStyle: { width: "48%", marginRight: 1 },
     },
@@ -76,6 +83,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       name: "headCount",
       placeholder: "Enter Head Count",
       label: "Head Count",
+      required: true,
       // inputType: "text",
       keyboardType: "numeric",
       wrapperStyle: { width: "48%", marginRight: 1 },
@@ -83,7 +91,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
   ];
 
   const handleAdd = () => {
-    if(isApprover && userMeta?.canAddLogs && !values.company?.name){
+    if (isApprover && userMeta?.canAddLogs && !values.company?.name) {
       Toast.show({
         type: "error",
         text1: "Override Cost",
@@ -91,7 +99,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
       });
       return;
     }
-    console.log("🚀 ~ file: OverrideCostForm.jsx:98 ~ handleAdd ~ rows:", rows)
+    console.log("🚀 ~ file: OverrideCostForm.jsx:98 ~ handleAdd ~ rows:", rows);
     const updatedRows = [...rows, { edit: false }];
     setRows(updatedRows);
     // handleSubmitChanges(updatedRows);
@@ -154,7 +162,10 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
             </Text>
           ))} */}
         </View>
-        {(isApprover && userMeta?.canAddLogs ? values.company?.name : userMeta?.company) && rows &&
+        {(isApprover && userMeta?.canAddLogs
+          ? values.company?.name
+          : userMeta?.company) &&
+          rows &&
           rows.map((row, i) => (
             <View key={i} style={[styles.tr, styles.body]}>
               <FormLoop
@@ -162,15 +173,10 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
                 handleChange={(key, value) => {}}
                 handleBlur={(key, value) => {}}
                 setFieldValue={(key, value) => {
-                  console.log(
-                    "🚀 ~ file: OverrideCostForm.jsx:176 ~ OverrideCostForm ~ key, value:",
-                    key,
-                    value
-                  );
                   onValueChange(key, value, i);
                 }}
                 values={rows[i]}
-                errors={{}}
+                errors={newErrors && newErrors[i]}
                 handleSubmit={() => {}}
                 formStyle={styles.tr}
               />
@@ -190,6 +196,11 @@ const OverrideCostForm = ({ onFormChange, values = [], errors }) => {
               />
             </View>
           ))}
+        {rows.length == 0 && errors?.Costs && (
+          <View>
+              <Text style={{ color: "red" }}>{errors?.Costs}</Text>
+          </View>
+        )}
       </View>
     </>
   );

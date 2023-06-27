@@ -1,6 +1,11 @@
 import { useEffect } from "react";
-import { StyleSheet, Platform, View, ScrollView, Text } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import {
+  StyleSheet,
+  Platform,
+  View,
+  ScrollView,
+  Text,
+} from "react-native";
 
 import { primaryColor } from "../constants/Colors";
 import { DashboardMenu } from "../components/DashboadMenu";
@@ -11,7 +16,7 @@ import useUserMeta from "../hooks/useUserMeta";
 
 export default function WelcomeScreen({ navigation }) {
   const { userMeta } = useUserMeta();
-  
+
   useEffect(() => {
     if (userMeta?.token) {
       navigation.navigate("BottomTabNav");

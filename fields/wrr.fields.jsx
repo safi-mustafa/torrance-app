@@ -85,13 +85,13 @@ export const wrrFields = [
     label: "TWR #",
     inputType: 'p',
     required: true,
-    wrapperStyle: { marginBottom: -40, paddingTop: 25 },
+    wrapperStyle: { marginBottom: -20, paddingTop: 10 },
   },
   {
     name: "twr_text",
     children: "TWR-",
     inputType: "p",
-    wrapperStyle: { width: "12%", marginRight: 5 },
+    wrapperStyle: { width: "12%", marginRight: 5, paddingTop: 10 },
   },
   {
     name: "numericPart",
@@ -119,6 +119,12 @@ export const wrrFields = [
     required: true,
     keyboardType: "numeric",
     wrapperStyle: { width: "20%" },
+  },
+  {
+    name: "sep_text",
+    children: "",
+    inputType: "p",
+    wrapperStyle: { height: 5 },
   },
   {
     name: "weldMethod",
