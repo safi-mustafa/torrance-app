@@ -79,7 +79,7 @@ export default function LoginScreen({ navigation }) {
       <ImageBackground
         source={BG_IMAGE}
         imageStyle={{ resizeMode: "stretch", marginRight: -5 }}
-        style={{ marginTop: Platform.OS == "ios" ? 40 : 0 }}
+        style={{ marginTop: Platform.OS == "ios" ? 40 : 0, height: '100%' }}
       >
         <KeyboardAwareScrollView>
           <View style={styles.container}>
@@ -113,7 +113,7 @@ export default function LoginScreen({ navigation }) {
                   title={
                     <Ionicons name="arrow-back" size={34} color="white" />
                   }
-                  style={{backgroundColor: "transparent", borderWidth:0}}
+                  style={{ backgroundColor: "transparent", borderWidth: 0 }}
                   onPress={() => navigation.pop()}
                 />
               </Pressable>

@@ -29,6 +29,7 @@ export default function LoginPin({ navigation, onSubmit }) {
   return (
     <>
       <CodeField
+        testID="codeField"
         value={value}
         onChangeText={onValueChange}
         cellCount={CELL_COUNT}
