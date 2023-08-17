@@ -67,40 +67,42 @@ export default function FcoScreen({ navigation, route }) {
     setLoading(true);
     const formData = new FormData()
 
-    const appendToFormData = (obj, parentKey = '') => {
+    const appendToFormData = (obj) => {
       for (const [key, value] of Object.entries(obj)) {
-        const newKey = parentKey ? `${parentKey}.${key}` : key;
+        // const newKey = parentKey ? `${parentKey}.${key}` : key;
 
-        if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-          appendToFormData(value, newKey);
-        } else {
-          formData.append(newKey, value);
-        }
+        // if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+        //   appendToFormData(value, newKey);
+        // } else {
+        //   formData.append(newKey, value);
+        // }
+
+        formData.append(key, value);
       }
     };
 
     appendToFormData(params);
 
-    // Append files (assuming 'File' and 'Photo' fields contain file information)
-    formData.append('Photo.file', {
-      ...params.Photo.file
-    });
+    // // Append files (assuming 'File' and 'Photo' fields contain file information)
+    // formData.append('Photo.file', {
+    //   ...params.Photo.file
+    // });
 
 
-    formData.append('File.file', {
-      ...params.File.file,
-    })
+    // formData.append('File.file', {
+    //   ...params.File.file,
+    // })
 
-    console.log('Form Data', formData._parts)
+    console.log('Form Data', )
 
     if (!isEdit) {
       postData(
         {
-          data: formData._parts,
+          data: formData,
           url: `/FCOLog`,
-          // headers: {
-          //   "Content-Type": 'multipart/form-data',
-          // }
+          headers: {
+            "Content-Type": 'multipart/form-data',
+          }
         },
         ({ data }) => {
           onSuccess(data);
