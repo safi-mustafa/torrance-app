@@ -12,13 +12,13 @@ import { fcoFields, labourFields } from "../fields/fco.fields";
 import postData from "./../api-services/postData";
 import OverrideCostForm from "../components/OverrideCostForm";
 import useUserMeta from "../hooks/useUserMeta";
-import { USER_ROLE } from "../constants/Misc";
+import { BASE_URL, USER_ROLE } from "../constants/Misc";
 import MultiGroupFields from "../components/MultiGroupFields";
+import client from "../api-services/api-client";
 
 export default function FcoScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [apiErrors, setApiErrors] = useState({});
-  const [costFormValues, setCostFormValues] = useState([]);
 
   const { params = {} } = route;
   const initialValues = params?.id ? { ...params } : {};
@@ -31,31 +31,16 @@ export default function FcoScreen({ navigation, route }) {
     ? fcoFields.filter(({ name }) => name !== "company")
     : fcoFields;
 
-  const formatCostRows = (rows) => {
-    return rows.map((row) => {
-      if (typeof row.overrideType === "object") {
-        return { ...row, overrideType: row.overrideType?.id };
-      } else return { ...row };
-    });
-  };
-
   const onSubmit = async (formValues = [], { setSubmitting }) => {
-    // console.log(
-    //   "🚀 ~ file: FcoScreen.jsx:35 ~ onSubmit ~ costFormValues",
-    //   costFormValues
-    // );
-
     let params = {
       ...formValues,
       requester: { id: userMeta?.id, name: userMeta?.name },
-      // costs: formatCostRows(costFormValues),
     };
 
     params = isEmployee
       ? {
-        ...params,
-        // company: { id: userMeta?.company?.id, name: userMeta?.company?.name },
-      }
+          ...params,
+        }
       : params;
 
     console.log(
@@ -65,52 +50,62 @@ export default function FcoScreen({ navigation, route }) {
     // return;
 
     setLoading(true);
-    const formData = new FormData()
+    const formData = new FormData();
 
     const appendToFormData = (obj) => {
       for (const [key, value] of Object.entries(obj)) {
-        // const newKey = parentKey ? `${parentKey}.${key}` : key;
-
-        // if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        //   appendToFormData(value, newKey);
-        // } else {
-        //   formData.append(newKey, value);
-        // }
-
+        if(typeof value === 'object' && value?.id){
+          formData.append(`${key}.Id`, JSON.stringify(value?.id));
+        }
         formData.append(key, value);
       }
     };
 
     appendToFormData(params);
 
-    // // Append files (assuming 'File' and 'Photo' fields contain file information)
-    // formData.append('Photo.file', {
-    //   ...params.Photo.file
-    // });
-
-
-    // formData.append('File.file', {
-    //   ...params.File.file,
-    // })
-
-    console.log('Form Data', )
-
     if (!isEdit) {
-      postData(
-        {
-          data: formData,
-          url: `/FCOLog`,
-          headers: {
-            "Content-Type": 'multipart/form-data',
-          }
+      let apiOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${userMeta?.token}`,
         },
-        ({ data }) => {
-          onSuccess(data);
-        },
-        (error) => {
-          onFailure(error);
-        }
+      };
+      apiOptions.body = formData;
+
+      const result = await fetch(BASE_URL + "/FCOLog", apiOptions).then(
+        (response) => response.json()
       );
+      setLoading(false);
+      console.log(
+        "🚀 ~ file: FcoLogScreen.jsx:92 ~ onSubmit ~ result:",
+        result
+      );
+      if(result.status === 200){
+        onSuccess(result.data);
+      }else{
+        onFailure(result?.errors);
+      }
+
+      // client.post("/FCOLog", { data: formData }).then(
+      //   (response) => {
+      //     setLoading(false);
+
+      //     console.log(
+      //       "🚀 ~ file: FcoLogScreen.jsx:92 ~ .then ~ response:",
+      //       response.data
+      //     );
+      //   },
+      //   (error) => {
+      //     const parsedError = JSON.parse(JSON.stringify(error));
+      //     setLoading(false);
+      //     console.log(
+      //       "🚀 ~ file: postData.js:10 ~ .then ~ parsedError",
+      //       parsedError,
+      //       error?.response?.data?.errors
+      //     );
+      //   }
+      // );
     } else {
       putData(
         { url: `/FCOLog`, params },
@@ -124,7 +119,7 @@ export default function FcoScreen({ navigation, route }) {
     }
   };
 
-  const onSuccess = (data) => {
+  const onSuccess = (data={}) => {
     setLoading(false);
     Toast.show({
       type: "success",
@@ -134,23 +129,15 @@ export default function FcoScreen({ navigation, route }) {
     navigation.pop();
   };
 
-  const onFailure = (error) => {
-    if (error?.data?.errors) {
+  const onFailure = (errors) => {
+    if (errors) {
       console.log(
         "🚀 ~ file: FcoScreen.jsx ~ line 45 ~ onSubmit ~ error.data",
-        error.data
+        errors
       );
-      setApiErrors(error.data.errors);
+      setApiErrors(errors);
     }
     setLoading(false);
-  };
-
-  const onCostFormChange = (costValues) => {
-    console.log(
-      "🚀 ~ file: FcoScreen.jsx:87 ~ onCostFormChange ~ costValues",
-      costValues
-    );
-    setCostFormValues(costValues);
   };
 
   return (
