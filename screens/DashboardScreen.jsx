@@ -10,6 +10,7 @@ import { STATUSBAR_HEIGHT } from "../utility";
 const TOT_IMAGE = require("./../assets/images/journal-book.png");
 const WRR_IMAGE = require("./../assets/images/welding.png");
 const OVERRIDE_IMAGE = require("./../assets/images/override.png");
+const FCO_IMAGE = require("./../assets/images/fco.png");
 
 export default function DashboardScreen({ navigation }) {
   const { role = "" } = useUserMeta();
@@ -73,6 +74,13 @@ export default function DashboardScreen({ navigation }) {
             subtitle="Welding Rod Record"
             icon={WRR_IMAGE}
             onPress={() => navigation.push("WrrRequest")}
+          />
+          <DashButton
+            style={styles.dashBtn}
+            title="Field Change Order"
+            subtitle="Field Change Order Log"
+            icon={FCO_IMAGE}
+            onPress={() => navigation.push("FcoLog")}
           />
         </ScrollView>
       </View>

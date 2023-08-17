@@ -1,11 +1,15 @@
-import { Text, Pressable } from "react-native";
+import { Text } from "react-native";
 import { DateTimePicker } from "../DateTimePicker";
 import Buttonx from "./Buttonx";
 import Input from "./Input";
 import SelectInput from "./SelectInput";
 import SwitchInput from "./SwitchInput";
-import TableInput from "./TableInput";
+// import TableInput from "./TableInput";
 import TextArea from "./TextArea";
+import RadioButton from "./RadioButton";
+import Checkbox from "./Checkbox";
+import MultiGroupFields from "../MultiGroupFields";
+import UploadAttachment from "./UploadAttachment";
 
 export const inputTypes = {
   text: <Input />,
@@ -16,7 +20,10 @@ export const inputTypes = {
   button: <Buttonx />,
   select: <SelectInput />,
   textarea: <TextArea />,
-  tableInput: <TableInput />,
+  radio: <RadioButton />,
+  checkbox: <Checkbox />,
+  multiGroupFields: <MultiGroupFields />,
+  upload: <UploadAttachment />,
 };
 export const getInputType = ({ inputType }) => {
   const output = inputTypes[inputType] ? inputTypes[inputType] : <Input />;

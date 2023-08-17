@@ -18,7 +18,7 @@ client.interceptors.request.use(
       config.headers.Authorization = `Bearer ${userMeta?.token}`;
     
     config.headers['VersionHeader'] = 'X-Version';
-    config.headers["X-Version"] = "2.0.2";
+    config.headers["X-Version"] = "1.0.1";
 
     return config;
   },

@@ -29,6 +29,7 @@ import ApprovalCell from "../components/cell-templates/ApprovalCell";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import ChangePasswordScreen from "../screens/ChangePasswordScreen";
 import SignupScreen from "../screens/SignupScreen";
+import FcoScreen from "../screens/FcoLogScreen";
 
 export default function Navigation({ colorScheme }) {
 
@@ -81,6 +82,11 @@ function RootNavigator() {
         name="OverrideRequest"
         component={OverrideRequestScreen}
         options={{ title: "Override Request" }}
+      />
+      <Stack.Screen
+        name="FcoLog"
+        component={FcoScreen}
+        options={{ title: "Field Change Order" }}
       />
       <Stack.Screen
         name="SubmissionContent"

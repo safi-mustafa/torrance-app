@@ -22,16 +22,16 @@ export default function FormLoop({
 
   const getError = (errors, { name = "", inputType = null }) => {
     // console.log("🚀 ~ file: FormLoop.jsx:22 ~ getError ~ errors:", errors, name)
-    if(typeof errors!="object") return null;
+    if (typeof errors != "object") return null;
 
-    if(showYupErrors && errors[name]) {
+    if (showYupErrors && errors[name]) {
       // console.log("🚀 ~ file: FormLoop.jsx:30 ~ getError ~ errors[name]:", errors, touched[name] || errors[name])
-      if(typeof errors[name] === "object"){
+      if (typeof errors[name] === "object") {
         return errors[name].name;
       }
-      return errors[name]
-    };
-    
+      return errors[name];
+    }
+
     let errorField = toCapitalCase(name);
     if (
       inputType == "select" &&
@@ -74,11 +74,15 @@ export default function FormLoop({
               onValueChange: (value) =>
                 setFieldValue(elementAttribs.name, value),
             };
+          
 
           return (
             <View
               key={elementAttribs?.name}
-              style={[{ width: "100%", alignSelf: 'flex-start' }, elementAttribs?.wrapperStyle]}
+              style={[
+                { width: "100%", alignSelf: "flex-start" },
+                elementAttribs?.wrapperStyle,
+              ]}
             >
               {!elementAttribs?.hidden && (
                 <View>
