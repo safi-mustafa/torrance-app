@@ -41,7 +41,7 @@ export const labourFields = [
     wrapperStyle: { width: "48%", marginRight: 1 },
   },
   {
-    name: "craftSkill",
+    name: "craft",
     inputType: "select",
     url: "/CraftSkill?Company.Id=",
     placeholder: "Select Skill",
@@ -124,7 +124,7 @@ export const fcoFields = [
     required: true,
   },
   {
-    name: "unit",
+    name: "Unit",
     inputType: "select",
     url: "/Unit",
     placeholder: "Select Unit",
@@ -142,11 +142,11 @@ export const fcoFields = [
     zIndex: 1002,
   },
   {
-    name: "reason",
-    placeholder: "Enter reason",
-    label: "Override Reason",
+    name: "Location",
+    placeholder: "Enter Location",
+    label: "Service Location",
     required: true,
-    inputType: "textarea",
+    // inputType: "textarea",
   },
   {
     name: "PreTA",
@@ -253,7 +253,7 @@ export const fcoFields = [
     ],
   },
   {
-    name: "company",
+    name: "Company",
     inputType: "select",
     url: "/Company?DisablePagination=true",
     placeholder: "Select Company",

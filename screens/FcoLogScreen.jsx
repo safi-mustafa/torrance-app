@@ -53,9 +53,9 @@ export default function FcoScreen({ navigation, route }) {
 
     params = isEmployee
       ? {
-          ...params,
-          // company: { id: userMeta?.company?.id, name: userMeta?.company?.name },
-        }
+        ...params,
+        // company: { id: userMeta?.company?.id, name: userMeta?.company?.name },
+      }
       : params;
 
     console.log(
@@ -65,11 +65,42 @@ export default function FcoScreen({ navigation, route }) {
     // return;
 
     setLoading(true);
+    const formData = new FormData()
+
+    const appendToFormData = (obj, parentKey = '') => {
+      for (const [key, value] of Object.entries(obj)) {
+        const newKey = parentKey ? `${parentKey}.${key}` : key;
+
+        if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+          appendToFormData(value, newKey);
+        } else {
+          formData.append(newKey, value);
+        }
+      }
+    };
+
+    appendToFormData(params);
+
+    // Append files (assuming 'File' and 'Photo' fields contain file information)
+    formData.append('Photo.file', {
+      ...params.Photo.file
+    });
+
+
+    formData.append('File.file', {
+      ...params.File.file,
+    })
+
+    console.log('Form Data', formData._parts)
+
     if (!isEdit) {
       postData(
         {
+          data: formData._parts,
           url: `/FCOLog`,
-          params,
+          // headers: {
+          //   "Content-Type": 'multipart/form-data',
+          // }
         },
         ({ data }) => {
           onSuccess(data);
