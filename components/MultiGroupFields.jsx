@@ -19,18 +19,9 @@ const MultiGroupFields = ({
 }) => {
   const newErrors = parseCostsModelState(errors);
 
-  const formatCostValues = (costValues) => {
-    let t = costValues.map((cost) => ({
-      ...cost,
-      overrideType: { id: cost.overrideType, name: cost.overrideType },
-      craftSkill: { id: cost.craftSkill.id, name: cost.craftSkill.name },
-    }));
-    return t;
-  };
-
   const { role = "", userMeta } = useUserMeta();
   const isApprover = USER_ROLE.APPROVER == role;
-  const defaultValues = values?.costs ? formatCostValues(values?.costs) : [];
+  const defaultValues = [];
 
   const [rows, setRows] = useState([...defaultValues]);
 
@@ -39,19 +30,8 @@ const MultiGroupFields = ({
   };
 
   const handleAdd = () => {
-    // if (isApprover && userMeta?.canAddLogs && !values.company?.name) {
-    //   Toast.show({
-    //     type: "error",
-    //     text1: title,
-    //     text2: "Please choose company to add cost.",
-    //   });
-    //   return;
-    // }
     const updatedRows = [...rows, { edit: false }];
     setRows(updatedRows);
-    // handleSubmitChanges(updatedRows);
-    // setClearInput(true);
-    // handleClear();
   };
 
   const handleDelete = (index) => {

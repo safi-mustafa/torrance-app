@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StyleSheet, View, Pressable, Text } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-toast-message";
@@ -15,13 +15,20 @@ import useUserMeta from "../hooks/useUserMeta";
 import { BASE_URL, USER_ROLE } from "../constants/Misc";
 import MultiGroupFields from "../components/MultiGroupFields";
 import client from "../api-services/api-client";
+import { parseNumberFromString } from "../utility";
+import getData from "../api-services/getData";
 
 export default function FcoScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [apiErrors, setApiErrors] = useState({});
+  const [craftSkills, setCraftSkills] = useState([]);
+  console.log(
+    "🚀 ~ file: FcoLogScreen.jsx:25 ~ FcoScreen ~ craftSkills:",
+    craftSkills
+  );
 
   const { params = {} } = route;
-  const initialValues = params?.id ? { ...params } : {};
+  let initialValues = params?.id ? { ...params } : {};
   const isEdit = params && params.id;
 
   const { role = "", userMeta } = useUserMeta();
@@ -31,54 +38,113 @@ export default function FcoScreen({ navigation, route }) {
     ? fcoFields.filter(({ name }) => name !== "company")
     : fcoFields;
 
+  useEffect(() => {
+    getCraftSkill();
+  }, []);
+
+  const getCraftSkill = () => {
+    setLoading(true);
+    getData(
+      { url: "/CraftSkill" },
+      (response) => {
+        setLoading(false);
+        const { items = [] } = response?.data;
+        setCraftSkills(items);
+      },
+      (error) => {
+        console.log(
+          "🚀 ~ file: FcoLogScreen.jsx:47 ~ getCraftSkill ~ error:",
+          error
+        );
+        setLoading(false);
+      }
+    );
+  };
+
+  const calculateFCOSections = (FCOValues = []) => {
+    return FCOValues.map((fco) => {
+      const { mn = null, du = null, overrideType = null, craft = {} } = fco;
+      let rate = 0;
+      if (mn && du && overrideType && craft?.id != 0) {
+        craftSkills.forEach((skill) => {
+          if (skill.id == craft?.id) {
+            rate = skill[`${overrideType.toLowerCase()}Rate`] * mn * du;
+          }
+        });
+
+        console.log(
+          "🚀 ~ file: FcoLogScreen.jsx:65 ~ calculateFCOSections ~ rate:",
+          rate
+        );
+        return { ...fco, rate };
+      }
+      else return { ...fco };
+    });
+  };
+
   const onSubmit = async (formValues = [], { setSubmitting }) => {
     let params = {
       ...formValues,
       requester: { id: userMeta?.id, name: userMeta?.name },
+      FCOSections: calculateFCOSections(formValues?.FCOSections ?? []),
     };
 
     params = isEmployee
       ? {
-        ...params,
-      }
+          ...params,
+        }
       : params;
 
     console.log(
       "🚀 ~ file: FcoScreen.jsx ~ line 62 ~ onSubmit ~ params",
       params
     );
-    // return;
+    return;
 
     setLoading(true);
     const formData = new FormData();
 
     const appendToFormData = (obj) => {
       for (const [key, value] of Object.entries(obj)) {
-        if (typeof value === 'object' && value?.id) {
+        if (typeof value === "object" && value?.id) {
           formData.append(`${key}.Id`, JSON.stringify(value?.id));
         } else if (Array.isArray(value) && value.length != 0) {
           value.forEach((item, index) => {
             Object.entries(item).forEach(([id, value]) => {
-              if (typeof value === 'object' && value?.id) {
-                formData.append(`${key}[${index}].${id}.Id`, JSON.stringify(value?.id));
+              if (typeof value === "object" && value?.id) {
+                formData.append(
+                  `${key}[${index}].${id}.Id`,
+                  JSON.stringify(value?.id)
+                );
               } else {
                 formData.append(`${key}[${index}].${id}`, value);
               }
-
-            })
-
-
-          })
-        } else if (typeof value === 'object' && value?.file) {
-          formData.append(`${key}.File`, JSON.stringify(value?.file));
-        }
-        formData.append(key, value);
+            });
+          });
+        } else if (typeof value === "object" && value?.fileName) {
+          console.log(
+            "🚀 ~ file: FcoLogScreen.jsx:73 ~ appendToFormData ~ value:",
+            key,
+            value,
+            value?.name
+          );
+          const { base64, exif, duration, ...imageData } = value;
+          formData.append(`${key}.file`, imageData);
+          // formData.append(`${key}.name`, value?.name);
+          // formData.append(`${key}.Type`, JSON.stringify(value?.type));
+        } else formData.append(key, value);
       }
     };
 
     appendToFormData(params);
 
-    console.log(formData)
+    console.log(
+      "🚀 ~ file: FcoLogScreen.jsx:89 ~ onSubmit ~ formData:",
+      formData
+    );
+
+    // setLoading(false);
+    // return;
 
     if (!isEdit) {
       let apiOptions = {
@@ -157,6 +223,108 @@ export default function FcoScreen({ navigation, route }) {
     setLoading(false);
   };
 
+  initialValues = {
+    FCOType: {
+      id: 1,
+      name: "FCO Type 1.",
+    },
+    FCOReason: {
+      id: 1,
+      name: "Reason",
+    },
+    shift: {
+      id: 2,
+      name: "Night",
+    },
+    Unit: {
+      id: 25,
+      name: "Boiler",
+    },
+    Company: {
+      id: 1,
+      name: "Acuren",
+    },
+    Date: "8/18/2023",
+    Location: "McKenzie",
+    PreTA: "true",
+    EquipmentNumber: "Jabbed ",
+    requester: {
+      id: 40130,
+      name: "Cent Requester 1",
+    },
+    MaterialRate: "2",
+    EquipmentRate: "4",
+    ShopRate: "2",
+  };
+
+  const getContigencyRate = (contigencyRate = 1, value) => {
+    const parsedVal = parseNumberFromString(value);
+    return (
+      parsedVal + (parsedVal * parseNumberFromString(contigencyRate)) / 100
+    );
+  };
+
+  const FCOCalculationChart = ({ values }) => {
+    // console.log(
+    //   "🚀 ~ file: FcoLogScreen.jsx:206 ~ FCOCalculationChart ~ values:",
+    //   values
+    // );
+    const {
+      Contingency,
+      ShopRate,
+      MaterialRate,
+      EquipmentRate,
+      ...otherValues
+    } = values;
+    return (
+      <View>
+        <View style={styles.row}>
+          <Text style={styles.col}>Total:</Text>
+          <Text style={styles.col}>$0</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.col}>Contingency:</Text>
+          <Text style={styles.col}>${Contingency}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.col}>Total:</Text>
+          <Text style={styles.col}>$0</Text>
+        </View>
+        <Text style={{ fontSize: 18, marginVertical: 15 }}>
+          FCO Value Estimate
+        </Text>
+        <View style={styles.row}>
+          <Text style={styles.col}>Labor:</Text>
+          <Text style={styles.col}>
+            ${getContigencyRate(Contingency, ShopRate)}
+          </Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.col}>Material:</Text>
+          <Text style={styles.col}>
+            ${getContigencyRate(Contingency, MaterialRate)}
+          </Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.col}>Equipment:</Text>
+          <Text style={styles.col}>
+            ${getContigencyRate(Contingency, EquipmentRate)}
+          </Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.col}>Shop:</Text>
+          <Text style={styles.col}>
+            ${getContigencyRate(Contingency, ShopRate)}
+          </Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={[styles.col, { fontWeight: "bold" }]}>TOTAL:</Text>
+          <Text style={[styles.col, { fontWeight: "bold" }]}>${0}</Text>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <>
       <Loader show={loading} size="large" overlay="true" color="white" />
@@ -187,19 +355,7 @@ export default function FcoScreen({ navigation, route }) {
                     alignItems: "center",
                   }}
                 />
-                {/* <OverrideCostForm
-                  onFormChange={(values) => onCostFormChange(values)}
-                  values={values}
-                  key="costs"
-                  errors={apiErrors}
-                /> */}
-                {/* <MultiGroupFields
-                  title="Labour"
-                  fields={labourFields}
-                  onFormChange={(values) => onCostFormChange(values)}
-                  values={values}
-                  errors={apiErrors}
-                /> */}
+                <FCOCalculationChart values={values} />
                 <Pressable
                   style={[appStyles.btn, appStyles.btnPrimary]}
                   onPress={handleSubmit}
@@ -222,5 +378,20 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     backgroundColor: "#f9f9f9",
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  col: {
+    flex: 1,
+    fontSize: 16,
+    // fontWeight: "bold",
+    color: "#333",
   },
 });

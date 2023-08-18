@@ -127,3 +127,16 @@ export const parseCostsModelState = (data) => {
     }
     return errors;
 }
+
+export const parseNumberFromString = (str) => {
+    const intRegex = /^-?\d+$/;    // Regular expression for integers
+    const floatRegex = /^-?\d+\.\d+$/; // Regular expression for floats
+
+    if (intRegex.test(str)) {
+        return parseInt(str, 10);
+    } else if (floatRegex.test(str)) {
+        return parseFloat(str);
+    } else {
+        return null;
+    }
+}

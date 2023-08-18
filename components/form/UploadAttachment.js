@@ -9,16 +9,18 @@ import { primaryColor } from '../../constants/Colors';
 
 export default function UploadAttachment({ buttonText = 'Upload', ...otherProps }) {
 
-  const images = otherProps.value ? [otherProps.value.file.uri] : [];
+  // console.log("🚀 ~ file: UploadAttachment.js:13 ~ UploadAttachment ~ otherProps.value:", otherProps.value)
+  const images = otherProps.value ? [otherProps.value?.file?.uri] : [];
   const imageWidth = Dimensions.get("screen").width / 3.5;
   const imageHeight = Dimensions.get("screen").height / 6.5;
 
-  const onSelection = ({ uri, name, type }) => {
-    const fileData = {
-      name,
-      file: { uri, name, type }
-    };
-    otherProps.setFieldValue(otherProps?.name, fileData);
+  const onSelection = (asset) => {
+    // const fileData = {
+    //   ...asset,
+    //   name,
+    //   type
+    // };
+    otherProps.setFieldValue(otherProps?.name, asset);
   }
 
   const onRemoveImage = (image) => {
@@ -37,19 +39,20 @@ export default function UploadAttachment({ buttonText = 'Upload', ...otherProps 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
+      // allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
     // console.log("🚀 ~ file: UploadAttachment.js:47 ~ pickImage ~ result:", result)
     if (!result.canceled) {
-      let uri = result.assets[0].uri;
+      let asset = result.assets[0];
+      let uri = asset.uri;
       let name = uri.split('/').pop();
       let match = /\.(\w+)$/.exec(name);
       let type = match ? `image/${match[1]}` : `image`;
-      console.log("🚀 ~ file: UploadAttachment.js:53 ~ pickImage ~ name, type:", name, type)
-      onSelection({ uri, name, type });
+      // console.log("🚀 ~ file: UploadAttachment.js:53 ~ pickImage ~ name, type:", name, type)
+      onSelection({...asset, name});
     }
   };
 
@@ -60,13 +63,14 @@ export default function UploadAttachment({ buttonText = 'Upload', ...otherProps 
         <Text style={{ color: primaryColor, fontSize: 16 }}> {buttonText}</Text>
       </>} />
       <View style={{ flexDirection: 'column' }}>
-        {images && images.map((image, index) => <>
-          <View key={index} style={{ position: 'relative', zIndex: 999, top: 10,left: 5, elevation: 1 }}>
+        {images && images.map((image, index) => <View key={index}>
+          <View  style={{ position: 'relative', zIndex: 999, top: 10, left: 5, elevation: 1 }}>
             <TouchableOpacity onPress={() => onRemoveImage(image)}>
               <Ionicons name="remove-circle" size={24} color="red" />
             </TouchableOpacity>
           </View>
-          <Image m={1} source={{ uri: image }} style={{ width: imageWidth, height: imageHeight }} alt="attchment" /></>
+          <Image m={1} source={{ uri: image }} style={{ width: imageWidth, height: imageHeight }} alt="attchment" />
+          </View>
         )}
       </View>
     </>
