@@ -39,8 +39,8 @@ export default function FcoScreen({ navigation, route }) {
 
     params = isEmployee
       ? {
-          ...params,
-        }
+        ...params,
+      }
       : params;
 
     console.log(
@@ -54,14 +54,31 @@ export default function FcoScreen({ navigation, route }) {
 
     const appendToFormData = (obj) => {
       for (const [key, value] of Object.entries(obj)) {
-        if(typeof value === 'object' && value?.id){
+        if (typeof value === 'object' && value?.id) {
           formData.append(`${key}.Id`, JSON.stringify(value?.id));
+        } else if (Array.isArray(value) && value.length != 0) {
+          value.forEach((item, index) => {
+            Object.entries(item).forEach(([id, value]) => {
+              if (typeof value === 'object' && value?.id) {
+                formData.append(`${key}[${index}].${id}.Id`, JSON.stringify(value?.id));
+              } else {
+                formData.append(`${key}[${index}].${id}`, value);
+              }
+
+            })
+
+
+          })
+        } else if (typeof value === 'object' && value?.file) {
+          formData.append(`${key}.File`, JSON.stringify(value?.file));
         }
         formData.append(key, value);
       }
     };
 
     appendToFormData(params);
+
+    console.log(formData)
 
     if (!isEdit) {
       let apiOptions = {
@@ -81,9 +98,9 @@ export default function FcoScreen({ navigation, route }) {
         "🚀 ~ file: FcoLogScreen.jsx:92 ~ onSubmit ~ result:",
         result
       );
-      if(result.status === 200){
+      if (result.status === 200) {
         onSuccess(result.data);
-      }else{
+      } else {
         onFailure(result?.errors);
       }
 
@@ -119,7 +136,7 @@ export default function FcoScreen({ navigation, route }) {
     }
   };
 
-  const onSuccess = (data={}) => {
+  const onSuccess = (data = {}) => {
     setLoading(false);
     Toast.show({
       type: "success",

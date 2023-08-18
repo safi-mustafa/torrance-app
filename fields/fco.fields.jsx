@@ -23,7 +23,7 @@ export const labourFields = [
     wrapperStyle: { width: "48%", marginRight: 1 },
   },
   {
-    name: "overrideHours",
+    name: "mn",
     placeholder: "Enter hours",
     label: "MN",
     required: true,
@@ -32,7 +32,7 @@ export const labourFields = [
     wrapperStyle: { width: "48%", marginRight: 1 },
   },
   {
-    name: "duHours",
+    name: "du",
     placeholder: "Enter hours",
     label: "DU",
     required: true,
@@ -156,11 +156,11 @@ export const fcoFields = [
     options: [
       {
         label: "Pre TA",
-        value: "0",
+        value: "true",
       },
       {
         label: "TA",
-        value: "1",
+        value: "false",
       },
     ],
   },
@@ -171,11 +171,11 @@ export const fcoFields = [
     options: [
       {
         label: "Yes",
-        value: "0",
+        value: "true",
       },
       {
         label: "No",
-        value: "1",
+        value: "false",
       },
     ],
   },
@@ -186,11 +186,11 @@ export const fcoFields = [
     options: [
       {
         label: "Yes",
-        value: "0",
+        value: "true",
       },
       {
         label: "No",
-        value: "1",
+        value: "false",
       },
     ],
   },
