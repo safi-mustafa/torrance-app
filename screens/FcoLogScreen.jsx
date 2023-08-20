@@ -17,15 +17,12 @@ import MultiGroupFields from "../components/MultiGroupFields";
 import client from "../api-services/api-client";
 import { parseNumberFromString } from "../utility";
 import getData from "../api-services/getData";
+import { eq } from "react-native-reanimated";
 
 export default function FcoScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [apiErrors, setApiErrors] = useState({});
   const [craftSkills, setCraftSkills] = useState([]);
-  console.log(
-    "🚀 ~ file: FcoLogScreen.jsx:25 ~ FcoScreen ~ craftSkills:",
-    craftSkills
-  );
 
   const { params = {} } = route;
   let initialValues = params?.id ? { ...params } : {};
@@ -72,10 +69,10 @@ export default function FcoScreen({ navigation, route }) {
           }
         });
 
-        console.log(
-          "🚀 ~ file: FcoLogScreen.jsx:65 ~ calculateFCOSections ~ rate:",
-          rate
-        );
+        // console.log(
+        //   "🚀 ~ file: FcoLogScreen.jsx:65 ~ calculateFCOSections ~ rate:",
+        //   rate
+        // );
         return { ...fco, rate };
       }
       else return { ...fco };
@@ -224,38 +221,38 @@ export default function FcoScreen({ navigation, route }) {
   };
 
   initialValues = {
-    FCOType: {
-      id: 1,
-      name: "FCO Type 1.",
+    "FCOType": {
+        "id": 1,
+        "name": "FCO Type 1."
     },
-    FCOReason: {
-      id: 1,
-      name: "Reason",
+    "FCOReason": {
+        "id": 1,
+        "name": "Reason"
     },
-    shift: {
-      id: 2,
-      name: "Night",
+    "shift": {
+        "id": 2,
+        "name": "Night"
     },
-    Unit: {
-      id: 25,
-      name: "Boiler",
+    "Unit": {
+        "id": 25,
+        "name": "Boiler"
     },
-    Company: {
-      id: 1,
-      name: "Acuren",
+    "Company": {
+        "id": 1,
+        "name": "Acuren"
     },
-    Date: "8/18/2023",
-    Location: "McKenzie",
-    PreTA: "true",
-    EquipmentNumber: "Jabbed ",
-    requester: {
-      id: 40130,
-      name: "Cent Requester 1",
+    "Date": "8/18/2023",
+    "Location": "McKenzie",
+    "PreTA": "true",
+    "EquipmentNumber": "Jabbed ",
+    "requester": {
+        "id": 40130,
+        "name": "Cent Requester 1"
     },
-    MaterialRate: "2",
-    EquipmentRate: "4",
-    ShopRate: "2",
-  };
+    "MaterialRate": "2",
+    "EquipmentRate": "4",
+    "ShopRate": "3"
+};
 
   const getContigencyRate = (contigencyRate = 1, value) => {
     const parsedVal = parseNumberFromString(value);
@@ -265,30 +262,34 @@ export default function FcoScreen({ navigation, route }) {
   };
 
   const FCOCalculationChart = ({ values }) => {
-    // console.log(
-    //   "🚀 ~ file: FcoLogScreen.jsx:206 ~ FCOCalculationChart ~ values:",
-    //   values
-    // );
-    const {
-      Contingency,
-      ShopRate,
-      MaterialRate,
-      EquipmentRate,
-      ...otherValues
-    } = values;
+    console.log(
+      "🚀 ~ file: FcoLogScreen.jsx:206 ~ FCOCalculationChart ~ values:",
+      values
+    );
+    let FCOSections = calculateFCOSections(values?.FCOSections ?? []);
+    const totalFCORate = FCOSections.reduce((acc, curr) => acc + curr?.rate, 0);
+    const totalFCORateAndAmount = (totalFCORate+parseNumberFromString(values?.EquipmentRate)+parseNumberFromString(values?.MaterialRate));
+    const contigencyRateValue = ((totalFCORateAndAmount * parseNumberFromString(values?.Contingency)) / 100).toFixed(2);
+    
+    const materialContigencyRate = getContigencyRate(values?.Contingency, values?.MaterialRate);
+    const equipmentContigencyRate = getContigencyRate(values?.Contingency, values?.EquipmentRate);
+    const shopContigencyRate = getContigencyRate(values?.Contingency, values?.ShopRate);
+
+    console.log("🚀 ~ file: FcoLogScreen.jsx:297 ~ FCOCalculationChart ~ FCOSections:", FCOSections)
+
     return (
       <View>
         <View style={styles.row}>
           <Text style={styles.col}>Total:</Text>
-          <Text style={styles.col}>$0</Text>
+          <Text style={styles.col}>${totalFCORateAndAmount}</Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.col}>Contingency:</Text>
-          <Text style={styles.col}>${Contingency}</Text>
+          <Text style={styles.col}>Contingency: ({values?.Contingency}%)</Text>
+          <Text style={styles.col}>${contigencyRateValue}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.col}>Total:</Text>
-          <Text style={styles.col}>$0</Text>
+          <Text style={styles.col}>${(+totalFCORateAndAmount+ +contigencyRateValue).toFixed(2)}</Text>
         </View>
         <Text style={{ fontSize: 18, marginVertical: 15 }}>
           FCO Value Estimate
@@ -296,30 +297,30 @@ export default function FcoScreen({ navigation, route }) {
         <View style={styles.row}>
           <Text style={styles.col}>Labor:</Text>
           <Text style={styles.col}>
-            ${getContigencyRate(Contingency, ShopRate)}
+            ${totalFCORate}
           </Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.col}>Material:</Text>
           <Text style={styles.col}>
-            ${getContigencyRate(Contingency, MaterialRate)}
+            ${materialContigencyRate}
           </Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.col}>Equipment:</Text>
           <Text style={styles.col}>
-            ${getContigencyRate(Contingency, EquipmentRate)}
+            ${equipmentContigencyRate}
           </Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.col}>Shop:</Text>
           <Text style={styles.col}>
-            ${getContigencyRate(Contingency, ShopRate)}
+            ${shopContigencyRate}
           </Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.col, { fontWeight: "bold" }]}>TOTAL:</Text>
-          <Text style={[styles.col, { fontWeight: "bold" }]}>${0}</Text>
+          <Text style={[styles.col, { fontWeight: "bold" }]}>${(totalFCORate+materialContigencyRate+equipmentContigencyRate+shopContigencyRate).toFixed(2)}</Text>
         </View>
       </View>
     );
