@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { toCapitalCase } from "../../utility";
+import { parseGroupErrorMessages, toCapitalCase } from "../../utility";
 
 import Putin from "./Putin";
 
@@ -47,8 +47,8 @@ export default function FormLoop({
     if (errorField == "OverrideType.Id") {
       errorField = `OverrideType`;
     }
-    // console.log("🚀 ~ file: FormLoop.jsx:22 ~ getError ~ errors:", errors, name, errorField)
 
+    // console.log("🚀 ~ file: FormLoop.jsx:22 ~ getError ~ errors:", errors, name, errorField)
     // console.log("🚀 ~ file: FormLoop.jsx:38 ~ getError ~ errors[errorField]:", errors[errorField], errorField)
     return errors[errorField];
   };
@@ -64,6 +64,7 @@ export default function FormLoop({
             onBlur: handleBlur(elementAttribs.name),
             value: values[elementAttribs.name],
             setFieldValue: setFieldValue,
+            errors,
           };
 
           if (elementAttribs?.name == "submit")
@@ -74,7 +75,6 @@ export default function FormLoop({
               onValueChange: (value) =>
                 setFieldValue(elementAttribs.name, value),
             };
-          
 
           return (
             <View

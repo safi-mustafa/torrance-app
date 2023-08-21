@@ -7,7 +7,7 @@ import Buttonx from "./form/Buttonx";
 import FormLoop from "./form/FormLoop";
 import { USER_ROLE } from "../constants/Misc";
 import useUserMeta from "../hooks/useUserMeta";
-import { parseCostsModelState } from "../utility";
+import { parseGroupErrorMessages } from "../utility";
 
 const MultiGroupFields = ({
   values = [],
@@ -17,8 +17,9 @@ const MultiGroupFields = ({
   name,
   ...otherProps
 }) => {
-  const newErrors = parseCostsModelState(errors);
-
+  const newErrors = parseGroupErrorMessages(JSON.stringify(errors), name);
+  console.log("🚀 ~ file: MultiGroupFields.jsx:20 ~ newErrors:", newErrors)
+  
   const { role = "", userMeta } = useUserMeta();
   const isApprover = USER_ROLE.APPROVER == role;
   const defaultValues = [];
@@ -92,8 +93,8 @@ const MultiGroupFields = ({
             <View key={i} style={[styles.tr, styles.body]}>
               <FormLoop
                 fields={fields.map((field) => ({ ...field }))}
-                handleChange={(key, value) => {}}
-                handleBlur={(key, value) => {}}
+                handleChange={()=>{}}
+                handleBlur={()=>{}}
                 setFieldValue={(key, value) => {
                   onValueChange(key, value, i);
                 }}

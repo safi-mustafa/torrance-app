@@ -140,3 +140,37 @@ export const parseNumberFromString = (str) => {
         return null;
     }
 }
+
+export const parseGroupErrorMessages = (jsonString, sectionName) => {
+    try {
+        const data = JSON.parse(jsonString);
+        const sections = [];
+
+        const sectionRegex = new RegExp(`${sectionName}\\[(\\d+)\\]\\.([A-Za-z]+)`);
+
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const messages = data[key];
+                const regexResult = key.match(sectionRegex);
+
+                if (regexResult) {
+                    const index = parseInt(regexResult[1]);
+                    const field = regexResult[2];
+                    const errorMessage = messages[0];
+
+                    if (!sections[index]) {
+                        sections[index] = {};
+                    }
+
+                    sections[index][field] = errorMessage;
+                }
+            }
+        }
+
+        return sections;
+    } catch (error) {
+        console.error("Error parsing JSON:", error);
+        return [];
+    }
+}
+

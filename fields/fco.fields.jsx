@@ -23,7 +23,7 @@ export const labourFields = [
     wrapperStyle: { width: "48%", marginRight: 1 },
   },
   {
-    name: "mn",
+    name: "MN",
     placeholder: "Enter hours",
     label: "MN",
     required: true,
@@ -32,7 +32,7 @@ export const labourFields = [
     wrapperStyle: { width: "48%", marginRight: 1 },
   },
   {
-    name: "du",
+    name: "DU",
     placeholder: "Enter hours",
     label: "DU",
     required: true,

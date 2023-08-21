@@ -60,7 +60,7 @@ export default function FcoScreen({ navigation, route }) {
 
   const calculateFCOSections = (FCOValues = []) => {
     return FCOValues.map((fco) => {
-      const { mn = null, du = null, overrideType = null, craft = {} } = fco;
+      const { mn = 0, du = 0, overrideType = 0, craft = {} } = fco;
       let rate = 0;
       if (mn && du && overrideType && craft?.id != 0) {
         craftSkills.forEach((skill) => {
@@ -68,22 +68,78 @@ export default function FcoScreen({ navigation, route }) {
             rate = skill[`${overrideType.toLowerCase()}Rate`] * mn * du;
           }
         });
-
-        // console.log(
-        //   "🚀 ~ file: FcoLogScreen.jsx:65 ~ calculateFCOSections ~ rate:",
-        //   rate
-        // );
+  
         return { ...fco, rate };
-      }
-      else return { ...fco };
+      } else return { ...fco, rate: 0 };
     });
   };
 
+  const getContigencyRate = (contigencyRate = 1, value) => {
+    const parsedVal = parseNumberFromString(value);
+    return (
+      parsedVal + (parsedVal * parseNumberFromString(contigencyRate)) / 100
+    );
+  };
+
+  const fcoCalulations = (values = {}) => {
+    let FCOSections = calculateFCOSections(values?.FCOSections ?? []);
+    const totalFCORate = FCOSections.reduce((acc, curr) => acc + curr?.rate, 0);
+    const totalFCORateAndAmount =
+      totalFCORate +
+      parseNumberFromString(values?.EquipmentRate) +
+      parseNumberFromString(values?.MaterialRate);
+    const contigencyRateValue = (
+      (totalFCORateAndAmount * parseNumberFromString(values?.Contingency)) /
+      100
+    ).toFixed(2);
+
+    const materialContigencyRate = getContigencyRate(
+      values?.Contingency,
+      values?.MaterialRate
+    );
+    const equipmentContigencyRate = getContigencyRate(
+      values?.Contingency,
+      values?.EquipmentRate
+    );
+    const shopContigencyRate = getContigencyRate(
+      values?.Contingency,
+      values?.ShopRate
+    );
+
+    const total = totalFCORate +
+    materialContigencyRate +
+    equipmentContigencyRate +
+    shopContigencyRate;
+
+    return {
+      FCOSections,
+      totalFCORate,
+      totalFCORateAndAmount,
+      contigencyRateValue,
+      materialContigencyRate,
+      equipmentContigencyRate,
+      shopContigencyRate,
+      total
+    };
+  };
+
   const onSubmit = async (formValues = [], { setSubmitting }) => {
+    const { FCOSections, total,
+      totalFCORateAndAmount,
+      contigencyRateValue,
+      materialContigencyRate,
+      equipmentContigencyRate,
+      shopContigencyRate } = fcoCalulations(formValues);
     let params = {
       ...formValues,
       requester: { id: userMeta?.id, name: userMeta?.name },
-      FCOSections: calculateFCOSections(formValues?.FCOSections ?? []),
+      FCOSections: formValues?.FCOSections ?? FCOSections,
+      Total: total,
+      TotalShop: shopContigencyRate,
+      TotalEquipment: equipmentContigencyRate,
+      TotalMaterial: materialContigencyRate,
+      SubTotal: +totalFCORateAndAmount+ +contigencyRateValue,
+      TotalLabor: totalFCORateAndAmount,
     };
 
     params = isEmployee
@@ -96,7 +152,7 @@ export default function FcoScreen({ navigation, route }) {
       "🚀 ~ file: FcoScreen.jsx ~ line 62 ~ onSubmit ~ params",
       params
     );
-    return;
+    // return;
 
     setLoading(true);
     const formData = new FormData();
@@ -166,26 +222,6 @@ export default function FcoScreen({ navigation, route }) {
       } else {
         onFailure(result?.errors);
       }
-
-      // client.post("/FCOLog", { data: formData }).then(
-      //   (response) => {
-      //     setLoading(false);
-
-      //     console.log(
-      //       "🚀 ~ file: FcoLogScreen.jsx:92 ~ .then ~ response:",
-      //       response.data
-      //     );
-      //   },
-      //   (error) => {
-      //     const parsedError = JSON.parse(JSON.stringify(error));
-      //     setLoading(false);
-      //     console.log(
-      //       "🚀 ~ file: postData.js:10 ~ .then ~ parsedError",
-      //       parsedError,
-      //       error?.response?.data?.errors
-      //     );
-      //   }
-      // );
     } else {
       putData(
         { url: `/FCOLog`, params },
@@ -221,61 +257,53 @@ export default function FcoScreen({ navigation, route }) {
   };
 
   initialValues = {
-    "FCOType": {
-        "id": 1,
-        "name": "FCO Type 1."
+    FCOType: {
+      id: 1,
+      name: "FCO Type 1.",
     },
-    "FCOReason": {
-        "id": 1,
-        "name": "Reason"
+    FCOReason: {
+      id: 1,
+      name: "Reason",
     },
-    "shift": {
-        "id": 2,
-        "name": "Night"
+    shift: {
+      id: 2,
+      name: "Night",
     },
-    "Unit": {
-        "id": 25,
-        "name": "Boiler"
+    Unit: {
+      id: 25,
+      name: "Boiler",
     },
-    "Company": {
-        "id": 1,
-        "name": "Acuren"
+    Company: {
+      id: 1,
+      name: "Acuren",
     },
-    "Date": "8/18/2023",
-    "Location": "McKenzie",
-    "PreTA": "true",
-    "EquipmentNumber": "Jabbed ",
-    "requester": {
-        "id": 40130,
-        "name": "Cent Requester 1"
+    Date: "8/18/2023",
+    Location: "McKenzie",
+    PreTA: "true",
+    EquipmentNumber: "Jabbed ",
+    requester: {
+      id: 40130,
+      name: "Cent Requester 1",
     },
-    "MaterialRate": "2",
-    "EquipmentRate": "4",
-    "ShopRate": "3"
-};
-
-  const getContigencyRate = (contigencyRate = 1, value) => {
-    const parsedVal = parseNumberFromString(value);
-    return (
-      parsedVal + (parsedVal * parseNumberFromString(contigencyRate)) / 100
-    );
+    MaterialRate: "2",
+    EquipmentRate: "4",
+    ShopRate: "3",
   };
 
   const FCOCalculationChart = ({ values }) => {
-    console.log(
-      "🚀 ~ file: FcoLogScreen.jsx:206 ~ FCOCalculationChart ~ values:",
-      values
-    );
-    let FCOSections = calculateFCOSections(values?.FCOSections ?? []);
-    const totalFCORate = FCOSections.reduce((acc, curr) => acc + curr?.rate, 0);
-    const totalFCORateAndAmount = (totalFCORate+parseNumberFromString(values?.EquipmentRate)+parseNumberFromString(values?.MaterialRate));
-    const contigencyRateValue = ((totalFCORateAndAmount * parseNumberFromString(values?.Contingency)) / 100).toFixed(2);
-    
-    const materialContigencyRate = getContigencyRate(values?.Contingency, values?.MaterialRate);
-    const equipmentContigencyRate = getContigencyRate(values?.Contingency, values?.EquipmentRate);
-    const shopContigencyRate = getContigencyRate(values?.Contingency, values?.ShopRate);
-
-    console.log("🚀 ~ file: FcoLogScreen.jsx:297 ~ FCOCalculationChart ~ FCOSections:", FCOSections)
+    // console.log(
+    //   "🚀 ~ file: FcoLogScreen.jsx:206 ~ FCOCalculationChart ~ values:",
+    //   values
+    // );
+    const {
+      totalFCORateAndAmount,
+      contigencyRateValue,
+      totalFCORate,
+      materialContigencyRate,
+      equipmentContigencyRate,
+      shopContigencyRate,
+      total,
+    } = fcoCalulations(values);
 
     return (
       <View>
@@ -289,38 +317,35 @@ export default function FcoScreen({ navigation, route }) {
         </View>
         <View style={styles.row}>
           <Text style={styles.col}>Total:</Text>
-          <Text style={styles.col}>${(+totalFCORateAndAmount+ +contigencyRateValue).toFixed(2)}</Text>
+          <Text style={styles.col}>
+            ${(+totalFCORateAndAmount + +contigencyRateValue).toFixed(2)}
+          </Text>
         </View>
         <Text style={{ fontSize: 18, marginVertical: 15 }}>
           FCO Value Estimate
         </Text>
         <View style={styles.row}>
           <Text style={styles.col}>Labor:</Text>
-          <Text style={styles.col}>
-            ${totalFCORate}
-          </Text>
+          <Text style={styles.col}>${totalFCORate}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.col}>Material:</Text>
-          <Text style={styles.col}>
-            ${materialContigencyRate}
-          </Text>
+          <Text style={styles.col}>${materialContigencyRate}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.col}>Equipment:</Text>
-          <Text style={styles.col}>
-            ${equipmentContigencyRate}
-          </Text>
+          <Text style={styles.col}>${equipmentContigencyRate}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.col}>Shop:</Text>
-          <Text style={styles.col}>
-            ${shopContigencyRate}
-          </Text>
+          <Text style={styles.col}>${shopContigencyRate}</Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.col, { fontWeight: "bold" }]}>TOTAL:</Text>
-          <Text style={[styles.col, { fontWeight: "bold" }]}>${(totalFCORate+materialContigencyRate+equipmentContigencyRate+shopContigencyRate).toFixed(2)}</Text>
+          <Text style={[styles.col, { fontWeight: "bold" }]}>
+            $
+            {(total).toFixed(2)}
+          </Text>
         </View>
       </View>
     );
