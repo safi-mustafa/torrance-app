@@ -85,9 +85,7 @@ const MultiGroupFields = ({
             </Text>
           ))} */}
         </View>
-        {(isApprover && userMeta?.canAddLogs
-          ? values.company?.name
-          : userMeta?.company) &&
+        {
           rows &&
           rows.map((row, i) => (
             <View key={i} style={[styles.tr, styles.body]}>

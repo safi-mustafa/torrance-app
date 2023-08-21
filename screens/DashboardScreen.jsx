@@ -13,8 +13,9 @@ const OVERRIDE_IMAGE = require("./../assets/images/override.png");
 const FCO_IMAGE = require("./../assets/images/fco.png");
 
 export default function DashboardScreen({ navigation }) {
-  const { role = "" } = useUserMeta();
+  const { role = "", userMeta } = useUserMeta();
   const isManager = USER_ROLE.COMPANY_MANAGER == role;
+  const isEmployee = USER_ROLE.EMPLOYEE == role;
 
   return (
     <View style={[styles.innerContainer]}>
@@ -75,13 +76,13 @@ export default function DashboardScreen({ navigation }) {
             icon={WRR_IMAGE}
             onPress={() => navigation.push("WrrRequest")}
           />
-          <DashButton
+          {(isEmployee || userMeta?.canAddLogs) && <DashButton
             style={styles.dashBtn}
             title="Field Change Order"
             subtitle="Field Change Order Log"
             icon={FCO_IMAGE}
             onPress={() => navigation.push("FcoLog")}
-          />
+          />}
         </ScrollView>
       </View>
     </View>

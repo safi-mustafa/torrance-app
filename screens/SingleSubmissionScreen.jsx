@@ -20,6 +20,7 @@ import { getFormatedDate } from "../utility";
 import { primaryColor } from "../constants/Colors";
 import { STATUS, USER_ROLE } from "../constants/Misc";
 import useUserMeta from "../hooks/useUserMeta";
+import TextArea from "../components/form/TextArea";
 
 export default function SingleSubmissionScreen({
   navigation,
@@ -29,14 +30,16 @@ export default function SingleSubmissionScreen({
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
   const { id, apiUrl, isApproval = false, ...otherRouteItems } = route.params;
-  const { role = "" } = useUserMeta();
+  const { role = "", userMeta } = useUserMeta();
+  const [fcoComment, setFcoComment] = useState("");
+
   const isManager = USER_ROLE.COMPANY_MANAGER == role;
   const isApprover = USER_ROLE.APPROVER == role;
 
   const isWRR = apiUrl == "/WRRLog";
-  // const isApproval = apiUrl == "/Approval";
   const isTOT = apiUrl == "/TOTLog";
   const isOverRide = apiUrl == "/OverrideLog";
+  const isFCO = apiUrl == "/FCOLog";
 
   const getNavUrl = () => {
     if (isTOT) return "TotRequest";
@@ -171,39 +174,78 @@ export default function SingleSubmissionScreen({
     );
   };
 
+  const onFCOStatusUpdate = (status, approverType = "BusinessTeamLeader") => {
+    setLoading(true);
+    const obj = {
+      id,
+      status,
+      approverType,
+      comment: fcoComment ? fcoComment : "-",
+      approverId: userMeta?.id,
+    }
+    const params = new URLSearchParams(obj).toString();
+    putData(
+      {
+        url: `${apiUrl}/Approve?${params}`,
+      },
+      (response) => {
+        setLoading(false);
+        console.log(
+          "🚀 ~ file: SingleSubmissionScreen.jsx ~ line 33 ~ getSubmissionData ~ response?.data",
+          response?.data
+        );
+        Toast.show({
+          type: STATUS.APPROVED == status ? "success" : "info",
+          text1: `${status}`,
+          text2: `${status} successfully`,
+        });
+        navigation.goBack();
+      },
+      (error) => {
+        setLoading(false);
+        console.log(
+          "🚀 ~ file: SelectInput.jsx ~ line 44 ~ getData ~ error",
+          JSON.parse(JSON.stringify(error))
+        );
+      }
+    );
+  };
+
   const ApprovalSection = () => (
     <>
-      {isApproval && data?.status == STATUS.PENDING && (
-        <View style={styles.approvalWrapper}>
-          <Buttonx
-            onPress={() => onApproveUpdate(STATUS.APPROVED)}
-            style={{
-              ...styles.approveButtons,
-              backgroundColor: "green",
-              marginRight: 5,
-            }}
-            title={
-              <>
-                <Text style={{ color: "white" }}>Approve</Text>
-                {/* <FontAwesome name="check-circle-o" size={28} color={"green"} /> */}
-              </>
-            }
-          />
-          <Buttonx
-            onPress={() => onApproveUpdate(STATUS.REJECTED)}
-            style={{
-              ...styles.approveButtons,
-              backgroundColor: "red",
-              marginLeft: 5,
-            }}
-            title={
-              <>
-                {/* <FontAwesome name="close" size={28} color={"red"} /> */}
-                <Text style={{ color: "white" }}>Reject</Text>
-              </>
-            }
-          />
-        </View>
+      {isApproval && data?.status == STATUS.PENDING && !isFCO && (
+        <>
+          <View style={styles.approvalWrapper}>
+            <Buttonx
+              onPress={() => onApproveUpdate(STATUS.APPROVED)}
+              style={{
+                ...styles.approveButtons,
+                backgroundColor: "green",
+                marginRight: 5,
+              }}
+              title={
+                <>
+                  <Text style={{ color: "white" }}>Approve</Text>
+                  {/* <FontAwesome name="check-circle-o" size={28} color={"green"} /> */}
+                </>
+              }
+            />
+            <Buttonx
+              onPress={() => onApproveUpdate(STATUS.REJECTED)}
+              style={{
+                ...styles.approveButtons,
+                backgroundColor: "red",
+                marginLeft: 5,
+              }}
+              title={
+                <>
+                  {/* <FontAwesome name="close" size={28} color={"red"} /> */}
+                  <Text style={{ color: "white" }}>Reject</Text>
+                </>
+              }
+            />
+          </View>
+        </>
       )}
     </>
   );
@@ -214,11 +256,14 @@ export default function SingleSubmissionScreen({
       {data?.status == STATUS.PENDING &&
         !isApproval &&
         !isManager &&
-        !isApprover && <Action />} 
+        !isApprover && <Action />}
       <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
         <ListRow label="company" value={data?.company?.name} />
         <ListRow label="Submitted" value={data?.formattedCreatedOn} />
-        <ListRow label="approver" value={data?.approver?.name || data?.possibleApprovers} />
+        <ListRow
+          label="approver"
+          value={data?.approver?.name || data?.possibleApprovers}
+        />
 
         {isApprover && (
           <>
@@ -327,6 +372,7 @@ export default function SingleSubmissionScreen({
             <ListRow label="delay description" value={data?.delayDescription} />
           </>
         )}
+
         {isOverRide && (
           <>
             <ListRow label="override reason" value={data?.reason} />
@@ -393,8 +439,104 @@ export default function SingleSubmissionScreen({
             {/* <ListRow label="description" value={data?.description} /> */}
           </>
         )}
+
+        {isFCO && (
+          <>
+            <ListRow label="SrNo" value={data?.srNoFormatted} />
+            <ListRow label="Contingency" value={data?.contingency} />
+            <ListRow label="Location" value={data?.location} />
+            <ListRow label="Equipment Name" value={data?.equipmentName} />
+            <ListRow label="Equipment Number" value={data?.equipmentNumber} />
+            <ListRow label="Equipment Rate" value={data?.equipmentRate} />
+            <ListRow label="Material Name" value={data?.materialName} />
+            <ListRow label="Material Number" value={data?.materialRate} />
+            <ListRow label="Shop Name" value={data?.shopName} />
+            <ListRow label="Shop Number" value={data?.shopRate} />
+            <ListRow label="fcoReason" value={data?.fcoReason?.name} />
+            <ListRow label="FCO Reason" value={data?.fcoReason?.name} />
+            <ListRow label="FCO Type" value={data?.fcoType?.name} />
+            <ListRow label="Sub Total" value={data?.subTotal} />
+            <ListRow label="Total" value={data?.total} />
+            <ListRow label="Total Cost" value={data?.totalCostFormatted} />
+            <ListRow label="totalEquipment" value={data?.totalEquipment} />
+            <ListRow label="Total Labor" value={data?.totalLabor} />
+            <ListRow label="Total Material" value={data?.totalMaterial} />
+            <ListRow label="Total Shop" value={data?.totalShop} />
+          </>
+        )}
       </ScrollView>
+
       <ApprovalSection />
+      {isApproval && isFCO && (
+        <View
+          style={{
+            marginHorizontal: 20,
+            paddingTop: 10,
+            flexDirection: "row",
+            flexWrap: "wrap",
+          }}
+        >
+          <Text style={{ marginBottom: 5 }}>Comment</Text>
+          <TextArea
+            name="comment"
+            value={fcoComment}
+            setFieldValue={(name, value) => setFcoComment(value)}
+            placeholder="Comment"
+            // multiline={true}
+            style={{ marginBottom: 10, minHeight: 60 }}
+          />
+          <Buttonx
+            disabled={data?.areaExecutionLead}
+            onPress={() =>
+              onFCOStatusUpdate(STATUS.APPROVED, "AreaExecutionLead")
+            }
+            style={{
+              ...styles.approveButtons,
+              backgroundColor: "limegreen",
+              marginLeft: 5,
+              width: "48%",
+              opacity: data?.areaExecutionLead ? 0.7 : 1,
+            }}
+            title={
+              <>
+                <Text style={{ color: "white" }}>Area Execustion Lead</Text>
+              </>
+            }
+          />
+          <Buttonx
+            disabled={data?.businessTeamLeader}
+            onPress={() =>
+              onFCOStatusUpdate(STATUS.APPROVED, "BusinessTeamLeader")
+            }
+            style={{
+              ...styles.approveButtons,
+              backgroundColor: "green",
+              marginLeft: 5,
+              width: "48%",
+              opacity: data?.businessTeamLeader ? 0.7 : 1,
+            }}
+            title={
+              <>
+                <Text style={{ color: "white" }}>Business Team Leader</Text>
+              </>
+            }
+          />
+          <Buttonx
+            onPress={() => onFCOStatusUpdate(STATUS.REJECTED)}
+            style={{
+              ...styles.approveButtons,
+              backgroundColor: "red",
+              marginLeft: 5,
+            }}
+            title={
+              <>
+                {/* <FontAwesome name="close" size={28} color={"red"} /> */}
+                <Text style={{ color: "white" }}>Reject</Text>
+              </>
+            }
+          />
+        </View>
+      )}
     </View>
   );
 }
@@ -459,12 +601,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: "center",
     width: "24%",
-    padding: 3
+    padding: 3,
   },
   head: {
     fontWeight: "bold",
     marginBottom: 5,
     fontSize: 11,
-    width: "24%"
+    width: "24%",
   },
 });

@@ -31,6 +31,13 @@ export default function SubmissionsScreen({ navigation }) {
       params: { title: "Override", url: "/OverrideLog" },
       cellOptions: { titleLabel: 'PO#: ', titleField: "poNumber", subTitleField: "formattedCreatedOn" },
     },
+    {
+      name: "fco",
+      tabTitle: "FCO",
+      params: { title: "Field Change Order", url: "/FCOLog" },
+      component: null,
+      cellOptions: { titleLabel: 'Equipment#: ', titleField: "equipmentNumber", subTitleField: "formattedCreatedOn" },
+    }
   ];
 
   if(isManager)
