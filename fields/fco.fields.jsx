@@ -2,6 +2,7 @@ export const labourFields = [
   {
     name: "overrideType",
     inputType: "select",
+    isEnum: true,
     options: [
       {
         value: "ST",
@@ -117,14 +118,14 @@ export const fcoFields = [
   //   zIndexInverse: 1004,
   // },
   {
-    name: "Date",
+    name: "date",
     inputType: "datetime",
     placeholder: "Select Date",
     label: "Date",
     required: true,
   },
   {
-    name: "Unit",
+    name: "unit",
     inputType: "select",
     url: "/Unit",
     placeholder: "Select Unit",
@@ -133,94 +134,85 @@ export const fcoFields = [
     zIndex: 1003,
   },
   {
-    name: "shift",
-    inputType: "select",
-    url: "/Shift",
-    placeholder: "Select Shift",
-    label: "Shift",
-    required: true,
-    zIndex: 1002,
-  },
-  {
-    name: "Location",
+    name: "location",
     placeholder: "Enter Location",
     label: "Service Location",
     required: true,
     // inputType: "textarea",
   },
   {
-    name: "PreTA",
+    name: "preTA",
     label: "Pre TA/TA",
     // required: true,
     inputType: "radio",
     options: [
       {
         label: "Pre TA",
-        value: "true",
+        value: true,
       },
       {
         label: "TA",
-        value: "false",
+        value: false,
       },
     ],
   },
   {
-    name: "ShutdownRequired",
+    name: "shutdownRequired",
     label: "Shutdown Required",
     inputType: "radio",
     options: [
       {
         label: "Yes",
-        value: "true",
+        value: true,
       },
       {
         label: "No",
-        value: "false",
+        value: false,
       },
     ],
   },
   {
-    name: "ScaffoldRequired",
+    name: "scaffoldRequired",
     label: "Scafflod Required",
     inputType: "radio",
     options: [
       {
         label: "Yes",
-        value: "true",
+        value: true,
       },
       {
         label: "No",
-        value: "false",
+        value: false,
       },
     ],
   },
   {
-    name: "Photo",
+    name: "photo",
     label: "Photo",
     inputType: "upload",
     buttonText: "Upload Photo",
     wrapperStyle: { width: "48%", marginRight: 1 },
   },
   {
-    name: "EquipmentNumber",
+    name: "equipmentNumber",
     label: "Loop Identification# & Equipment Number",
     required: true,
   },
   {
-    name: "DescriptionOfFinding",
+    name: "descriptionOfFinding",
     placeholder: "Enter Description",
     label: "Description of Finding (Attach marked-upP&ID’s or iso/Sketch)",
     inputType: "textarea",
   },
   {
-    name: "File",
+    name: "file",
     label: "File",
     inputType: "upload",
     buttonText: "Upload Photo",
     wrapperStyle: { width: "48%", marginRight: 1 },
   },
   {
-    name: "FCOType",
+    name: "fcoType",
     inputType: "select",
     url: "/FCOType",
     placeholder: "Select Type",
@@ -229,7 +221,7 @@ export const fcoFields = [
     zIndex: 1000,
   },
   {
-    name: "FCOReason",
+    name: "fcoReason",
     inputType: "select",
     url: "/FCOReason",
     placeholder: "Select Reason",
@@ -253,7 +245,7 @@ export const fcoFields = [
     ],
   },
   {
-    name: "Company",
+    name: "company",
     inputType: "select",
     url: "/Company?DisablePagination=true",
     placeholder: "Select Company",
@@ -261,7 +253,7 @@ export const fcoFields = [
     required: true,
   },
   {
-    name: "FCOSections",
+    name: "fcoSections",
     inputType: "multiGroupFields",
     label: "Labour",
     fields: labourFields,
@@ -273,7 +265,7 @@ export const fcoFields = [
     style:{fontSize: 18}
   },
   {
-    name: "MaterialName",
+    name: "materialName",
     placeholder: "Enter Name",
     label: "Name",
     // required: true,
@@ -281,7 +273,7 @@ export const fcoFields = [
     wrapperStyle: { width: "48%", marginRight: 8 },
   },
   {
-    name: "MaterialRate",
+    name: "materialRate",
     placeholder: "Enter Amount",
     label: "Amount",
     // required: true,
@@ -295,7 +287,7 @@ export const fcoFields = [
     style:{fontSize: 18, marginTop: 10}
   },
   {
-    name: "EquipmentName",
+    name: "equipmentName",
     placeholder: "Enter Name",
     label: "Name",
     // required: true,
@@ -303,7 +295,7 @@ export const fcoFields = [
     wrapperStyle: { width: "48%", marginRight: 8 },
   },
   {
-    name: "EquipmentRate",
+    name: "equipmentRate",
     placeholder: "Enter Amount",
     label: "Amount",
     // required: true,
@@ -317,7 +309,7 @@ export const fcoFields = [
     style:{fontSize: 18, marginTop: 10}
   },
   {
-    name: "ShopName",
+    name: "shopName",
     placeholder: "Enter Name",
     label: "Name",
     // required: true,
@@ -325,7 +317,7 @@ export const fcoFields = [
     wrapperStyle: { width: "48%", marginRight: 8 },
   },
   {
-    name: "ShopRate",
+    name: "shopRate",
     placeholder: "Enter Amount",
     label: "Amount",
     // required: true,
@@ -333,7 +325,7 @@ export const fcoFields = [
     wrapperStyle: { width: "48%", marginRight: 1, marginBottom: 5 },
   },
   {
-    name: "Contingency",
+    name: "contingency",
     placeholder: "Enter Contingency",
     label: "Contingency",
     // required: true,

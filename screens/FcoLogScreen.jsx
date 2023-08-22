@@ -8,16 +8,11 @@ import putData from "../api-services/putData";
 import appStyles from "../app-styles";
 import FormLoop from "../components/form/FormLoop";
 import Loader from "../components/Loader";
-import { fcoFields, labourFields } from "../fields/fco.fields";
-import postData from "./../api-services/postData";
-import OverrideCostForm from "../components/OverrideCostForm";
+import { fcoFields } from "../fields/fco.fields";
 import useUserMeta from "../hooks/useUserMeta";
 import { BASE_URL, USER_ROLE } from "../constants/Misc";
-import MultiGroupFields from "../components/MultiGroupFields";
-import client from "../api-services/api-client";
 import { parseNumberFromString } from "../utility";
 import getData from "../api-services/getData";
-import { eq } from "react-native-reanimated";
 
 export default function FcoScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
@@ -27,6 +22,8 @@ export default function FcoScreen({ navigation, route }) {
   const { params = {} } = route;
   let initialValues = params?.id ? { ...params } : {};
   const isEdit = params && params.id;
+  if (isEdit)
+    console.log("🚀 ~ file: FcoLogScreen.jsx:28 ~ FcoScreen ~ params:", params);
 
   const { role = "", userMeta } = useUserMeta();
 
@@ -60,15 +57,14 @@ export default function FcoScreen({ navigation, route }) {
 
   const calculateFCOSections = (FCOValues = []) => {
     return FCOValues.map((fco) => {
-      const { mn = 0, du = 0, overrideType = 0, craft = {} } = fco;
+      const { MN = 0, DU = 0, overrideType = 0, craft = {} } = fco;
       let rate = 0;
-      if (mn && du && overrideType && craft?.id != 0) {
+      if (MN && DU && overrideType && craft?.id != 0) {
         craftSkills.forEach((skill) => {
           if (skill.id == craft?.id) {
-            rate = skill[`${overrideType.toLowerCase()}Rate`] * mn * du;
+            rate = skill[`${overrideType.toLowerCase()}Rate`] * MN * DU;
           }
         });
-  
         return { ...fco, rate };
       } else return { ...fco, rate: 0 };
     });
@@ -82,34 +78,36 @@ export default function FcoScreen({ navigation, route }) {
   };
 
   const fcoCalulations = (values = {}) => {
-    let FCOSections = calculateFCOSections(values?.FCOSections ?? []);
+    let FCOSections = calculateFCOSections(values?.fcoSections ?? []);
+    console.log("🚀 ~ file: FcoLogScreen.jsx:83 ~ fcoCalulations ~ FCOSections:", FCOSections)
     const totalFCORate = FCOSections.reduce((acc, curr) => acc + curr?.rate, 0);
     const totalFCORateAndAmount =
       totalFCORate +
-      parseNumberFromString(values?.EquipmentRate) +
-      parseNumberFromString(values?.MaterialRate);
+      parseNumberFromString(values?.equipmentRate) +
+      parseNumberFromString(values?.materialRate);
     const contigencyRateValue = (
-      (totalFCORateAndAmount * parseNumberFromString(values?.Contingency)) /
+      (totalFCORateAndAmount * parseNumberFromString(values?.contingency)) /
       100
     ).toFixed(2);
 
     const materialContigencyRate = getContigencyRate(
-      values?.Contingency,
-      values?.MaterialRate
+      values?.contingency,
+      values?.materialRate
     );
     const equipmentContigencyRate = getContigencyRate(
-      values?.Contingency,
-      values?.EquipmentRate
+      values?.contingency,
+      values?.equipmentRate
     );
     const shopContigencyRate = getContigencyRate(
-      values?.Contingency,
-      values?.ShopRate
+      values?.contingency,
+      values?.shopRate
     );
 
-    const total = totalFCORate +
-    materialContigencyRate +
-    equipmentContigencyRate +
-    shopContigencyRate;
+    const total =
+      totalFCORate +
+      materialContigencyRate +
+      equipmentContigencyRate +
+      shopContigencyRate;
 
     return {
       FCOSections,
@@ -119,27 +117,30 @@ export default function FcoScreen({ navigation, route }) {
       materialContigencyRate,
       equipmentContigencyRate,
       shopContigencyRate,
-      total
+      total,
     };
   };
 
   const onSubmit = async (formValues = [], { setSubmitting }) => {
-    const { FCOSections, total,
+    const {
+      fcoSections,
+      total,
       totalFCORateAndAmount,
       contigencyRateValue,
       materialContigencyRate,
       equipmentContigencyRate,
-      shopContigencyRate } = fcoCalulations(formValues);
+      shopContigencyRate,
+    } = fcoCalulations(formValues);
     let params = {
       ...formValues,
       requester: { id: userMeta?.id, name: userMeta?.name },
-      FCOSections: formValues?.FCOSections ?? FCOSections,
-      Total: total,
-      TotalShop: shopContigencyRate,
-      TotalEquipment: equipmentContigencyRate,
-      TotalMaterial: materialContigencyRate,
-      SubTotal: +totalFCORateAndAmount+ +contigencyRateValue,
-      TotalLabor: totalFCORateAndAmount,
+      fcoSections: formValues?.fcoSections ?? fcoSections,
+      total,
+      totalShop: shopContigencyRate,
+      totalEquipment: equipmentContigencyRate,
+      totalMaterial: materialContigencyRate,
+      subTotal: +totalFCORateAndAmount + +contigencyRateValue,
+      totalLabor: totalFCORateAndAmount,
     };
 
     params = isEmployee
@@ -175,12 +176,6 @@ export default function FcoScreen({ navigation, route }) {
             });
           });
         } else if (typeof value === "object" && value?.fileName) {
-          console.log(
-            "🚀 ~ file: FcoLogScreen.jsx:73 ~ appendToFormData ~ value:",
-            key,
-            value,
-            value?.name
-          );
           const { base64, exif, duration, ...imageData } = value;
           formData.append(`${key}.file`, imageData);
           // formData.append(`${key}.name`, value?.name);
@@ -191,10 +186,10 @@ export default function FcoScreen({ navigation, route }) {
 
     appendToFormData(params);
 
-    console.log(
-      "🚀 ~ file: FcoLogScreen.jsx:89 ~ onSubmit ~ formData:",
-      formData
-    );
+    // console.log(
+    //   "🚀 ~ file: FcoLogScreen.jsx:89 ~ onSubmit ~ formData:",
+    //   formData
+    // );
 
     // setLoading(false);
     // return;
@@ -257,38 +252,149 @@ export default function FcoScreen({ navigation, route }) {
   };
 
   initialValues = {
-    FCOType: {
+    id: 48,
+    descriptionOfFinding: "Nil",
+    additionalInformation: null,
+    equipmentNumber: "HF112",
+    location: "Rawalpindi ",
+    preTA: true,
+    shutdownRequired: false,
+    scaffoldRequired: true,
+    srNo: 3,
+    srNoFormatted: "Alky-003",
+    date: "2023-08-17T00:00:00",
+    approvalDate: null,
+    dateFormatted: "08/16/2023 05:00 PM",
+    approvalDateFormatted: null,
+    documentationRequired: ["1"],
+    contractor: null,
+    company: {
+      name: "Acuren",
+      errorMessage: "The Company field is required.",
+      isValidationEnabled: true,
+      id: 1,
+    },
+    employee: {
+      name: "Cent Requester 1",
+      email: "admin@centangle.com",
+      errorMessage: "",
+      isValidationEnabled: false,
+      id: 40130,
+    },
+    department: null,
+    unit: {
+      id: 6,
+      name: "Alky",
+    },
+    fcoType: {
       id: 1,
       name: "FCO Type 1.",
     },
-    FCOReason: {
+    fcoReason: {
       id: 1,
       name: "Reason",
     },
-    shift: {
-      id: 2,
-      name: "Night",
+    designatedCoordinator: {
+      name: "Cent Requester 1",
+      errorMessage: "The Authorize For Immediate Start field is required.",
+      isValidationEnabled: false,
+      id: 40130,
     },
-    Unit: {
-      id: 25,
-      name: "Boiler",
+    totalCost: 46.8,
+    totalCostFormatted: "$46.80",
+    totalHours: 0,
+    totalHeadCount: 0,
+    materialName: "Cement ",
+    materialRate: 12,
+    equipmentName: "Crain",
+    equipmentRate: 22,
+    shopName: "Shop 2",
+    shopRate: 5,
+    otherDocumentionFormatted: "",
+    fcoSections: [
+      {
+        edit: false,
+        craft: {
+          id: 38,
+          name: "Administrator ",
+        },
+        overrideType: "OT",
+        MN: "3",
+        DU: "4",
+      },
+    ],
+    photo: {
+      file: null,
+      url: null,
+      previewImgUrl: "/img/file-icons/default.png",
+      attachmentTypeStr: "file",
+      type: "",
+      name: null,
+      fileType: "BadgeRoom",
+      attachmentType: "File",
+      uploadDate: "0001-01-01T00:00:00",
+      folder: {
+        name: null,
+        errorMessage: "The Folder field is required.",
+        isValidationEnabled: false,
+        id: null,
+      },
+      entityType: "FCOLogPhoto",
     },
-    Company: {
-      id: 1,
-      name: "Acuren",
+    file: {
+      file: null,
+      url: null,
+      previewImgUrl: "/img/file-icons/default.png",
+      attachmentTypeStr: "file",
+      type: "",
+      name: null,
+      fileType: "BadgeRoom",
+      attachmentType: "File",
+      uploadDate: "0001-01-01T00:00:00",
+      folder: {
+        name: null,
+        errorMessage: "The Folder field is required.",
+        isValidationEnabled: false,
+        id: null,
+      },
+      createdOn: "0001-01-01T00:00:00",
+      entityId: null,
+      entityType: "FCOLogFile",
+      id: 0,
+      isCreated: true,
+      formattedStatus: "",
     },
-    Date: "8/18/2023",
-    Location: "McKenzie",
-    PreTA: "true",
-    EquipmentNumber: "Jabbed ",
+    attachments: null,
+    total: 40.95,
+    contingency: 5,
+    contingencies: 6.8,
+    subTotal: 35.7,
+    totalLabor: 34,
+    totalMaterial: 12.6,
+    totalEquipment: 23.1,
+    totalShop: 5.25,
+    sectionTotal: 46.8,
+    fcoComments: [],
+    fcoCommentsClass: "",
+    isUnauthenticatedApproval: false,
+    notificationId: "00000000-0000-0000-0000-000000000000",
+    status: "Pending",
+    formattedStatus: "Pending",
+    isEditRestricted: false,
+    approver: {
+      name: null,
+      errorMessage: "",
+      isValidationEnabled: false,
+      id: null,
+    },
+    activeStatus: 0,
     requester: {
       id: 40130,
       name: "Cent Requester 1",
     },
-    MaterialRate: "2",
-    EquipmentRate: "4",
-    ShopRate: "3",
   };
+
+  initialValues = {};
 
   const FCOCalculationChart = ({ values }) => {
     // console.log(
@@ -343,8 +449,7 @@ export default function FcoScreen({ navigation, route }) {
         <View style={styles.row}>
           <Text style={[styles.col, { fontWeight: "bold" }]}>TOTAL:</Text>
           <Text style={[styles.col, { fontWeight: "bold" }]}>
-            $
-            {(total).toFixed(2)}
+            ${total.toFixed(2)}
           </Text>
         </View>
       </View>

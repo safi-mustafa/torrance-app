@@ -6,11 +6,11 @@ import { AntDesign, Ionicons } from '@expo/vector-icons';
 
 import Buttonx from './Buttonx';
 import { primaryColor } from '../../constants/Colors';
+import { HOST_URL } from '../../constants/Misc';
 
 export default function UploadAttachment({ buttonText = 'Upload', ...otherProps }) {
 
-  // console.log("🚀 ~ file: UploadAttachment.js:13 ~ UploadAttachment ~ otherProps.value:", otherProps.value)
-  const images = otherProps.value ? [otherProps.value?.file?.uri] : [];
+  const images = otherProps.value ? [otherProps?.value?.previewImgUrl ? HOST_URL+otherProps?.value?.previewImgUrl :  otherProps?.value?.uri] : [];
   const imageWidth = Dimensions.get("screen").width / 3.5;
   const imageHeight = Dimensions.get("screen").height / 6.5;
 

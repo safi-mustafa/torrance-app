@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import Toast from "react-native-toast-message";
 
 import Buttonx from "./form/Buttonx";
 import FormLoop from "./form/FormLoop";
-import { USER_ROLE } from "../constants/Misc";
-import useUserMeta from "../hooks/useUserMeta";
 import { parseGroupErrorMessages } from "../utility";
 
 const MultiGroupFields = ({
-  values = [],
+  value = [],
   errors = {},
   fields = [],
   title = "",
@@ -18,12 +15,8 @@ const MultiGroupFields = ({
   ...otherProps
 }) => {
   const newErrors = parseGroupErrorMessages(JSON.stringify(errors), name);
-  console.log("🚀 ~ file: MultiGroupFields.jsx:20 ~ newErrors:", newErrors)
-  
-  const { role = "", userMeta } = useUserMeta();
-  const isApprover = USER_ROLE.APPROVER == role;
-  const defaultValues = [];
 
+  const defaultValues = Array.isArray(value) ? value : [];
   const [rows, setRows] = useState([...defaultValues]);
 
   const onFormChange = (newVals) => {
@@ -62,7 +55,11 @@ const MultiGroupFields = ({
         <View
           style={[
             styles.tr,
-            { justifyContent: "space-between", marginBottom: 20, marginTop: -35 },
+            {
+              justifyContent: "space-between",
+              marginBottom: 20,
+              marginTop: -35,
+            },
           ]}
         >
           <Text style={{ marginLeft: 3, fontSize: 15, alignSelf: "center" }}>
@@ -85,14 +82,13 @@ const MultiGroupFields = ({
             </Text>
           ))} */}
         </View>
-        {
-          rows &&
+        {rows &&
           rows.map((row, i) => (
             <View key={i} style={[styles.tr, styles.body]}>
               <FormLoop
                 fields={fields.map((field) => ({ ...field }))}
-                handleChange={()=>{}}
-                handleBlur={()=>{}}
+                handleChange={() => {}}
+                handleBlur={() => {}}
                 setFieldValue={(key, value) => {
                   onValueChange(key, value, i);
                 }}

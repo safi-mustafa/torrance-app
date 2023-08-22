@@ -34,6 +34,7 @@ export const objectNotEmpty = (obj) => {
 export const getApiUrl = (type) => {
     if (type == "TimeOnTools") return "/TOTLog";
     else if (type == "WeldingRodRecord") return "/WRRLog";
+    else if (type == "FCO") return "/FCOLog";
     else return "/OverrideLog";
 };
 

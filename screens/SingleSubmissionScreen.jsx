@@ -6,6 +6,7 @@ import {
   ScrollView,
   Pressable,
   Alert,
+  Image,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
@@ -18,7 +19,7 @@ import Loader from "../components/Loader";
 import Buttonx from "../components/form/Buttonx";
 import { getFormatedDate } from "../utility";
 import { primaryColor } from "../constants/Colors";
-import { STATUS, USER_ROLE } from "../constants/Misc";
+import { BASE_URL, HOST_URL, STATUS, USER_ROLE } from "../constants/Misc";
 import useUserMeta from "../hooks/useUserMeta";
 import TextArea from "../components/form/TextArea";
 
@@ -45,7 +46,7 @@ export default function SingleSubmissionScreen({
     if (isTOT) return "TotRequest";
     else if (isOverRide) return "OverrideRequest";
     else if (isWRR) return "WrrRequest";
-    // else return "/Approval"
+    else if (isFCO) return "FcoLog"
   };
   let NavUrl = getNavUrl();
 
@@ -80,40 +81,6 @@ export default function SingleSubmissionScreen({
   const onAction = () => {
     navigation.goBack();
     navigation.navigate(NavUrl, { ...data });
-  };
-
-  const onDelete = () => {
-    Alert.alert("Delete", "Are you sure you want to delete this", [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-      { text: "OK", onPress: () => deleteItem() },
-    ]);
-  };
-
-  const deleteItem = () => {
-    setLoading(true);
-    deleteData(
-      { url: `${apiUrl}/${id}` },
-      (response) => {
-        setLoading(false);
-        Toast.show({
-          type: "success",
-          text1: "Delete",
-          text2: "Deleted successfully",
-        });
-        navigation.goBack();
-      },
-      (error) => {
-        setLoading(false);
-        console.log(
-          "🚀 ~ file: SelectInput.jsx ~ line 44 ~ getData ~ error",
-          JSON.parse(JSON.stringify(error))
-        );
-      }
-    );
   };
 
   const Action = () => (
@@ -182,11 +149,12 @@ export default function SingleSubmissionScreen({
       approverType,
       comment: fcoComment ? fcoComment : "-",
       approverId: userMeta?.id,
-    }
+    };
     const params = new URLSearchParams(obj).toString();
     putData(
       {
-        url: `${apiUrl}/Approve?${params}`,
+        url: `${apiUrl}/Approve`,
+        params: obj
       },
       (response) => {
         setLoading(false);
@@ -462,6 +430,20 @@ export default function SingleSubmissionScreen({
             <ListRow label="Total Labor" value={data?.totalLabor} />
             <ListRow label="Total Material" value={data?.totalMaterial} />
             <ListRow label="Total Shop" value={data?.totalShop} />
+            <ListRow
+              label="Photo"
+              value={data?.photo?.previewImgUrl}
+              type="image"
+            />
+            <ListRow
+              label="File"
+              value={data?.file?.previewImgUrl}
+              type="image"
+            />
+            <ListRow
+              label="Comments"
+              value={data?.fcoComments && data?.fcoComments?.map(({comment}) => (comment)).join(", ")}
+            />
           </>
         )}
       </ScrollView>
@@ -541,12 +523,20 @@ export default function SingleSubmissionScreen({
   );
 }
 
-const ListRow = ({ label = "", value = "" }) => (
-  <View style={[appStyles.my1, styles.section]}>
-    <Text style={styles.label}>{label}</Text>
-    <Text style={styles.value}>{value}</Text>
-  </View>
-);
+const ListRow = ({ label = "", value = "", type = null }) => {
+  const rowValue =
+    type == "image" ? (
+      <Image source={{ uri: HOST_URL+value }} style={{ width: 100, height: 100 }} />
+    ) : (
+      value
+    );
+  return (
+    <View style={[appStyles.my1, styles.section]}>
+      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.value}>{rowValue}</Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
