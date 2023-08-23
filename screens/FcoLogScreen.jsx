@@ -79,7 +79,7 @@ export default function FcoScreen({ navigation, route }) {
 
   const fcoCalulations = (values = {}) => {
     let FCOSections = calculateFCOSections(values?.fcoSections ?? []);
-    console.log("🚀 ~ file: FcoLogScreen.jsx:83 ~ fcoCalulations ~ FCOSections:", FCOSections)
+    // console.log("🚀 ~ file: FcoLogScreen.jsx:83 ~ fcoCalulations ~ FCOSections:", FCOSections)
     const totalFCORate = FCOSections.reduce((acc, curr) => acc + curr?.rate, 0);
     const totalFCORateAndAmount =
       totalFCORate +
@@ -146,6 +146,7 @@ export default function FcoScreen({ navigation, route }) {
     params = isEmployee
       ? {
           ...params,
+          company: { id: userMeta?.company?.id, name: userMeta?.company?.name },
         }
       : params;
 

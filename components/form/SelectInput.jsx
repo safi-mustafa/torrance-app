@@ -59,12 +59,12 @@ export default function SelectInput(props) {
 
   const onValChange = (value, index) => {
     let fieldValue = value;
-    if (!isEnum) {
+    // if (!isEnum) {
       fieldValue = {
         id: value ? value : 0,
         name: filteredList[index - 1]?.label,
       };
-    }
+    // }
     setFieldValue(name, fieldValue);
   };
 

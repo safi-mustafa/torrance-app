@@ -1,5 +1,4 @@
 import React from 'react';
-// import * as ImagePicker from 'expo-image-picker';
 import * as ImagePicker from "expo-image-picker/src/ImagePicker";
 import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
@@ -8,7 +7,7 @@ import Buttonx from './Buttonx';
 import { primaryColor } from '../../constants/Colors';
 import { HOST_URL } from '../../constants/Misc';
 
-export default function UploadAttachment({ buttonText = 'Upload', ...otherProps }) {
+export default function ImageInput({ buttonText = 'Upload', ...otherProps }) {
 
   const images = otherProps.value ? [otherProps?.value?.previewImgUrl ? HOST_URL+otherProps?.value?.previewImgUrl :  otherProps?.value?.uri] : [];
   const imageWidth = Dimensions.get("screen").width / 3.5;

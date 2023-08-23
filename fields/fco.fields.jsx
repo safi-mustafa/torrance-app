@@ -189,7 +189,7 @@ export const fcoFields = [
   {
     name: "photo",
     label: "Photo",
-    inputType: "upload",
+    inputType: "image",
     buttonText: "Upload Photo",
     wrapperStyle: { width: "48%", marginRight: 1 },
   },
@@ -207,8 +207,8 @@ export const fcoFields = [
   {
     name: "file",
     label: "File",
-    inputType: "upload",
-    buttonText: "Upload Photo",
+    inputType: "file",
+    buttonText: "Upload File",
     wrapperStyle: { width: "48%", marginRight: 1 },
   },
   {

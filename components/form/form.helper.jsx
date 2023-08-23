@@ -4,12 +4,12 @@ import Buttonx from "./Buttonx";
 import Input from "./Input";
 import SelectInput from "./SelectInput";
 import SwitchInput from "./SwitchInput";
-// import TableInput from "./TableInput";
 import TextArea from "./TextArea";
 import RadioButton from "./RadioButton";
 import Checkbox from "./Checkbox";
 import MultiGroupFields from "../MultiGroupFields";
-import UploadAttachment from "./UploadAttachment";
+import ImageInput from "./ImageInput";
+import FileInput from "./FileInput";
 
 export const inputTypes = {
   text: <Input />,
@@ -23,8 +23,10 @@ export const inputTypes = {
   radio: <RadioButton />,
   checkbox: <Checkbox />,
   multiGroupFields: <MultiGroupFields />,
-  upload: <UploadAttachment />,
+  image: <ImageInput />,
+  file: <FileInput />,
 };
+
 export const getInputType = ({ inputType }) => {
   const output = inputTypes[inputType] ? inputTypes[inputType] : <Input />;
   return output;
