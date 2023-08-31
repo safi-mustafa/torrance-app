@@ -7,6 +7,7 @@ import {
   Modal,
   View,
   ScrollView,
+  SafeAreaView,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 
@@ -55,7 +56,8 @@ const Dropdown = ({
           style={styles.overlay}
           onPress={() => setVisible(false)}
         >
-          <View style={[styles.dropdown, { top: dropdownTop }]}>
+          <View style={[styles.dropdown]}>
+          <SafeAreaView style={{flex: 1}}>
             <ScrollView style={{ maxHeight: 400 }}>
               <FlatList
                 data={listData}
@@ -63,6 +65,7 @@ const Dropdown = ({
                 keyExtractor={(item, index) => index.toString()}
               />
             </ScrollView>
+          </SafeAreaView>
           </View>
         </TouchableOpacity>
       </Modal>
@@ -122,6 +125,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "rgba(0,0,0,0.2)",
+    justifyContent: "center",
   },
   item: {
     paddingHorizontal: 10,

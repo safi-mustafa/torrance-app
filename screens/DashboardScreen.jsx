@@ -76,13 +76,13 @@ export default function DashboardScreen({ navigation }) {
             icon={WRR_IMAGE}
             onPress={() => navigation.push("WrrRequest")}
           />
-          {(isEmployee || userMeta?.canAddLogs) && <DashButton
+          {/* {(isEmployee || userMeta?.canAddLogs) && <DashButton
             style={styles.dashBtn}
             title="Field Change Order"
             subtitle="Field Change Order Log"
             icon={FCO_IMAGE}
             onPress={() => navigation.push("FcoLog")}
-          />}
+          />} */}
         </ScrollView>
       </View>
     </View>
