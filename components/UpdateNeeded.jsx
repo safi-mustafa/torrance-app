@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Alert, AppState } from "react-native";
+import { Alert, AppState, Platform } from "react-native";
 import Constants from 'expo-constants';
 // import VersionCheck from "react-native-version-check-expo";
 import * as Linking from "expo-linking";
@@ -86,6 +86,12 @@ function UpdateNeeded() {
       ];
     } else {
       alertConfig = [...alertConfig, { cancelable: false }];
+      if(Platform.OS === "android") {
+        alertConfig = [
+          ...alertConfig,
+          {text: 'OK', onPress: () => openAppStore()},
+        ]
+      }
     }
 
     //   VersionCheck.needUpdate({
