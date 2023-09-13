@@ -105,6 +105,8 @@ function UpdateNeeded() {
     //   });
     // };
 
+    // console.log("🚀 ~ file: UpdateNeeded.jsx:109 ~ UpdateNeeded ~ Constants.expoConfig.version:", Constants?.expoConfig?.version)
+    // console.log("🚀 ~ file: UpdateNeeded.jsx:109 ~ UpdateNeeded ~ Constants.version:", Constants?.version)
     if (compareVersions(Constants.expoConfig.version, config?.latestVersion)) {
       Alert.alert(
         "App Update Required",
