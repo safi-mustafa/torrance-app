@@ -3,12 +3,23 @@ import { ActivityIndicator, StatusBar, View } from "react-native";
 
 import Layout from "../constants/Layout";
 
-const Loader = ({ show = false, overlay = false, ...otherProps }) => {
+const Loader = ({
+  show = false,
+  overlay = false,
+  color = "rgba(0,0,0,0.3)",
+  style = {},
+  ...otherProps
+}) => {
   return (
     <>
       {show && (
-        <View style={overlay && styles.overlayStyle}>
-          <ActivityIndicator {...otherProps} />
+        <View
+          style={[
+            overlay && { ...styles.overlayStyle, backgroundColor: color },
+            style,
+          ]}
+        >
+          <ActivityIndicator {...otherProps} color={color}/>
         </View>
       )}
     </>
@@ -19,7 +30,7 @@ const styles = {
     position: "absolute",
     height: Layout.window.height,
     width: "100%",
-    backgroundColor: "rgba(0,0,0,0.3)",
+    // backgroundColor: color,
     justifyContent: "center",
     alignItems: "center",
     zIndex: 9,

@@ -229,11 +229,6 @@ export const overrideFields = [
   //   placeholder: "Enter Permit",
   //   label: "Permit#",
   // },
-  {
-    name: "workScope",
-    placeholder: "Enter Scope",
-    label: "Work Scope",
-  },
   // {
   //   name: "delayDescription",
   //   placeholder: "Enter Description",
@@ -273,10 +268,22 @@ export const overrideFields = [
   //     paramField: "Unit.Id",
   //   },
   // },
+  // {
+  //   name: "employeeNames",
+  //   placeholder: "Enter Employee Names",
+  //   label: "Employee Name(s)",
+  //   required: true
+  // },
   {
-    name: "employeeNames",
-    placeholder: "Enter Employee Names",
+    name: "workScope",
+    placeholder: "Enter Scope",
+    label: "Work Scope",
+  },
+  {
+    name: "ClippedEmployees",
     label: "Employee Name(s)",
-    required: true
+    inputType: "image",
+    buttonText: "Upload Photo",
+    wrapperStyle: { width: "48%", marginRight: 1 },
   },
 ];

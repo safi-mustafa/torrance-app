@@ -12,7 +12,7 @@ import { overrideFields } from "../fields/override.fields";
 import postData from "./../api-services/postData";
 import OverrideCostForm from "../components/OverrideCostForm";
 import useUserMeta from "../hooks/useUserMeta";
-import { USER_ROLE } from "../constants/Misc";
+import { BASE_URL, USER_ROLE } from "../constants/Misc";
 
 export default function OverrideRequestScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
@@ -63,30 +63,63 @@ export default function OverrideRequestScreen({ navigation, route }) {
     );
     // return;
 
+    const formData = new FormData();
+    const appendToFormData = (obj) => {
+      for (const [key, value] of Object.entries(obj)) {
+        if (typeof value === "object" && value?.id) {
+          formData.append(`${key}.Id`, JSON.stringify(value?.id));
+        } else if (Array.isArray(value) && value.length != 0) {
+          value.forEach((item, index) => {
+            Object.entries(item).forEach(([id, value]) => {
+              if (typeof value === "object" && value?.id) {
+                formData.append(
+                  `${key}[${index}].${id}.Id`,
+                  JSON.stringify(value?.id)
+                );
+              } else {
+                formData.append(`${key}[${index}].${id}`, value);
+              }
+            });
+          });
+        } else if (typeof value === "object" && value?.fileName) {
+          const { base64, exif, duration, ...imageData } = value;
+          formData.append(`${key}.file`, imageData);
+        } else formData.append(key, value);
+      }
+    };
+    appendToFormData(params);
     setLoading(true);
-    if (!isEdit) {
-      postData(
-        {
-          url: `/OverrideLog`,
-          params,
-        },
-        ({ data }) => {
-          onSuccess(data);
-        },
-        (error) => {
-          onFailure(error);
-        }
-      );
+
+    let apiOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${userMeta?.token}`,
+      },
+    };
+    if (isEdit) {
+      apiOptions.method = "PUT";
+    }
+
+    // console.log(
+    //   "🚀 ~ file: OverrideRequestScreen.jsx:130 ~ onSubmit ~ formData:",
+    //   formData
+    // );
+    apiOptions.body = formData;
+    // return;
+    const result = await fetch(BASE_URL + "/OverrideLog", apiOptions).then(
+      (response) => response.json()
+    );
+    setLoading(false);
+    // console.log(
+    //   "🚀 ~ file: OverrideRequestScreen.jsx:114 ~ onSubmit ~ result:",
+    //   result
+    // );
+
+    if (result.status === 200) {
+      onSuccess(result.data);
     } else {
-      putData(
-        { url: `/OverrideLog`, params },
-        ({ data }) => {
-          onSuccess(data);
-        },
-        (error) => {
-          onFailure(error);
-        }
-      );
+      onFailure(result?.errors);
     }
   };
 
@@ -101,12 +134,12 @@ export default function OverrideRequestScreen({ navigation, route }) {
   };
 
   const onFailure = (error) => {
-    if (error?.data?.errors) {
+    if (error) {
       console.log(
         "🚀 ~ file: OverrideRequestScreen.jsx ~ line 45 ~ onSubmit ~ error.data",
-        error.data
+        error
       );
-      setApiErrors(error.data.errors);
+      setApiErrors(error);
     }
     setLoading(false);
   };
@@ -160,14 +193,11 @@ export default function OverrideRequestScreen({ navigation, route }) {
 
   return (
     <>
-      <Loader show={loading} size="large" overlay="true" color="white" />
+      <Loader show={loading} size="large" overlay="true" />
       <KeyboardAwareScrollView>
         <View style={styles.container}>
           {/* <ScrollView> */}
-          <Formik
-            initialValues={initialValues}
-            onSubmit={onSubmit}
-          >
+          <Formik initialValues={initialValues} onSubmit={onSubmit}>
             {({
               values,
               errors,

@@ -46,7 +46,7 @@ export default function SingleSubmissionScreen({
     if (isTOT) return "TotRequest";
     else if (isOverRide) return "OverrideRequest";
     else if (isWRR) return "WrrRequest";
-    else if (isFCO) return "FcoLog"
+    else if (isFCO) return "FcoLog";
   };
   let NavUrl = getNavUrl();
 
@@ -154,7 +154,7 @@ export default function SingleSubmissionScreen({
     putData(
       {
         url: `${apiUrl}/Approve`,
-        params: obj
+        params: obj,
       },
       (response) => {
         setLoading(false);
@@ -220,7 +220,7 @@ export default function SingleSubmissionScreen({
 
   return (
     <View style={styles.container}>
-      <Loader show={loading} size="large" overlay="true" color="white" />
+      <Loader show={loading} size="large" overlay="true" />
       {data?.status == STATUS.PENDING &&
         !isApproval &&
         !isManager &&
@@ -403,7 +403,12 @@ export default function SingleSubmissionScreen({
             /> */}
             <ListRow label="shift" value={data?.shift?.name} />
             <ListRow label="work Scope" value={data?.workScope} />
-            <ListRow label="Employee Names" value={data?.employeeNames} />
+            {/* <ListRow label="Employee Names" value={data?.employeeNames} /> */}
+            <ListRow
+              label="Clipped Employee"
+              value={data?.clippedEmployeesUrl}
+              type="image"
+            />
             {/* <ListRow label="description" value={data?.description} /> */}
           </>
         )}
@@ -442,7 +447,10 @@ export default function SingleSubmissionScreen({
             />
             <ListRow
               label="Comments"
-              value={data?.fcoComments && data?.fcoComments?.map(({comment}) => (comment)).join(", ")}
+              value={
+                data?.fcoComments &&
+                data?.fcoComments?.map(({ comment }) => comment).join(", ")
+              }
             />
           </>
         )}
@@ -526,7 +534,10 @@ export default function SingleSubmissionScreen({
 const ListRow = ({ label = "", value = "", type = null }) => {
   const rowValue =
     type == "image" ? (
-      <Image source={{ uri: HOST_URL+value }} style={{ width: 100, height: 100 }} />
+      <Image
+        source={{ uri: HOST_URL + value }}
+        style={{ width: 100, height: 100 }}
+      />
     ) : (
       value
     );

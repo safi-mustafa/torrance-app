@@ -67,7 +67,7 @@ export default function SubmissionContentScreen({
       {/* <Text style={styles.title}>
         {route.params?.title ? route.params.title : title} Submissions
       </Text> */}
-      {/* <Loader show={loading} size="large" overlay="true" color="white" /> */}
+      {/* <Loader show={loading} size="large" overlay="true" /> */}
       <ScrollView
         style={styles.scrollView}
         refreshControl={

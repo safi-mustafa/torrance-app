@@ -96,7 +96,7 @@ export default function LoginScreen({ navigation, route = { params: {} } }) {
 
   return (
     <>
-      <Loader show={loading} size="large" overlay="true" color="white" />
+      <Loader show={loading} size="large" overlay="true" />
       <ImageBackground
         source={BG_IMAGE}
         imageStyle={{ resizeMode: "stretch", marginRight: -5 }}

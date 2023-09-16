@@ -108,7 +108,7 @@ export function DashboardMenu({ navigation }) {
 
   return (
     <>
-      <Loader show={loading} size="large" overlay="true" color="white" />
+      <Loader show={loading} size="large" overlay="true" />
       <View style={styles.section}>
         {folders.map((item, index) => (
           <TouchableOpacity

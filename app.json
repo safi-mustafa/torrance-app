@@ -25,6 +25,10 @@
       "userInterfaceStyle": "light",
       "config": {
         "usesNonExemptEncryption": false
+      },
+      "infoPlist": {
+        "NSCameraUsageDescription": "We need access to your camera",
+        "NSPhotoLibraryUsageDescription": "We need access to your photo library"
       }
     },
     "android": {
@@ -35,7 +39,13 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "permissions": [
+        "CAMERA",
+        "CAMERA_ROLL",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

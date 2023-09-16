@@ -78,7 +78,7 @@ export default function SignupScreen({ navigation }) {
 
   return (
     <>
-      <Loader show={loading} size="large" overlay="true" color="white" />
+      <Loader show={loading} size="large" overlay="true" />
       <ImageBackground
         source={BG_IMAGE}
         imageStyle={{ resizeMode: "stretch", marginRight: -5 }}

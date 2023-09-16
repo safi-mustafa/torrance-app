@@ -459,7 +459,7 @@ export default function FcoScreen({ navigation, route }) {
 
   return (
     <>
-      <Loader show={loading} size="large" overlay="true" color="white" />
+      <Loader show={loading} size="large" overlay="true" />
       <KeyboardAwareScrollView>
         <View style={styles.container}>
           {/* <ScrollView> */}

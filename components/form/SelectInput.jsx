@@ -5,6 +5,7 @@ import { Platform, View } from "react-native";
 import appStyles from "../../app-styles";
 import getData from "../../api-services/getData";
 import Dropdown from "./Dropdown";
+import Loader from "../Loader";
 
 export default function SelectInput(props) {
   const {
@@ -22,6 +23,7 @@ export default function SelectInput(props) {
   } = props;
   const defaultValue = isEnum ? { id: value, [labelAttributes]: value } : value;
   const [filteredList, setFilteredList] = useState(options);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (url) getLookups(url);
@@ -29,9 +31,11 @@ export default function SelectInput(props) {
   }, [url]);
 
   const getLookups = (url) => {
+    setLoading(true);
     getData(
       { url },
       (response) => {
+        setLoading(false);
         // console.log(
         //   "🚀 ~ file: SelectInput.jsx ~ line 33 ~ getLookups ~ response",
         //   url,
@@ -48,6 +52,7 @@ export default function SelectInput(props) {
         }
       },
       (error) => {
+        setLoading(false);
         console.log(
           "🚀 ~ file: SelectInput.jsx ~ line 44 ~ getData ~ error",
           url,
@@ -84,6 +89,7 @@ export default function SelectInput(props) {
 
   return (
     <View>
+      <Loader show={loading} color="transparent" style={{position: "absolute", zIndex: 9, left: 0, right: 0, top: 10}}/>
       {Platform.OS == "android" ? (
         <Dropdown
           label={placeholder}
