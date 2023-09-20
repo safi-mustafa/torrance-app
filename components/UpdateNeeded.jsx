@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Alert, AppState, Platform } from "react-native";
 import Constants from 'expo-constants';
-// import VersionCheck from "react-native-version-check-expo";
 import * as Linking from "expo-linking";
 
 import getData from "../api-services/getData";

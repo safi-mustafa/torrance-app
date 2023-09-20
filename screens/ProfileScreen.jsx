@@ -3,25 +3,33 @@ import {
   Text,
   View,
   Platform,
-  TouchableOpacity,
   Pressable,
+  ScrollView,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Constants from "expo-constants";
+import { useState, useEffect } from "react";
+import * as Linking from "expo-linking";
 
 import appStyles from "../app-styles";
 import { lightColor } from "../constants/Colors";
-import { useEffect, useState } from "react";
 import { getKey, saveKey, STATUSBAR_HEIGHT } from "../utility";
 import ProfileCard from "../components/ProfileCard";
 import useUserMeta from "../hooks/useUserMeta";
 import { USER_ROLE } from "../constants/Misc";
+import Layout from "../constants/Layout";
+import getData from "../api-services/getData";
+import Buttonx from "../components/form/Buttonx";
 
 export default function ProfileScreen({ navigation }) {
   // const [user, setUser] = useState({});
   const { role = "", userMeta } = useUserMeta();
+  const [appVersionMeta, setAppVersionMeta] = useState({});
   const user = userMeta;
-  console.log("🚀 ~ file: ProfileScreen.jsx:23 ~ ProfileScreen ~ user", user);
   const isApprover = USER_ROLE.APPROVER == role;
+
+  useEffect(() => {
+    getAppLatestVersion();
+  }, []);
 
   const onLogOut = () => {
     // console.log("🚀 ~ file: ProfileScreen.jsx ~ line 31 ~ onLogOut ~ Logout", Logout)
@@ -30,14 +38,37 @@ export default function ProfileScreen({ navigation }) {
     navigation.replace("Root");
   };
 
+  const getAppLatestVersion = () => {
+    getData(
+      { url: "/UpdateStatus" },
+      (response) => {
+        setAppVersionMeta(response?.data);
+      },
+      (error) => {}
+    );
+  };
+
+  const openAppStore = () => {
+    const storeUrl =
+      Platform.OS === "ios"
+        ? "https://apps.apple.com/us/app/torrance-refining/id1493318265" // Replace with your iOS app's App Store URL
+        : "market://details?id=com.torrance.torrance"; // Replace with your Android app's package name
+
+    Linking.openURL(storeUrl).catch((error) =>
+      console.error("An error occurred", error)
+    );
+  };
+
   return (
     <View style={[styles.innerContainer]}>
       <ProfileCard
         header={
-          <Pressable style={styles.exitBtn} onPress={() => onLogOut()}>
-            {/* <Ionicons name="exit-outline" size={34} color="white" /> */}
-            <Text style={{color: 'white', fontSize: 18}}>Logout</Text>
-          </Pressable>
+          <>
+            <Pressable style={styles.exitBtn} onPress={() => onLogOut()}>
+              {/* <Ionicons name="exit-outline" size={34} color="white" /> */}
+              <Text style={{ color: "white", fontSize: 18 }}>Logout</Text>
+            </Pressable>
+          </>
         }
       />
       <View style={styles.expandSection}>
@@ -48,6 +79,17 @@ export default function ProfileScreen({ navigation }) {
         <View style={[appStyles.my1, styles.section]}>
           <Text style={styles.label}>Name:</Text>
           <Text style={styles.values}>{user?.fullName}</Text>
+        </View>
+        <View style={[appStyles.my1, styles.section]}>
+          <Text style={[styles.label, { width: 120 }]}>Latest Version:</Text>
+          <Text style={styles.values}>{appVersionMeta?.latestVersion}</Text>
+        </View>
+        <View style={[appStyles.my1, styles.section]}>
+          <Text style={[styles.label, { width: 120 }]}>Current Version:</Text>
+          <View style={{flexDirection: 'row' }}>
+            <Text style={styles.values}>{Constants.expoConfig.version}</Text>
+            <Buttonx onPress={() => openAppStore()} title="Update" style={{padding: 3, marginLeft:10, top: -5}}/>
+          </View>
         </View>
         {!isApprover ? (
           <>
@@ -64,16 +106,22 @@ export default function ProfileScreen({ navigation }) {
             </View> */}
             <View>
               <View style={styles.tr}>
-                <Text style={[styles.td, {fontWeight: 'bold'}]}>Department</Text>
-                <Text style={[styles.td, {fontWeight: 'bold'}]}>Unit</Text>
+                <Text style={[styles.td, { fontWeight: "bold" }]}>
+                  Department
+                </Text>
+                <Text style={[styles.td, { fontWeight: "bold" }]}>Unit</Text>
               </View>
-              {user?.associations &&
-                user?.associations.map((association) => (
-                  <View style={styles.tr}>
-                    <Text style={styles.td}>{association?.department?.name}</Text>
-                    <Text style={styles.td}>{association?.unit?.name}</Text>
-                  </View>
-                ))}
+              <ScrollView style={{ height: Layout.window.height - 450 }}>
+                {user?.associations &&
+                  user?.associations.map((association) => (
+                    <View style={styles.tr}>
+                      <Text style={styles.td}>
+                        {association?.department?.name}
+                      </Text>
+                      <Text style={styles.td}>{association?.unit?.name}</Text>
+                    </View>
+                  ))}
+              </ScrollView>
             </View>
           </>
         )}
@@ -124,12 +172,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     marginBottom: 10,
-    borderBottomColor: '#eee',
+    borderBottomColor: "#eee",
     borderBottomWidth: 1,
-    paddingBottom:5
+    paddingBottom: 5,
   },
-  td: {
-  },
+  td: {},
   head: {
     fontWeight: "bold",
     marginBottom: 5,

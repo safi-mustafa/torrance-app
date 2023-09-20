@@ -77,26 +77,28 @@ export default function ImageInput({ buttonText = 'Upload', ...otherProps }) {
 
   return (
     <>
-      <Buttonx
-        style={{ backgroundColor: 'transparent' }}
-        onPress={() => pickImage(ImagePicker.MediaTypeOptions.Images)}
-        title={
-          <>
-            <AntDesign name="upload" size={18} color={primaryColor} />
-            <Text style={{ color: primaryColor, fontSize: 16 }}> {buttonText}</Text>
-          </>
-        }
-      />
-      <Buttonx
-        style={{ backgroundColor: 'transparent' }}
-        onPress={() => openCamera()}
-        title={
-          <>
-            <AntDesign name="camera" size={18} color={primaryColor} />
-            <Text style={{ color: primaryColor, fontSize: 16 }}> Capture</Text>
-          </>
-        }
-      />
+      <View style={{flexDirection:'row', marginTop:5}}>
+        <Buttonx
+          style={{ backgroundColor: 'transparent', marginRight: 10 }}
+          onPress={() => pickImage(ImagePicker.MediaTypeOptions.Images)}
+          title={
+            <>
+              <AntDesign name="upload" size={18} color={primaryColor} />
+              <Text style={{ color: primaryColor, fontSize: 16 }}> {buttonText}</Text>
+            </>
+          }
+        />
+        <Buttonx
+          style={{ backgroundColor: 'transparent' }}
+          onPress={() => openCamera()}
+          title={
+            <>
+              <AntDesign name="camera" size={18} color={primaryColor} />
+              <Text style={{ color: primaryColor, fontSize: 16 }}> Capture</Text>
+            </>
+          }
+        />
+      </View>
       <View style={{ flexDirection: 'column' }}>
         {images &&
           images.map((image, index) => (

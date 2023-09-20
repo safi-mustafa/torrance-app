@@ -79,7 +79,7 @@ export const overrideFields = [
     label: "Work Date",
     required: true,
   },
-   {
+  {
     name: "reason",
     placeholder: "Enter reason",
     label: "Override Reason",
@@ -268,20 +268,20 @@ export const overrideFields = [
   //     paramField: "Unit.Id",
   //   },
   // },
-  // {
-  //   name: "employeeNames",
-  //   placeholder: "Enter Employee Names",
-  //   label: "Employee Name(s)",
-  //   required: true
-  // },
   {
     name: "workScope",
     placeholder: "Enter Scope",
     label: "Work Scope",
   },
   {
-    name: "ClippedEmployees",
+    name: "employeeNames",
+    placeholder: "Enter Employee Names",
     label: "Employee Name(s)",
+    // required: true
+  },
+  {
+    name: "ClippedEmployees",
+    label: "Clip Employees",
     inputType: "image",
     buttonText: "Upload Photo",
     wrapperStyle: { width: "48%", marginRight: 1 },
