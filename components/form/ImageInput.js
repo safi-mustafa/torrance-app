@@ -36,7 +36,7 @@ export default function ImageInput({ buttonText = 'Upload', ...otherProps }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.6,
       sourceType: sourceType, // Added sourceType parameter
     });
 
@@ -46,7 +46,7 @@ export default function ImageInput({ buttonText = 'Upload', ...otherProps }) {
       let name = uri.split('/').pop();
       let match = /\.(\w+)$/.exec(name);
       let type = match ? `image/${match[1]}` : `image`;
-      onSelection({ ...asset, name });
+      onSelection({ ...asset, name, type: 'image/jpeg' });
     }
   };
 
@@ -55,7 +55,7 @@ export default function ImageInput({ buttonText = 'Upload', ...otherProps }) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.6,
     });
 
     if (!result.canceled) {
@@ -63,6 +63,13 @@ export default function ImageInput({ buttonText = 'Upload', ...otherProps }) {
       // console.log("🚀 ~ file: ImageInput.js:63 ~ openCamera ~ result:", result)
       let uri = asset.uri;
       let name = uri.split('/').pop();
+
+      // if (asset.width > 1200 || asset.height > 1200) {
+      //   let scaleFactor = Math.max(asset.width / 1200, asset.height / 1200);
+      //   asset.width = Math.round(asset.width / scaleFactor);
+      //   asset.height = Math.round(asset.height / scaleFactor);
+      // }
+
       delete asset?.base64;
       delete asset?.duration;
       delete asset?.assetId;
