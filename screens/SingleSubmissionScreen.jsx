@@ -7,9 +7,11 @@ import {
   Pressable,
   Alert,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
+import { AntDesign } from '@expo/vector-icons';
 
 import getData from "../api-services/getData";
 import putData from "../api-services/putData";
@@ -22,6 +24,7 @@ import { primaryColor } from "../constants/Colors";
 import { BASE_URL, HOST_URL, STATUS, USER_ROLE } from "../constants/Misc";
 import useUserMeta from "../hooks/useUserMeta";
 import TextArea from "../components/form/TextArea";
+import Layout from "../constants/Layout";
 
 export default function SingleSubmissionScreen({
   navigation,
@@ -29,6 +32,7 @@ export default function SingleSubmissionScreen({
   ...otherProps
 }) {
   const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState({ show: false, data: "" });
   const [data, setData] = useState({});
   const { id, apiUrl, isApproval = false, ...otherRouteItems } = route.params;
   const { role = "", userMeta } = useUserMeta();
@@ -218,9 +222,57 @@ export default function SingleSubmissionScreen({
     </>
   );
 
+  const ListRow = ({ label = "", value = "", type = null }) => {
+    const rowValue =
+      type == "image" ? (
+        <TouchableOpacity onPress={() => setModal({ show: true, data: value })}>
+          <Image
+            source={{ uri: HOST_URL + value }}
+            style={{
+              width: 100,
+              height: 100,
+              borderWidth: 1,
+              borderColor: "#ccc",
+            }}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      ) : (
+        value
+      );
+    return (
+      <View style={[appStyles.my1, styles.section]}>
+        <Text style={styles.label}>{label}</Text>
+        <Text style={styles.value}>{rowValue}</Text>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Loader show={loading} size="large" overlay="true" />
+      {modal?.show && (
+        <View style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+          <TouchableOpacity onPress={() => setModal({ show: false, data: "" })}>
+            <AntDesign name="closecircleo" size={24} color="white" style={{alignSelf: 'flex-end', marginRight: 15, marginTop: 15, zIndex: 999, elevation: 9}} />
+          </TouchableOpacity>
+          <Image
+            onPress={() => setModal({ show: false, data: "" })}
+            source={{ uri: HOST_URL + modal?.data }}
+            style={{
+              alignItems: "center",
+              alignSelf: "center",
+              marginTop: 10,
+              width: Layout.window.width - 20,
+              height: Layout.window.height - 150,
+              borderWidth: 1,
+              borderColor: "#ccc",
+            }}
+            resizeMode="contain"
+          />
+        </View>
+      )}
+
       {data?.status == STATUS.PENDING &&
         !isApproval &&
         !isManager &&
@@ -530,24 +582,6 @@ export default function SingleSubmissionScreen({
     </View>
   );
 }
-
-const ListRow = ({ label = "", value = "", type = null }) => {
-  const rowValue =
-    type == "image" ? (
-      <Image
-        source={{ uri: HOST_URL + value }}
-        style={{ width: 100, height: 100 }}
-      />
-    ) : (
-      value
-    );
-  return (
-    <View style={[appStyles.my1, styles.section]}>
-      <Text style={styles.label}>{label}</Text>
-      <Text style={styles.value}>{rowValue}</Text>
-    </View>
-  );
-};
 
 const styles = StyleSheet.create({
   container: {

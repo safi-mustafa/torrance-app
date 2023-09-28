@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.24</string>
+	<string>2.0.25</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2.0.24</string>
+	<string>2.0.25</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -52,6 +52,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Upload photos in form</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Upload in form data</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Upload report document and image</string>
 	<key>UILaunchStoryboardName</key>
@@ -80,9 +84,5 @@
 	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSCameraUsageDescription</key>
-	<string>Upload photos in form</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Upload in form data</string>
 </dict>
 </plist>

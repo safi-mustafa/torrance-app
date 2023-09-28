@@ -46,7 +46,18 @@ export default function ImageInput({ buttonText = 'Upload', ...otherProps }) {
       let name = uri.split('/').pop();
       let match = /\.(\w+)$/.exec(name);
       let type = match ? `image/${match[1]}` : `image`;
-      onSelection({ ...asset, name, type: 'image/jpeg' });
+      
+      delete asset?.base64;
+      delete asset?.duration;
+      delete asset?.assetId;
+      delete asset?.rotation;
+      asset = { ...asset, fileName: name };
+
+      if (Platform.OS === 'android') {
+        asset = { ...asset, type };
+      }
+      onSelection({ ...asset, name });
+      // onSelection({ ...asset, name, type });
     }
   };
 
