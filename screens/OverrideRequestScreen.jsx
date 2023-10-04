@@ -3,7 +3,7 @@ import { useState } from "react";
 import { StyleSheet, View, Pressable, Text } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-toast-message";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 
 import appStyles from "../app-styles";
 import FormLoop from "../components/form/FormLoop";
@@ -14,11 +14,12 @@ import useUserMeta from "../hooks/useUserMeta";
 import { BASE_URL, USER_ROLE } from "../constants/Misc";
 
 export default function OverrideRequestScreen({ navigation, route }) {
+  const { params = {} } = route;
+  
   const [loading, setLoading] = useState(false);
   const [apiErrors, setApiErrors] = useState({});
-  const [costFormValues, setCostFormValues] = useState([]);
+  const [costFormValues, setCostFormValues] = useState((params?.id && params?.costs) ? params?.costs : []);
 
-  const { params = {} } = route;
   const initialValues = params?.id ? { ...params } : {};
   const isEdit = params && params.id;
 
@@ -38,16 +39,16 @@ export default function OverrideRequestScreen({ navigation, route }) {
   };
 
   const onSubmit = async (formValues = [], { setSubmitting }) => {
-    // console.log(
-    //   "🚀 ~ file: OverrideRequestScreen.jsx:35 ~ onSubmit ~ costFormValues",
-    //   costFormValues
-    // );
+    console.log(
+      "🚀 ~ file: OverrideRequestScreen.jsx:35 ~ onSubmit ~ costFormValues",
+      costFormValues
+    );
     // return;
 
     let params = {
       ...formValues,
       requester: { id: userMeta?.id, name: userMeta?.name },
-      costs: formatCostRows(costFormValues),
+      costs: formatCostRows(costFormValues) ,
     };
 
     params = isEmployee
@@ -84,7 +85,11 @@ export default function OverrideRequestScreen({ navigation, route }) {
         } else if (typeof value === "object" && value?.fileName) {
           const { base64, exif, duration, ...imageData } = value;
           formData.append(`${key}.file`, imageData);
-        } else formData.append(key, value);
+        } else {
+          if (typeof value == "object")
+            formData.append(key, JSON.stringify(value));
+          else formData.append(key, value);
+        }
       }
     };
     appendToFormData(params);
@@ -95,33 +100,41 @@ export default function OverrideRequestScreen({ navigation, route }) {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${userMeta?.token}`,
-        'VersionHeader': 'X-Version',
-        'X-Version': Constants.expoConfig.version
+        VersionHeader: "X-Version",
+        "X-Version": Constants.expoConfig.version,
       },
     };
     if (isEdit) {
       apiOptions.method = "PUT";
     }
 
-    // console.log(
-    //   "🚀 ~ file: OverrideRequestScreen.jsx:130 ~ onSubmit ~ formData:",
-    //   formData
-    // );
     apiOptions.body = formData;
-    // return;
-    const result = await fetch(BASE_URL + "/OverrideLog", apiOptions).then(
-      (response) => response.json()
+    console.log(
+      "🚀 ~ file: OverrideRequestScreen.jsx:107 ~ onSubmit ~ formData:",
+      formData
     );
-    setLoading(false);
-    // console.log(
-    //   "🚀 ~ file: OverrideRequestScreen.jsx:114 ~ onSubmit ~ result:",
-    //   result
-    // );
 
-    if (result.status === 200) {
-      onSuccess(result.data);
-    } else {
-      onFailure(result?.errors);
+    try {
+      const result = await fetch(BASE_URL + "/OverrideLog", apiOptions).then(
+        (response) => response.json()
+      );
+      console.log(
+        "🚀 ~ file: OverrideRequestScreen.jsx:114 ~ onSubmit ~ result:",
+        result
+      );
+      setLoading(false);
+
+      if (result.status === 200) {
+        onSuccess(result.data);
+      } else {
+        onFailure(result?.errors);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log(
+        "🚀 ~ file: OverrideRequestScreen.jsx:110 ~ onSubmit ~ error:",
+        error
+      );
     }
   };
 
