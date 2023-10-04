@@ -10,28 +10,21 @@ import useUserMeta from "../hooks/useUserMeta";
 import { parseCostsModelState, parseModelState } from "../utility";
 
 const OverrideCostForm = ({ onFormChange, values = [], errors = {} }) => {
-
   const newErrors = parseCostsModelState(errors);
-  // console.log("🚀 ~ file: OverrideCostForm.jsx:21 ~ OverrideCostForm ~ newErrors:", newErrors)
 
   const formatCostValues = (costValues) => {
-    // console.log("🚀 ~ file: OverrideCostForm.jsx:11 ~ formatCostValues ~ costValues:", costValues)
     let t = costValues.map((cost) => ({
       ...cost,
       // overrideType: { id: cost.overrideType, name: cost.overrideType },
       craftSkill: { id: cost.craftSkill.id, name: cost.craftSkill.name },
     }));
-    // console.log("🚀 ~ file: OverrideCostForm.jsx:16 ~ formatCostValues ~ t", t)
     return t;
   };
 
   const { role = "", userMeta } = useUserMeta();
   const isApprover = USER_ROLE.APPROVER == role;
   const defaultValues = values?.costs ? formatCostValues(values?.costs) : [];
-  // console.log(
-  //   "🚀 ~ file: OverrideCostForm.jsx:21 ~ OverrideCostForm ~ defaultValues:",
-  //   defaultValues
-  // );
+ 
   const [rows, setRows] = useState([...defaultValues]);
 
   const fields = [
@@ -70,7 +63,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors = {} }) => {
     //   wrapperStyle: { width: "48%", marginRight: 1 },
     // },
     {
-      name: "STHours",
+      name: "stHours",
       placeholder: "Enter hours",
       label: "ST Hours",
       required: true,
@@ -78,7 +71,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors = {} }) => {
       wrapperStyle: { width: "32%", marginRight: 1 },
     },
     {
-      name: "OTHours",
+      name: "otHours",
       placeholder: "Enter hours",
       label: "OT Hours",
       required: true,
@@ -86,7 +79,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors = {} }) => {
       wrapperStyle: { width: "32%", marginRight: 1 },
     },
     {
-      name: "DTHours",
+      name: "dtHours",
       placeholder: "Enter hours",
       label: "DT Hours",
       required: true,
@@ -149,10 +142,10 @@ const OverrideCostForm = ({ onFormChange, values = [], errors = {} }) => {
       return val;
     });
 
-    console.log(
-      "🚀 ~ file: OverrideCostForm.jsx:117 ~ onValueChange ~ newVals",
-      newVals
-    );
+    // console.log(
+    //   "🚀 ~ file: OverrideCostForm.jsx:117 ~ onValueChange ~ newVals",
+    //   newVals
+    // );
     setRows(newVals);
     onFormChange(newVals);
   };
@@ -204,6 +197,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors = {} }) => {
                 handleSubmit={() => {}}
                 formStyle={styles.tr}
               />
+              {newErrors && newErrors[i]?.general && <Text style={{color:'red', width:'100%'}}>* {newErrors[i]?.general}</Text>}
               <Buttonx
                 title={
                   <Ionicons name="remove-circle" size={30} color="darkred" />
@@ -222,7 +216,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors = {} }) => {
           ))}
         {rows.length == 0 && errors?.Costs && (
           <View>
-              <Text style={{ color: "red" }}>{errors?.Costs}</Text>
+            <Text style={{ color: "red" }}>{errors?.Costs}</Text>
           </View>
         )}
       </View>

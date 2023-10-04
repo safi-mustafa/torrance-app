@@ -57,10 +57,10 @@ export default function OverrideRequestScreen({ navigation, route }) {
         }
       : params;
 
-    // console.log(
-    //   "🚀 ~ file: OverrideRequestScreen.jsx ~ line 25 ~ onSubmit ~ params",
-    //   params
-    // );
+    console.log(
+      "🚀 ~ file: OverrideRequestScreen.jsx ~ line 25 ~ onSubmit ~ params",
+      params
+    );
     // return;
 
     const formData = new FormData();

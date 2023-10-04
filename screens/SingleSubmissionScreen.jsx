@@ -420,7 +420,7 @@ export default function SingleSubmissionScreen({
                     <Text style={[styles.td, styles.head, styles.smTd]}>ST</Text>
                     <Text style={[styles.td, styles.head, styles.smTd]}>OT</Text>
                     <Text style={[styles.td, styles.head, styles.smTd]}>DT</Text>
-                    <Text style={[styles.td, styles.head]}>Hours</Text>
+                    {/* <Text style={[styles.td, styles.head]}>Hours</Text> */}
                     <Text style={[styles.td, styles.head]}>Craft Skill</Text>
                     <Text style={[styles.td, styles.head]}>Head Count</Text>
                   </View>
@@ -428,10 +428,10 @@ export default function SingleSubmissionScreen({
                     data?.costs.map((item) => (
                       <>
                         <View style={styles.tr}>
-                          <Text style={[styles.td, styles.smTd]}>{item?.STHours}</Text>
-                          <Text style={[styles.td, styles.smTd]}>{item?.OTHours}</Text>
-                          <Text style={[styles.td, styles.smTd]}>{item?.DTHours}</Text>
-                          <Text style={styles.td}>{item?.overrideHours}</Text>
+                          <Text style={[styles.td, styles.smTd]}>{item?.stHours}</Text>
+                          <Text style={[styles.td, styles.smTd]}>{item?.otHours}</Text>
+                          <Text style={[styles.td, styles.smTd]}>{item?.dtHours}</Text>
+                          {/* <Text style={styles.td}>{item?.overrideHours}</Text> */}
                           <Text style={styles.td}>
                             {item?.craftSkill?.name}
                           </Text>
