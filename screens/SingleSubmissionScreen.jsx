@@ -417,7 +417,9 @@ export default function SingleSubmissionScreen({
               value={
                 <>
                   <View style={styles.tr}>
-                    <Text style={[styles.td, styles.head]}>Type</Text>
+                    <Text style={[styles.td, styles.head, styles.smTd]}>ST</Text>
+                    <Text style={[styles.td, styles.head, styles.smTd]}>OT</Text>
+                    <Text style={[styles.td, styles.head, styles.smTd]}>DT</Text>
                     <Text style={[styles.td, styles.head]}>Hours</Text>
                     <Text style={[styles.td, styles.head]}>Craft Skill</Text>
                     <Text style={[styles.td, styles.head]}>Head Count</Text>
@@ -426,7 +428,9 @@ export default function SingleSubmissionScreen({
                     data?.costs.map((item) => (
                       <>
                         <View style={styles.tr}>
-                          <Text style={styles.td}>{item?.overrideType}</Text>
+                          <Text style={[styles.td, styles.smTd]}>{item?.STHours}</Text>
+                          <Text style={[styles.td, styles.smTd]}>{item?.OTHours}</Text>
+                          <Text style={[styles.td, styles.smTd]}>{item?.DTHours}</Text>
                           <Text style={styles.td}>{item?.overrideHours}</Text>
                           <Text style={styles.td}>
                             {item?.craftSkill?.name}
@@ -637,6 +641,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     width: "24%",
     padding: 3,
+  },
+  smTd:{
+    width: "12%",
   },
   head: {
     fontWeight: "bold",

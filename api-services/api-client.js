@@ -1,4 +1,6 @@
 import axios from 'react-native-axios';
+import Constants from 'expo-constants';
+
 import { getKey } from '../utility';
 import {BASE_URL} from './../constants/Misc';
 
@@ -18,7 +20,7 @@ client.interceptors.request.use(
       config.headers.Authorization = `Bearer ${userMeta?.token}`;
     
     config.headers['VersionHeader'] = 'X-Version';
-    config.headers["X-Version"] = "1.0.1";
+    config.headers["X-Version"] = Constants.expoConfig.version;//"1.0.27";
 
     return config;
   },

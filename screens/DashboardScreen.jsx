@@ -6,10 +6,13 @@ import ProfileCard from "../components/ProfileCard";
 import { USER_ROLE } from "../constants/Misc";
 import useUserMeta from "../hooks/useUserMeta";
 import { STATUSBAR_HEIGHT } from "../utility";
+import appStyles from "../app-styles";
+import Layout from "../constants/Layout";
 
 const TOT_IMAGE = require("./../assets/images/journal-book.png");
 const WRR_IMAGE = require("./../assets/images/welding.png");
 const OVERRIDE_IMAGE = require("./../assets/images/override.png");
+const WORKER_IMAGE = require("./../assets/images/worker.png");
 const FCO_IMAGE = require("./../assets/images/fco.png");
 
 export default function DashboardScreen({ navigation }) {
@@ -66,7 +69,7 @@ export default function DashboardScreen({ navigation }) {
             style={styles.dashBtn}
             title="Submit Override Request"
             subtitle="Override Request Record"
-            icon={OVERRIDE_IMAGE}
+            icon={WORKER_IMAGE}
             onPress={() => navigation.push("OverrideRequest")}
           />
           <DashButton
@@ -76,6 +79,22 @@ export default function DashboardScreen({ navigation }) {
             icon={WRR_IMAGE}
             onPress={() => navigation.push("WrrRequest")}
           />
+          <View
+            style={[
+              appStyles.separator,
+              { borderWidth: 1, borderColor: "#eee", alignSelf: "center" },
+            ]}
+          ></View>
+
+          <View style={{ maxWidth: 320, alignSelf: "center", width: "100%" }}>
+            <DashButton
+              style={[styles.dashBtn]}
+              title="Statistics"
+              subtitle="Show All Stats"
+              icon={OVERRIDE_IMAGE}
+              onPress={() => navigation.push("Statistics")}
+            />
+          </View>
           {/* {(isEmployee || userMeta?.canAddLogs) && <DashButton
             style={styles.dashBtn}
             title="Field Change Order"
@@ -99,13 +118,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     height: "100%",
     paddingHorizontal: 10,
-    paddingVertical: 30
+    paddingVertical: 30,
   },
-  dashBtn: { 
+  dashBtn: {
     marginBottom: 15,
-    paddingVertical: 15, 
-    paddingHorizontal: 10, 
+    paddingVertical: 15,
+    paddingHorizontal: 10,
     maxWidth: 320,
-    alignSelf: "center"
-  }
+    alignSelf: "center",
+  },
 });

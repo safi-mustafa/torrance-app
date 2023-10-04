@@ -18,7 +18,7 @@ const OverrideCostForm = ({ onFormChange, values = [], errors = {} }) => {
     // console.log("🚀 ~ file: OverrideCostForm.jsx:11 ~ formatCostValues ~ costValues:", costValues)
     let t = costValues.map((cost) => ({
       ...cost,
-      overrideType: { id: cost.overrideType, name: cost.overrideType },
+      // overrideType: { id: cost.overrideType, name: cost.overrideType },
       craftSkill: { id: cost.craftSkill.id, name: cost.craftSkill.name },
     }));
     // console.log("🚀 ~ file: OverrideCostForm.jsx:16 ~ formatCostValues ~ t", t)
@@ -35,39 +35,63 @@ const OverrideCostForm = ({ onFormChange, values = [], errors = {} }) => {
   const [rows, setRows] = useState([...defaultValues]);
 
   const fields = [
+    // {
+    //   name: "overrideType",
+    //   inputType: "select",
+    //   // url: "/OverrideLog/GetOverrideTypes",
+    //   options: [
+    //     {
+    //       value: "ST",
+    //       label: "ST",
+    //     },
+    //     {
+    //       value: "OT",
+    //       label: "OT",
+    //     },
+    //     {
+    //       value: "DT",
+    //       label: "DT",
+    //     },
+    //   ],
+    //   placeholder: "Select Type",
+    //   label: "Override Type",
+    //   zIndex: 3000,
+    //   required: true,
+    //   // labelAttributes: "text",
+    //   wrapperStyle: { width: "48%", marginRight: 1 },
+    // },
+    // {
+    //   name: "overrideHours",
+    //   placeholder: "Enter hours",
+    //   label: "Hours",
+    //   required: true,
+    //   // inputType: "text",
+    //   keyboardType: "numeric",
+    //   wrapperStyle: { width: "48%", marginRight: 1 },
+    // },
     {
-      name: "overrideType",
-      inputType: "select",
-      // url: "/OverrideLog/GetOverrideTypes",
-      options: [
-        {
-          value: "ST",
-          label: "ST",
-        },
-        {
-          value: "OT",
-          label: "OT",
-        },
-        {
-          value: "DT",
-          label: "DT",
-        },
-      ],
-      placeholder: "Select Type",
-      label: "Override Type",
-      zIndex: 3000,
+      name: "STHours",
+      placeholder: "Enter hours",
+      label: "ST Hours",
       required: true,
-      // labelAttributes: "text",
-      wrapperStyle: { width: "48%", marginRight: 1 },
+      keyboardType: "numeric",
+      wrapperStyle: { width: "32%", marginRight: 1 },
     },
     {
-      name: "overrideHours",
+      name: "OTHours",
       placeholder: "Enter hours",
-      label: "Hours",
+      label: "OT Hours",
       required: true,
-      // inputType: "text",
       keyboardType: "numeric",
-      wrapperStyle: { width: "48%", marginRight: 1 },
+      wrapperStyle: { width: "32%", marginRight: 1 },
+    },
+    {
+      name: "DTHours",
+      placeholder: "Enter hours",
+      label: "DT Hours",
+      required: true,
+      keyboardType: "numeric",
+      wrapperStyle: { width: "32%", marginRight: 1 },
     },
     {
       name: "craftSkill",

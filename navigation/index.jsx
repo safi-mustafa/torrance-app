@@ -30,6 +30,7 @@ import WelcomeScreen from "../screens/WelcomeScreen";
 import ChangePasswordScreen from "../screens/ChangePasswordScreen";
 import SignupScreen from "../screens/SignupScreen";
 import FcoScreen from "../screens/FcoLogScreen";
+import StatisticsScreen from "../screens/StatisticsScreen";
 
 export default function Navigation({ colorScheme }) {
 
@@ -112,6 +113,11 @@ function RootNavigator() {
         name="Signup"
         component={SignupScreen}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Statistics"
+        component={StatisticsScreen}
+        // options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
