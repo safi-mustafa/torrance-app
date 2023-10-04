@@ -28,40 +28,6 @@ const OverrideCostForm = ({ onFormChange, values = [], errors = {} }) => {
   const [rows, setRows] = useState([...defaultValues]);
 
   const fields = [
-    // {
-    //   name: "overrideType",
-    //   inputType: "select",
-    //   // url: "/OverrideLog/GetOverrideTypes",
-    //   options: [
-    //     {
-    //       value: "ST",
-    //       label: "ST",
-    //     },
-    //     {
-    //       value: "OT",
-    //       label: "OT",
-    //     },
-    //     {
-    //       value: "DT",
-    //       label: "DT",
-    //     },
-    //   ],
-    //   placeholder: "Select Type",
-    //   label: "Override Type",
-    //   zIndex: 3000,
-    //   required: true,
-    //   // labelAttributes: "text",
-    //   wrapperStyle: { width: "48%", marginRight: 1 },
-    // },
-    // {
-    //   name: "overrideHours",
-    //   placeholder: "Enter hours",
-    //   label: "Hours",
-    //   required: true,
-    //   // inputType: "text",
-    //   keyboardType: "numeric",
-    //   wrapperStyle: { width: "48%", marginRight: 1 },
-    // },
     {
       name: "stHours",
       placeholder: "Enter hours",
