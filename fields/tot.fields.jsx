@@ -46,7 +46,7 @@ export const totFields = [
     url: "/PermitType",
     placeholder: "Select Permit Type",
     label: "Permit Type",
-    // required: true,
+    required: true,
     zIndex: 995,
   },
   {

@@ -461,7 +461,7 @@ export default function SingleSubmissionScreen({
             <ListRow label="work Scope" value={data?.workScope} />
             <ListRow label="Employee Names" value={data?.employeeNames} />
             <ListRow
-              label="Clipped Employee"
+              label="Uploaded Form"
               value={data?.clippedEmployeesUrl}
               type="image"
             />

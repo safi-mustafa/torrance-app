@@ -281,7 +281,7 @@ export const overrideFields = [
   },
   {
     name: "ClippedEmployees",
-    label: "Clip Employees",
+    label: "Upload Form",
     inputType: "image",
     buttonText: "Upload Photo",
     wrapperStyle: { width: "48%", marginRight: 1 },

@@ -19,6 +19,7 @@ export default function DashboardScreen({ navigation }) {
   const { role = "", userMeta } = useUserMeta();
   const isManager = USER_ROLE.COMPANY_MANAGER == role;
   const isEmployee = USER_ROLE.EMPLOYEE == role;
+  const isApprover = USER_ROLE.APPROVER == role;
 
   return (
     <View style={[styles.innerContainer]}>
@@ -79,22 +80,24 @@ export default function DashboardScreen({ navigation }) {
             icon={WRR_IMAGE}
             onPress={() => navigation.push("WrrRequest")}
           />
-          <View
-            style={[
-              appStyles.separator,
-              { borderWidth: 1, borderColor: "#eee", alignSelf: "center" },
-            ]}
-          ></View>
+          {isApprover && <>
+            <View
+              style={[
+                appStyles.separator,
+                { borderWidth: 1, borderColor: "#eee", alignSelf: "center" },
+              ]}
+            ></View>
 
-          <View style={{ maxWidth: 320, alignSelf: "center", width: "100%" }}>
-            <DashButton
-              style={[styles.dashBtn]}
-              title="Statistics"
-              subtitle="Show All Stats"
-              icon={OVERRIDE_IMAGE}
-              onPress={() => navigation.push("Statistics")}
-            />
-          </View>
+            <View style={{ maxWidth: 320, alignSelf: "center", width: "100%" }}>
+              <DashButton
+                style={[styles.dashBtn]}
+                title="Statistics"
+                subtitle="Show All Stats"
+                icon={OVERRIDE_IMAGE}
+                onPress={() => navigation.push("Statistics")}
+              />
+            </View>
+          </>}
           {/* {(isEmployee || userMeta?.canAddLogs) && <DashButton
             style={styles.dashBtn}
             title="Field Change Order"
