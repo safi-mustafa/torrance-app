@@ -35,6 +35,7 @@ export default function StatisticsScreen({ navigation }) {
       (response) => {
         setLoading(false);
         setStats(response?.data);
+        console.log("🚀 ~ file: StatisticsScreen.jsx:38 ~ getStats ~ response?.data:", response?.data)
       },
       (error) => {
         console.log(
@@ -50,9 +51,11 @@ export default function StatisticsScreen({ navigation }) {
       <View style={styles.container}>
         <Loader show={loading} size="large" overlay="true" />
         <ScrollView>
-          <View style={styles.pieContainer}>
-            <Text style={styles.title}>Hours By Shift Delay (TOT)</Text>
-            <PieChart labelAttrib="category" data={stats?.ongoingWorkDelay ?? []} pieWidth={width - 30} pieHeight={320} />
+        <View style={styles.pieContainer}>
+            <Text style={styles.title}>
+              Hourse By Shift Delay (TOT)
+            </Text>
+            <PieChart labelAttrib="category" data={stats?.shiftDelay ?? []} pieWidth={width - 30} pieHeight={320} />
           </View>
           <View style={styles.pieContainer}>
             <Text style={styles.title}>Hours By Rework Delay (TOT)</Text>
@@ -64,6 +67,10 @@ export default function StatisticsScreen({ navigation }) {
             </Text>
             <PieChart labelAttrib="category" data={stats?.startOfWorkDelay ?? []} pieWidth={width - 30} pieHeight={320} />
           </View>
+          <View style={styles.pieContainer}>
+            <Text style={styles.title}>Hours By OnGoing Work Delay (TOT)</Text>
+            <PieChart labelAttrib="category" data={stats?.ongoingWorkDelay ?? []} pieWidth={width - 30} pieHeight={320} />
+          </View>    
         </ScrollView>
       </View>
     </SafeAreaView>

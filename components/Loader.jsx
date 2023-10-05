@@ -7,6 +7,7 @@ const Loader = ({
   show = false,
   overlay = false,
   color = "rgba(0,0,0,0.3)",
+  bgColor = "rgba(0,0,0,0.3)",
   style = {},
   ...otherProps
 }) => {
@@ -15,7 +16,7 @@ const Loader = ({
       {show && (
         <View
           style={[
-            overlay && { ...styles.overlayStyle, backgroundColor: color },
+            overlay && { ...styles.overlayStyle, backgroundColor: bgColor },
             style,
           ]}
         >
