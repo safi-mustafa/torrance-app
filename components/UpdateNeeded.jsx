@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Alert, AppState, Platform } from "react-native";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 import * as Linking from "expo-linking";
+import * as Updates from "expo-updates";
 
 import getData from "../api-services/getData";
 
@@ -13,6 +14,7 @@ function UpdateNeeded() {
 
   useEffect(() => {
     validateVersionUpdate();
+    checkForUpdate();
     return () => {};
   }, []);
 
@@ -22,6 +24,7 @@ function UpdateNeeded() {
         appState.current.match(/inactive|background/) &&
         nextAppState === "active"
       ) {
+        checkForUpdate();
         validateVersionUpdate();
       }
 
@@ -34,6 +37,39 @@ function UpdateNeeded() {
       subscription.remove();
     };
   }, []);
+
+  //check OTA updates
+  async function checkForUpdate() {
+    try {
+      const update = await Updates.checkForUpdateAsync();
+      if (update.isAvailable) {
+        await downloadUpdate();
+      }
+    } catch (error) {
+      console.error("Error checking for update:", error);
+    }
+  }
+
+  //show OTA alert box
+  async function downloadUpdate() {
+    try {
+      await Updates.fetchUpdateAsync();
+      Alert.alert(
+        "Update Downloaded",
+        "The update has been downloaded. Please restart the app to apply the changes.",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              Updates.reloadAsync();
+            },
+          },
+        ]
+      );
+    } catch (error) {
+      console.error("Error downloading update:", error);
+    }
+  }
 
   const validateVersionUpdate = () => {
     getData(
@@ -85,11 +121,11 @@ function UpdateNeeded() {
       ];
     } else {
       alertConfig = [...alertConfig, { cancelable: false }];
-      if(Platform.OS === "android") {
+      if (Platform.OS === "android") {
         alertConfig = [
           ...alertConfig,
-          {text: 'OK', onPress: () => openAppStore()},
-        ]
+          { text: "OK", onPress: () => openAppStore() },
+        ];
       }
     }
 

@@ -272,6 +272,7 @@ export const overrideFields = [
     name: "workScope",
     placeholder: "Enter Scope",
     label: "Work Scope",
+    required: true,
   },
   {
     name: "employeeNames",
