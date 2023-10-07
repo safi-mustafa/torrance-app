@@ -12,7 +12,7 @@ import * as Linking from "expo-linking";
 
 import appStyles from "../app-styles";
 import { lightColor } from "../constants/Colors";
-import { getKey, saveKey, STATUSBAR_HEIGHT } from "../utility";
+import { compareVersions, getKey, saveKey, STATUSBAR_HEIGHT } from "../utility";
 import ProfileCard from "../components/ProfileCard";
 import useUserMeta from "../hooks/useUserMeta";
 import { USER_ROLE } from "../constants/Misc";
@@ -58,6 +58,7 @@ export default function ProfileScreen({ navigation }) {
       console.error("An error occurred", error)
     );
   };
+  console.log("🚀 ~ file: ProfileScreen.jsx:62 ~ ProfileScreen ~ appVersionMeta?.latestVersion, Constants.expoConfig.version:",Constants.expoConfig.version, appVersionMeta?.latestVersion)
 
   return (
     <View style={[styles.innerContainer]}>
@@ -88,7 +89,7 @@ export default function ProfileScreen({ navigation }) {
           <Text style={[styles.label, { width: 120 }]}>Current Version:</Text>
           <View style={{flexDirection: 'row' }}>
             <Text style={styles.values}>{Constants.expoConfig.version}</Text>
-            <Buttonx onPress={() => openAppStore()} title="Update" style={{padding: 3, marginLeft:10, top: -5}}/>
+            {compareVersions(Constants.expoConfig.version, appVersionMeta?.latestVersion) && <Buttonx onPress={() => openAppStore()} title="Update" style={{padding: 3, marginLeft:10, top: -5}}/>}
           </View>
         </View>
         {!isApprover ? (

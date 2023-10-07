@@ -5,6 +5,7 @@ import * as Linking from "expo-linking";
 import * as Updates from "expo-updates";
 
 import getData from "../api-services/getData";
+import { compareVersions } from "../utility";
 
 function UpdateNeeded() {
   const [validateConfig, setValidateConfig] = useState(null);
@@ -157,24 +158,6 @@ function UpdateNeeded() {
     } else {
       console.log("No update needed");
     }
-  };
-
-  const compareVersions = (currentVersion, latestVersion) => {
-    const v1 = currentVersion.split(".");
-    const v2 = latestVersion.split(".");
-
-    for (let i = 0; i < v1.length; i++) {
-      const num1 = parseInt(v1[i]);
-      const num2 = parseInt(v2[i] || 0);
-
-      if (num2 > num1) {
-        return true;
-      } else if (num2 < num1) {
-        return false;
-      }
-    }
-
-    return false; // Versions are equal
   };
 
   return (

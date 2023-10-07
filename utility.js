@@ -175,3 +175,22 @@ export const parseGroupErrorMessages = (jsonString, sectionName) => {
     }
 }
 
+export const compareVersions = (currentVersion, latestVersion) => {
+    if(!currentVersion || !latestVersion) return false;
+    const v1 = currentVersion.split(".");
+    const v2 = latestVersion.split(".");
+
+    for (let i = 0; i < v1.length; i++) {
+      const num1 = parseInt(v1[i]);
+      const num2 = parseInt(v2[i] || 0);
+
+      if (num2 > num1) {
+        return true;
+      } else if (num2 < num1) {
+        return false;
+      }
+    }
+
+    return false; // Versions are equal
+  };
+

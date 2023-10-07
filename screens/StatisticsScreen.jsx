@@ -50,7 +50,8 @@ export default function StatisticsScreen({ navigation }) {
     <SafeAreaView>
       <View style={styles.container}>
         <Loader show={loading} size="large" overlay="true" />
-        <ScrollView>
+        <Text style={{marginTop: 40}}>Coming Soon</Text>
+        {/* <ScrollView>
         <View style={styles.pieContainer}>
             <Text style={styles.title}>
               Hourse By Shift Delay (TOT)
@@ -71,7 +72,7 @@ export default function StatisticsScreen({ navigation }) {
             <Text style={styles.title}>Hours By OnGoing Work Delay (TOT)</Text>
             <PieChart labelAttrib="category" data={stats?.ongoingWorkDelay ?? []} pieWidth={width - 30} pieHeight={320} />
           </View>    
-        </ScrollView>
+        </ScrollView> */}
       </View>
     </SafeAreaView>
   );
