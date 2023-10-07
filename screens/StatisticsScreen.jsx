@@ -8,26 +8,21 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useEffect, useState } from "react";
+// import { WebView } from "react-native-webview";
 
 import Loader from "../components/Loader";
-import PieChart from "../components/PieChart";
+// import PieChart from "../components/PieChart";
 import getData from "../api-services/getData";
 
 export default function StatisticsScreen({ navigation }) {
   const { width, height } = Dimensions.get("window");
   const [loading, setLoading] = useState(false);
   const [stats, setStats] = useState([]);
-  
+
   useEffect(() => {
-    getStats();
+    // getStats();
   }, []);
 
-  const data1 = [
-    { label: "JHA Development", value: 30 },
-    { label: "Label 2", value: 50 },
-    { label: "Label 3", value: 22 },
-    { label: "Label 4", value: 15 },
-  ];
   const getStats = () => {
     setLoading(true);
     getData(
@@ -35,7 +30,10 @@ export default function StatisticsScreen({ navigation }) {
       (response) => {
         setLoading(false);
         setStats(response?.data);
-        console.log("🚀 ~ file: StatisticsScreen.jsx:38 ~ getStats ~ response?.data:", response?.data)
+        console.log(
+          "🚀 ~ file: StatisticsScreen.jsx:38 ~ getStats ~ response?.data:",
+          response?.data
+        );
       },
       (error) => {
         console.log(
@@ -50,7 +48,14 @@ export default function StatisticsScreen({ navigation }) {
     <SafeAreaView>
       <View style={styles.container}>
         <Loader show={loading} size="large" overlay="true" />
-        <Text style={{marginTop: 40}}>Coming Soon</Text>
+        <Text style={{ marginTop: 40 }}>Coming Soon</Text>
+        {/* <View style={{ height: height - 100, width: width }}>
+        <WebView
+          // style={styles.container}
+          style={{ height: height - 100, width: width }}
+          source={{ uri: "http://203.124.35.18:8402/ApproverDashboard" }}
+        />
+        </View> */}
         {/* <ScrollView>
         <View style={styles.pieContainer}>
             <Text style={styles.title}>
