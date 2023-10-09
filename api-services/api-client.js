@@ -1,5 +1,6 @@
 import axios from 'react-native-axios';
 import Constants from 'expo-constants';
+import Toast from "react-native-toast-message";
 
 import { getKey, saveKey } from '../utility';
 import { BASE_URL } from './../constants/Misc';
@@ -47,6 +48,11 @@ client.interceptors.response.use(
   },
   function (error) {
     if(error){
+      Toast.show({
+        type: "info",
+        text1: `Session Expired`,
+        text2: `You need to login again.`,
+      });
       const err = JSON.parse(JSON.stringify(error))
       if(err?.response?.status === 401){
         saveKey("user", "");

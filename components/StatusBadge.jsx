@@ -5,6 +5,8 @@ const StatusBadge = ({ status = "Pending", style = {} }) => {
   let statusBg = "green";
   if (status === "Pending") statusBg = "orange";
   else if (status === "Rejected") statusBg = "red";
+  else if (status === "InProcess") statusBg = "#800080";
+  
   return (
     <Text style={{ ...styles.badgeStyle, backgroundColor: statusBg, ...style }}>
       {status}
