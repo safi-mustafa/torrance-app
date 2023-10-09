@@ -114,8 +114,8 @@ export default function ProfileScreen({ navigation }) {
               </View>
               <ScrollView style={{ height: Layout.window.height - 450 }}>
                 {user?.associations &&
-                  user?.associations.map((association) => (
-                    <View style={styles.tr}>
+                  user?.associations.map((association, index) => (
+                    <View key={index} style={styles.tr}>
                       <Text style={styles.td}>
                         {association?.department?.name}
                       </Text>

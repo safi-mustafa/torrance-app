@@ -30,6 +30,7 @@ export default function LoginScreen({ navigation, route = { params: {} } }) {
   const [loginType, setLoginType] = useState(LOGIN_TYPE.PIN);
   const { params } = route;
   const notification = params?.notification;
+  const showLoginBtn = params?.showLogin;
 
   const expoToken = useRegisterExpoToken();
   // console.log("🚀 ~ file: LoginScreen.jsx:30 ~ LoginScreen ~ expoToken", expoToken)
@@ -123,7 +124,7 @@ export default function LoginScreen({ navigation, route = { params: {} } }) {
               ) : (
                 <LoginPin onSubmit={onSubmit} />
               )}
-              <Pressable
+              {showLoginBtn && <Pressable
                 onPress={() => toggleLoginType()}
                 style={{ alignSelf: "center", marginTop: 20 }}
               >
@@ -146,7 +147,7 @@ export default function LoginScreen({ navigation, route = { params: {} } }) {
                   style={{ backgroundColor: "transparent", borderWidth: 0 }}
                   onPress={() => navigation.pop()}
                 />
-              </Pressable>
+              </Pressable>}
             </View>
           </View>
         </KeyboardAwareScrollView>

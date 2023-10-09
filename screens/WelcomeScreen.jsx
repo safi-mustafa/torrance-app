@@ -13,11 +13,14 @@ import ProfileCard from "../components/ProfileCard";
 import Buttonx from "../components/form/Buttonx";
 import { STATUSBAR_HEIGHT } from "../utility";
 import useUserMeta from "../hooks/useUserMeta";
+import { setNavigate } from "../api-services/api-client";
 
 export default function WelcomeScreen({ navigation }) {
   const { userMeta } = useUserMeta();
 
   useEffect(() => {
+    console.log("🚀 ~ file: WelcomeScreen.jsx:23 ~ useEffect ~ navigation:", navigation)
+    setNavigate(navigation.replace);
     if (userMeta?.token) {
       navigation.navigate("BottomTabNav");
     }
@@ -36,7 +39,7 @@ export default function WelcomeScreen({ navigation }) {
               title="Login"
               titleStyle={{ fontSize: 18 }}
               style={styles.loginBtn}
-              onPress={() => navigation.push("Login")}
+              onPress={() => navigation.push("Login", {showBack: true})}
             />
           }
         />
