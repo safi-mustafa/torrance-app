@@ -8,11 +8,12 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useEffect, useState } from "react";
-// import { WebView } from "react-native-webview";
+import { WebView } from "react-native-webview";
 
 import Loader from "../components/Loader";
 // import PieChart from "../components/PieChart";
 import getData from "../api-services/getData";
+import { HOST_URL } from "../constants/Misc";
 
 export default function StatisticsScreen({ navigation }) {
   const { width, height } = Dimensions.get("window");
@@ -48,14 +49,16 @@ export default function StatisticsScreen({ navigation }) {
     <SafeAreaView>
       <View style={styles.container}>
         <Loader show={loading} size="large" overlay="true" />
-        <Text style={{ marginTop: 40 }}>Coming Soon</Text>
-        {/* <View style={{ height: height - 100, width: width }}>
+        {/* <Text style={{ marginTop: 40 }}>Coming Soon</Text> */}
+        <View style={{ height: height - 100, width: width }}>
         <WebView
           // style={styles.container}
+          onLoadStart={() => setLoading(true)}
+          onLoadEnd={() => setLoading(false)}
           style={{ height: height - 100, width: width }}
-          source={{ uri: "http://203.124.35.18:8402/ApproverDashboard" }}
+          source={{ uri: `${HOST_URL}/ApproverDashboard` }}
         />
-        </View> */}
+        </View>
         {/* <ScrollView>
         <View style={styles.pieContainer}>
             <Text style={styles.title}>

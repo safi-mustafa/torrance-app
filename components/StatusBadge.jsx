@@ -24,7 +24,7 @@ const styles = {
     paddingHorizontal: 4,
     fontSize: 12,
     overflow: "hidden",
-    width: 65,
+    width: 70,
     textAlign: "center",
   },
 };

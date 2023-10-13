@@ -19,7 +19,8 @@ export const LOGIN_TYPE = {
 export const STATUS = {
     PENDING: 'Pending',
     APPROVED: 'Approved',
-    REJECTED: 'Rejected'
+    REJECTED: 'Rejected',
+    INPROCESS: 'InProcess'
 }
 
 export const USER_ROLE = {
