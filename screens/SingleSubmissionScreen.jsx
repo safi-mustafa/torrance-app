@@ -6,25 +6,26 @@ import {
   ScrollView,
   Pressable,
   Alert,
-  Image,
   TouchableOpacity,
+  Image,
+  ActivityIndicator
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
 
 import getData from "../api-services/getData";
 import putData from "../api-services/putData";
-import deleteData from "../api-services/deleteData";
 import appStyles from "../app-styles";
 import Loader from "../components/Loader";
 import Buttonx from "../components/form/Buttonx";
 import { getFormatedDate } from "../utility";
 import { primaryColor } from "../constants/Colors";
-import { BASE_URL, HOST_URL, STATUS, USER_ROLE } from "../constants/Misc";
+import { HOST_URL, STATUS, USER_ROLE } from "../constants/Misc";
 import useUserMeta from "../hooks/useUserMeta";
 import TextArea from "../components/form/TextArea";
 import Layout from "../constants/Layout";
+import Picture from "../components/Picture";
 
 export default function SingleSubmissionScreen({
   navigation,
@@ -78,6 +79,13 @@ export default function SingleSubmissionScreen({
           "🚀 ~ file: SelectInput.jsx ~ line 44 ~ getData ~ error",
           error
         );
+        console.log(
+          "🚀 ~ file: SingleSubmissionScreen.jsx:81 ~ getSubmissionData ~ error?.status:",
+          error?.status
+        );
+        if (error?.status == "404") {
+          navigation.goBack();
+        }
       }
     );
   };
@@ -185,7 +193,7 @@ export default function SingleSubmissionScreen({
 
   const ApprovalSection = () => (
     <>
-      {isApproval && data?.status == STATUS.PENDING && !isFCO && (
+      {isApproval && data?.canProcess && !isFCO && (
         <>
           <View style={styles.approvalWrapper}>
             <Buttonx
@@ -222,21 +230,41 @@ export default function SingleSubmissionScreen({
     </>
   );
 
+  
+  // const [isImgLoading, setIsImgLoading] = useState(true);
   const ListRow = ({ label = "", value = "", type = null }) => {
+    let isImgLoading = true;
     const rowValue =
-      type == "image" ? (
-        <TouchableOpacity onPress={() => setModal({ show: true, data: value })}>
-          <Image
-            source={{ uri: HOST_URL + value }}
-            style={{
-              width: 100,
-              height: 100,
-              borderWidth: 1,
-              borderColor: "#ccc",
-            }}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
+      type == "image" && value ? (
+        <View style={{position: "relative"}}>
+          {isImgLoading && (
+            <ActivityIndicator
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+              }}
+              size="large"
+            />
+          )}
+          <TouchableOpacity
+            onPress={() => setModal({ show: true, data: value })}
+          >
+            <Image
+              source={{ uri: HOST_URL + value }}
+              style={{
+                width: 100,
+                height: 100,
+                borderWidth: 1,
+                borderColor: "#ccc",
+              }}
+              resizeMode="contain"
+              onLoad={() => {isImgLoading = false;}}
+            />
+          </TouchableOpacity>
+        </View>
       ) : (
         value
       );
@@ -254,7 +282,18 @@ export default function SingleSubmissionScreen({
       {modal?.show && (
         <View style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
           <TouchableOpacity onPress={() => setModal({ show: false, data: "" })}>
-            <AntDesign name="closecircleo" size={24} color="white" style={{alignSelf: 'flex-end', marginRight: 15, marginTop: 15, zIndex: 999, elevation: 9}} />
+            <AntDesign
+              name="closecircleo"
+              size={24}
+              color="white"
+              style={{
+                alignSelf: "flex-end",
+                marginRight: 15,
+                marginTop: 15,
+                zIndex: 999,
+                elevation: 9,
+              }}
+            />
           </TouchableOpacity>
           <Image
             onPress={() => setModal({ show: false, data: "" })}
@@ -273,10 +312,7 @@ export default function SingleSubmissionScreen({
         </View>
       )}
 
-      {data?.status == STATUS.PENDING &&
-        !isApproval &&
-        !isManager &&
-        !isApprover && <Action />}
+      {data?.canUpdate && !isApproval && <Action />}
       <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
         <ListRow label="company" value={data?.company?.name} />
         <ListRow label="Submitted" value={data?.formattedCreatedOn} />
@@ -417,9 +453,15 @@ export default function SingleSubmissionScreen({
               value={
                 <>
                   <View style={styles.tr}>
-                    <Text style={[styles.td, styles.head, styles.smTd]}>ST</Text>
-                    <Text style={[styles.td, styles.head, styles.smTd]}>OT</Text>
-                    <Text style={[styles.td, styles.head, styles.smTd]}>DT</Text>
+                    <Text style={[styles.td, styles.head, styles.smTd]}>
+                      ST
+                    </Text>
+                    <Text style={[styles.td, styles.head, styles.smTd]}>
+                      OT
+                    </Text>
+                    <Text style={[styles.td, styles.head, styles.smTd]}>
+                      DT
+                    </Text>
                     {/* <Text style={[styles.td, styles.head]}>Hours</Text> */}
                     <Text style={[styles.td, styles.head]}>Craft Skill</Text>
                     <Text style={[styles.td, styles.head]}>Head Count</Text>
@@ -428,9 +470,15 @@ export default function SingleSubmissionScreen({
                     data?.costs.map((item) => (
                       <>
                         <View style={styles.tr}>
-                          <Text style={[styles.td, styles.smTd]}>{item?.stHours}</Text>
-                          <Text style={[styles.td, styles.smTd]}>{item?.otHours}</Text>
-                          <Text style={[styles.td, styles.smTd]}>{item?.dtHours}</Text>
+                          <Text style={[styles.td, styles.smTd]}>
+                            {item?.stHours}
+                          </Text>
+                          <Text style={[styles.td, styles.smTd]}>
+                            {item?.otHours}
+                          </Text>
+                          <Text style={[styles.td, styles.smTd]}>
+                            {item?.dtHours}
+                          </Text>
                           {/* <Text style={styles.td}>{item?.overrideHours}</Text> */}
                           <Text style={styles.td}>
                             {item?.craftSkill?.name}
@@ -642,7 +690,7 @@ const styles = StyleSheet.create({
     width: "24%",
     padding: 3,
   },
-  smTd:{
+  smTd: {
     width: "12%",
   },
   head: {

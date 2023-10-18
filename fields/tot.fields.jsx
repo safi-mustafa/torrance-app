@@ -24,6 +24,21 @@ export const totFields = [
     // wrapperStyle: { paddingBottom: 40 },
   },
   {
+    name: "approver",
+    inputType: "select",
+    url: "/Approver",
+    placeholder: "Select Approver",
+    labelAttributes: "name",
+    label: "Approver",
+    zIndex: 993,
+    required: true,
+    condition: {
+      fieldName: "unit",
+      action: "useValue",
+      paramField: "Unit.Id",
+    },
+  },
+  {
     name: "shift",
     inputType: "select",
     url: "/Shift",
@@ -178,7 +193,7 @@ export const totFields = [
     url: "/StartOfWorkDelay",
     placeholder: "Select Start of Work",
     label: "Start of Work",
-    // required: true,
+    required: true,
     zIndex: 995,
     wrapperStyle: { width: "48%", marginRight: 5 },
     condition: {
@@ -193,7 +208,7 @@ export const totFields = [
     url: "/ShiftDelay",
     placeholder: "Select Delay",
     label: "Shift Delays",
-    // required: true,
+    required: true,
     zIndex: 998,
     wrapperStyle: { width: "48%", marginRight: 5 },
     condition: {
@@ -208,7 +223,7 @@ export const totFields = [
     url: "/ReworkDelay",
     placeholder: "Select Delay",
     label: "Rework Delays",
-    // required: true,
+    required: true,
     zIndex: 996,
     wrapperStyle: { width: "48%", marginRight: 5 },
     condition: {
@@ -223,7 +238,7 @@ export const totFields = [
     url: "/OngoingWorkDelay",
     placeholder: "Select OnGoing Work",
     label: "OnGoing Work Delay",
-    // required: true,
+    required: true,
     zIndex: 996,
     wrapperStyle: { width: "48%", marginRight: 5 },
     condition: {
@@ -306,20 +321,5 @@ export const totFields = [
   //   label: "Permitting Issue",
   //   required: true,
   //   zIndex: 993,
-  // },
-  // {
-  //   name: "approver",
-  //   inputType: "select",
-  //   url: "/Approver",
-  //   placeholder: "Select Approver",
-  //   labelAttributes: "userName",
-  //   label: "Approver",
-  //   zIndex: 993,
-  //   required: true,
-  //   condition: {
-  //     fieldName: "unit",
-  //     action: "useValue",
-  //     paramField: "Unit.Id",
-  //   },
   // },
 ];

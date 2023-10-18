@@ -180,12 +180,12 @@ const OverrideCostForm = ({ onFormChange, values = [], errors = {} }) => {
               />
             </View>
           ))}
-        {rows.length == 0 && errors?.Costs && (
-          <View>
+      </View>
+        {errors?.Costs && (
+          <View style={{marginBottom: 5}}>
             <Text style={{ color: "red" }}>{errors?.Costs}</Text>
           </View>
         )}
-      </View>
     </>
   );
 };

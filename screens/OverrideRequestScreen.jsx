@@ -31,6 +31,7 @@ export default function OverrideRequestScreen({ navigation, route }) {
     : overrideFields;
 
   const formatCostRows = (rows) => {
+    console.log("🚀 ~ file: OverrideRequestScreen.jsx:34 ~ formatCostRows ~ rows:", rows)
     return rows.map((row) => {
       if (typeof row.overrideType === "object") {
         return { ...row, overrideType: row.overrideType?.id };
@@ -40,14 +41,14 @@ export default function OverrideRequestScreen({ navigation, route }) {
 
   const onSubmit = async (formValues = [], { setSubmitting }) => {
     console.log(
-      "🚀 ~ file: OverrideRequestScreen.jsx:35 ~ onSubmit ~ costFormValues",
+      "🚀 ~ file: OverrideRequestScreen.jsx:44 ~ onSubmit ~ costFormValues",
       costFormValues
     );
     // return;
 
     let params = {
       ...formValues,
-      requester: { id: userMeta?.id, name: userMeta?.name },
+      employee: { id: userMeta?.id, name: userMeta?.name },
       costs: formatCostRows(costFormValues) ,
     };
 

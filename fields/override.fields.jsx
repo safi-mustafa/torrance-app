@@ -64,6 +64,21 @@ export const overrideFields = [
     },
   },
   {
+    name: "approver",
+    inputType: "select",
+    url: "/Approver",
+    placeholder: "Select Approver",
+    labelAttributes: "name",
+    label: "Approver",
+    zIndex: 993,
+    required: true,
+    condition: {
+      fieldName: "unit",
+      action: "useValue",
+      paramField: "Unit.Id",
+    },
+  },
+  {
     name: "shift",
     inputType: "select",
     url: "/Shift",
@@ -251,22 +266,6 @@ export const overrideFields = [
   //   label: "Requester",
   //   required: true,
   //   zIndex: 987,
-  // },
-
-  // {
-  //   name: "approver",
-  //   inputType: "select",
-  //   url: "/Account/getAllUsers?role=approver",
-  //   placeholder: "Select Approver",
-  //   labelAttributes: "userName",
-  //   label: "Approver",
-  //   zIndex: 993,
-  //   required: true,
-  //   condition: {
-  //     fieldName: "unit",
-  //     action: "useValue",
-  //     paramField: "Unit.Id",
-  //   },
   // },
   {
     name: "workScope",

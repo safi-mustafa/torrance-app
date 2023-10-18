@@ -24,6 +24,21 @@ export const wrrFields = [
     },
   },
   {
+    name: "approver",
+    inputType: "select",
+    url: "/Approver",
+    placeholder: "Select Approver",
+    labelAttributes: "name",
+    label: "Approver",
+    zIndex: 993,
+    required: true,
+    condition: {
+      fieldName: "unit",
+      action: "useValue",
+      paramField: "Unit.Id",
+    },
+  },
+  {
     name: "company",
     inputType: "select",
     url: "/Company?DisablePagination=true",
@@ -36,6 +51,7 @@ export const wrrFields = [
     inputType: "datetime",
     placeholder: "Select Date",
     label: "Calibration Date",
+    required: true,
   },
   {
     name: "fumeControlUsed",
@@ -146,6 +162,7 @@ export const wrrFields = [
     // value: new Date(),
     label: "Checkout Date",
     placeholder: "Enter Date",
+    required: true,
   },
   {
     name: "location",
@@ -174,15 +191,6 @@ export const wrrFields = [
     inputType: "datetime",
     placeholder: "Select Date",
     label: "Date of Rod Returned",
-  },
-  // {
-  //   name: "approver",
-  //   inputType: "select",
-  //   url: "/Account/getAllUsers?role=approver",
-  //   placeholder: "Select Approver",
-  //   labelAttributes: "userName",
-  //   label: "Approver",
-  //   zIndex: 993,
-  //   required: true
-  // }, 
+    required: true,
+  } 
 ];
