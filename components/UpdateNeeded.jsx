@@ -16,7 +16,7 @@ function UpdateNeeded() {
   useEffect(() => {
     validateVersionUpdate();
     checkForUpdate();
-    return () => {};
+    return () => { };
   }, []);
 
   useEffect(() => {
@@ -41,13 +41,27 @@ function UpdateNeeded() {
 
   //check OTA updates
   async function checkForUpdate() {
-    try {
-      const update = await Updates.checkForUpdateAsync();
-      if (update.isAvailable) {
-        await downloadUpdate();
+    // try {
+    //   const update = await Updates.checkForUpdateAsync();
+    //   if (update.isAvailable) {
+    //     await downloadUpdate();
+    //   }
+    // } catch (error) {
+    //   console.error("Error checking for update:", error);
+    // }
+
+    if (Updates.isAvailable && !Updates.isEmbeddedLaunch) {
+      try {
+        const update = await Updates.checkForUpdateAsync();
+        if (update.isAvailable) {
+          await Updates.fetchUpdateAsync();
+          await Updates.reloadAsync();
+        }
+      } catch (e) {
+        console.error(e);
       }
-    } catch (error) {
-      console.error("Error checking for update:", error);
+    } else {
+      console.log('Update check is not supported in Expo Go.');
     }
   }
 
@@ -118,7 +132,7 @@ function UpdateNeeded() {
     if (!config?.isForcible) {
       alertConfig = [
         ...alertConfig,
-        { text: "Cancel", onPress: () => {}, style: "cancel" },
+        { text: "Cancel", onPress: () => { }, style: "cancel" },
       ];
     } else {
       alertConfig = [...alertConfig, { cancelable: false }];
