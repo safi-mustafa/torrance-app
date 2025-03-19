@@ -1,8 +1,10 @@
 import * as SecureStore from 'expo-secure-store';
-import { NativeModules } from "react-native";
-const { StatusBarManager } = NativeModules;
+import { Platform, StatusBar } from "react-native";
 
-export const STATUSBAR_HEIGHT = StatusBarManager.HEIGHT;
+export const STATUSBAR_HEIGHT = Platform.select({
+    ios: StatusBar.currentHeight ?? 44,
+    android: StatusBar.currentHeight ?? 0,
+});
 
 export const saveKey = async (key, value) => {
     await SecureStore.setItemAsync(key, value);

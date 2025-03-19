@@ -5,10 +5,14 @@ import {
   Text,
   ScrollView,
   Pressable,
-  Alert,
+  Modal,
   TouchableOpacity,
   Image,
-  ActivityIndicator
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  TextInput,
+  Platform,
+  Keyboard
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
@@ -25,7 +29,6 @@ import { HOST_URL, STATUS, USER_ROLE } from "../constants/Misc";
 import useUserMeta from "../hooks/useUserMeta";
 import TextArea from "../components/form/TextArea";
 import Layout from "../constants/Layout";
-import Picture from "../components/Picture";
 
 export default function SingleSubmissionScreen({
   navigation,
@@ -38,6 +41,8 @@ export default function SingleSubmissionScreen({
   const { id, apiUrl, isApproval = false, ...otherRouteItems } = route.params;
   const { role = "", userMeta } = useUserMeta();
   const [fcoComment, setFcoComment] = useState("");
+  const [rejectionNote, setRejectionNote] = useState("");
+  const [showRejectionModal, setShowRejectionModal] = useState(false);
 
   const isManager = USER_ROLE.COMPANY_MANAGER == role;
   const isApprover = USER_ROLE.APPROVER == role;
@@ -58,7 +63,7 @@ export default function SingleSubmissionScreen({
   useEffect(() => {
     if (id) getSubmissionData(id);
     // if (isOverRide) setData({ ...otherRouteItems });
-    return () => {};
+    return () => { };
   }, [id]);
 
   const getSubmissionData = (id = "") => {
@@ -126,10 +131,13 @@ export default function SingleSubmissionScreen({
     </View>
   );
 
-  const onApproveUpdate = (status) => {
+  const onApproveUpdate = (status, note = "") => {
     setLoading(true);
     putData(
-      { url: `${apiUrl}/${id}/${status}` },
+      {
+        url: `${apiUrl}/${id}/${status}`,
+        params: comment ? note : ""
+      },
       (response) => {
         setLoading(false);
         console.log(
@@ -151,6 +159,19 @@ export default function SingleSubmissionScreen({
         );
       }
     );
+  };
+
+  const handleReject = () => {
+    // if (!rejectionNote.trim()) {
+    //   Toast.show({
+    //     type: "error",
+    //     text1: "Error",
+    //     text2: "Please provide a rejection reason",
+    //   });
+    //   return;
+    // }
+    // setShowRejectionModal(false);
+    onApproveUpdate(STATUS.REJECTED, rejectionNote);
   };
 
   const onFCOStatusUpdate = (status, approverType = "BusinessTeamLeader") => {
@@ -211,7 +232,7 @@ export default function SingleSubmissionScreen({
               }
             />
             <Buttonx
-              onPress={() => onApproveUpdate(STATUS.REJECTED)}
+              onPress={() => setShowRejectionModal(true)}
               style={{
                 ...styles.approveButtons,
                 backgroundColor: "red",
@@ -230,13 +251,12 @@ export default function SingleSubmissionScreen({
     </>
   );
 
-  
   // const [isImgLoading, setIsImgLoading] = useState(true);
   const ListRow = ({ label = "", value = "", type = null }) => {
     let isImgLoading = true;
     const rowValue =
       type == "image" && value ? (
-        <View style={{position: "relative"}}>
+        <View style={{ position: "relative" }}>
           {isImgLoading && (
             <ActivityIndicator
               style={{
@@ -261,7 +281,7 @@ export default function SingleSubmissionScreen({
                 borderColor: "#ccc",
               }}
               resizeMode="contain"
-              onLoad={() => {isImgLoading = false;}}
+              onLoad={() => { isImgLoading = false; }}
             />
           </TouchableOpacity>
         </View>
@@ -279,6 +299,8 @@ export default function SingleSubmissionScreen({
   return (
     <View style={styles.container}>
       <Loader show={loading} size="large" overlay="true" />
+
+      {/* Image Viewer Modal */}
       {modal?.show && (
         <View style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
           <TouchableOpacity onPress={() => setModal({ show: false, data: "" })}>
@@ -311,6 +333,56 @@ export default function SingleSubmissionScreen({
           />
         </View>
       )}
+
+      {/* Rejection Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showRejectionModal}
+        onRequestClose={() => setShowRejectionModal(false)}
+      >
+        <TouchableOpacity
+          activeOpacity={1}
+          style={styles.centeredView}
+          onPress={() => Keyboard.dismiss()}
+        >
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={(e) => e.stopPropagation()}
+          >
+            <View style={styles.modalView}>
+              <Text style={styles.modalTitle}>Confirm Rejection</Text>
+              <Text style={styles.modalText}>Please provide a reason for rejection</Text>
+
+              <TextInput
+                style={styles.modalInput}
+                multiline
+                numberOfLines={4}
+                placeholder="Enter rejection reason"
+                value={rejectionNote}
+                onChangeText={setRejectionNote}
+                blurOnSubmit={false}
+              />
+
+              <View style={styles.modalButtonContainer}>
+                <TouchableOpacity
+                  style={[styles.modalButton, styles.cancelButton]}
+                  onPress={() => setShowRejectionModal(false)}
+                >
+                  <Text style={styles.buttonText}>Cancel</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[styles.modalButton, styles.rejectButton]}
+                  onPress={handleReject}
+                >
+                  <Text style={styles.buttonText}>Reject</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </TouchableOpacity>
+      </Modal>
 
       {data?.canUpdate && !isApproval && <Action />}
       <ScrollView style={{ paddingHorizontal: 20, marginTop: 10 }}>
@@ -698,5 +770,68 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 11,
     width: "24%",
+  },
+  // Modal styles
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalView: {
+    width: "85%",
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  modalInput: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 20,
+    backgroundColor: "#f9f9f9",
+    minHeight: 100,
+    textAlignVertical: "top",
+  },
+  modalButtonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  modalButton: {
+    borderRadius: 5,
+    padding: 10,
+    elevation: 2,
+    flex: 1,
+    marginHorizontal: 5,
+  },
+  cancelButton: {
+    backgroundColor: "#ccc",
+  },
+  rejectButton: {
+    backgroundColor: "red",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

@@ -129,6 +129,8 @@ function RootNavigator() {
  */
 const BottomTab = createBottomTabNavigator();
 
+const ICON_SIZE = 24;
+
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
   const { role = "", userMeta } = useUserMeta();
@@ -145,7 +147,7 @@ function BottomTabNavigator() {
       title: "Dashboard",
       headerShown: false,
       tabBarIcon: ({ color }) => (
-        <TabBarIcon name="home" size={32} color={color} />
+        <TabBarIcon name="home" size={ICON_SIZE} color={color} />
       ),
     },
   };
@@ -160,7 +162,7 @@ function BottomTabNavigator() {
       options: {
         title: "Pending",
         tabBarIcon: ({ color }) => (
-          <TabBarIcon name={userMeta?.canAddLogs ? "clipboard":"home"}color={color} size={userMeta?.canAddLogs ? 30:32} />
+          <TabBarIcon name={userMeta?.canAddLogs ? "clipboard":"home"}color={color} size={userMeta?.canAddLogs ? 20:28} />
         ),
       },
       initialParams: {
@@ -179,7 +181,7 @@ function BottomTabNavigator() {
       options: {
         title: isApprover ? "Reviewed Logs" : "My Submissions",
         tabBarIcon: ({ color }) => (
-          <TabBarIcon name="file-text" color={color} size={28} />
+          <TabBarIcon name="file-text" color={color} size={20} />
         ),
       },
     },
@@ -189,7 +191,7 @@ function BottomTabNavigator() {
       options: {
         title: "Notifications",
         // headerShown: false,
-        tabBarIcon: ({ color }) => <TabBarIcon name="inbox" color={color} />,
+        tabBarIcon: ({ color }) => <TabBarIcon name="inbox" color={color} size={ICON_SIZE} />,
       },
     },
     {
@@ -198,7 +200,7 @@ function BottomTabNavigator() {
       options: {
         title: "My Profile",
         headerShown: false,
-        tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+        tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} size={ICON_SIZE}/>,
       },
     },
   ];
@@ -216,7 +218,7 @@ function BottomTabNavigator() {
 
   if (isManager) {
     tabs = [dashboardScreen, ...managerTabs];
-    console.log("🚀 ~ file: index.jsx:193 ~ BottomTabNavigator ~ tabs", tabs);
+    // console.log("🚀 ~ file: index.jsx:193 ~ BottomTabNavigator ~ tabs", tabs);
   }
 
   const defaultInitialScreen = () => {
@@ -234,7 +236,7 @@ function BottomTabNavigator() {
         tabBarShowLabel: true,
         tabBarActiveTintColor: Colors[colorScheme].tint,
         tabBarLabelStyle: {
-          marginBottom: -10
+          marginBottom: 1
         },
         tabBarIconStyle: {
           marginTop: 3
@@ -258,5 +260,5 @@ function BottomTabNavigator() {
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
 function TabBarIcon(props) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome size={ICON_SIZE} style={{ marginBottom: 0 }} {...props} />;
 }
