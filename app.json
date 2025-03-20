@@ -3,7 +3,7 @@
     "name": "Torrance - Time of Tools",
     "slug": "torrance-app",
     "scheme": "torranceapp",
-    "version": "2.0.31",
+    "version": "2.0.32",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -14,7 +14,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/2c8692f2-976a-4669-9da5-315dca556393"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -22,7 +23,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.torrance.torrance",
-      "buildNumber": "2.0.31",
+      "buildNumber": "2.0.32",
       "userInterfaceStyle": "light",
       "config": {
         "usesNonExemptEncryption": false
@@ -30,7 +31,8 @@
       "infoPlist": {
         "NSCameraUsageDescription": "We need access to your camera",
         "NSPhotoLibraryUsageDescription": "We need access to your photo library"
-      }
+      },
+      "runtimeVersion": "1.0.0"
     },
     "android": {
       "package": "com.torrance.torrance",
@@ -42,11 +44,22 @@
       },
       "googleServicesFile": "./google-services.json",
       "permissions": [
-        "CAMERA",
-        "CAMERA_ROLL",
-        "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE"
-      ]
+        "android.permission.CAMERA",
+        "android.permission.CAMERA_ROLL",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_MEDIA_LOCATION",
+        "android.permission.CAMERA",
+        "android.permission.CAMERA_ROLL",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_MEDIA_LOCATION"
+      ],
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

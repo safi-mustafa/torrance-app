@@ -133,10 +133,15 @@ export default function SingleSubmissionScreen({
 
   const onApproveUpdate = (status, note = "") => {
     setLoading(true);
+
+    let requestUrl = `${apiUrl}/${id}/${status}`;
+    if(note){
+      requestUrl = `${requestUrl}?comment=${note}`;
+    }
     putData(
       {
-        url: `${apiUrl}/${id}/${status}`,
-        params: comment ? note : ""
+        url: requestUrl,
+        // params: comment ? note : ""
       },
       (response) => {
         setLoading(false);
@@ -630,6 +635,11 @@ export default function SingleSubmissionScreen({
             />
           </>
         )}
+
+        {data?.comment && <ListRow
+          label="Comment"
+          value={data?.comment}
+        />}
       </ScrollView>
 
       <ApprovalSection />
