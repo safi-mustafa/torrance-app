@@ -7,14 +7,13 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/2c8692f2-976a-4669-9da5-315dca556393"
     },
     "assetBundlePatterns": [
@@ -36,7 +35,7 @@
     },
     "android": {
       "package": "com.torrance.torrance",
-      "versionCode": 16,
+      "versionCode": 17,
       "userInterfaceStyle": "light",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -45,13 +44,6 @@
       "googleServicesFile": "./google-services.json",
       "permissions": [
         "android.permission.CAMERA",
-        "android.permission.CAMERA_ROLL",
-        "android.permission.READ_EXTERNAL_STORAGE",
-        "android.permission.WRITE_EXTERNAL_STORAGE",
-        "android.permission.RECORD_AUDIO",
-        "android.permission.ACCESS_MEDIA_LOCATION",
-        "android.permission.CAMERA",
-        "android.permission.CAMERA_ROLL",
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.RECORD_AUDIO",
@@ -96,9 +88,9 @@
         "expo-build-properties",
         {
           "android": {
-            "compileSdkVersion": 33,
-            "targetSdkVersion": 33,
-            "buildToolsVersion": "33.0.0"
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
           }
         }
       ],
@@ -107,6 +99,14 @@
     "extra": {
       "eas": {
         "projectId": "2c8692f2-976a-4669-9da5-315dca556393"
+      },
+      "doctor": {
+        "reactNativeDirectoryCheck": {
+          "exclude": [
+            "react-native-keyboard-aware-scroll-view"
+          ],
+          "listUnknownPackages": false
+        }
       }
     }
   }

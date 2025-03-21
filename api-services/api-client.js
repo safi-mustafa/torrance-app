@@ -1,4 +1,5 @@
-import axios from 'react-native-axios';
+// import axios from 'react-native-axios';
+import axios from 'axios';
 import Constants from 'expo-constants';
 import Toast from "react-native-toast-message";
 
