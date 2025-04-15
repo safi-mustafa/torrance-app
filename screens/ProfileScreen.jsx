@@ -80,7 +80,7 @@ export default function ProfileScreen({ navigation }) {
           <>
             <Pressable style={styles.exitBtn} onPress={() => onLogOut()}>
               {/* <Ionicons name="exit-outline" size={34} color="white" /> */}
-              <Text style={{ color: "white", fontSize: 18 }}>Logout</Text>
+              <Text style={{ color: "white", fontSize: 17 }}>Logout</Text>
               {HOST_URL !== "https://torranceapi.eztrak.net" && (
                 <Text style={{ color: "red", fontSize: 10, width: 100, textAlign: 'center', top:5 }}>
                   (Demo Server)
