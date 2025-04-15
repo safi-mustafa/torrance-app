@@ -32,7 +32,7 @@ export default function WelcomeScreen({ navigation }) {
     <View style={[styles.innerContainer]}>
       <View>
         <ProfileCard
-          title="Welcome"
+          title="Welcome."
           header={
             <Buttonx
               // title={<Ionicons name="enter-outline" size={34} color="white" />}

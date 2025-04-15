@@ -5,6 +5,7 @@ import {
   Platform,
   Pressable,
   ScrollView,
+  Alert,
 } from "react-native";
 import Constants from "expo-constants";
 import { useState, useEffect } from "react";
@@ -15,10 +16,11 @@ import { lightColor } from "../constants/Colors";
 import { compareVersions, getKey, saveKey, STATUSBAR_HEIGHT } from "../utility";
 import ProfileCard from "../components/ProfileCard";
 import useUserMeta from "../hooks/useUserMeta";
-import { USER_ROLE } from "../constants/Misc";
+import { BASE_URL, HOST_URL, USER_ROLE } from "../constants/Misc";
 import Layout from "../constants/Layout";
 import getData from "../api-services/getData";
 import Buttonx from "../components/form/Buttonx";
+import deleteData from "../api-services/deleteData";
 
 export default function ProfileScreen({ navigation }) {
   // const [user, setUser] = useState({});
@@ -58,7 +60,18 @@ export default function ProfileScreen({ navigation }) {
       console.error("An error occurred", error)
     );
   };
-  console.log("🚀 ~ file: ProfileScreen.jsx:62 ~ ProfileScreen ~ appVersionMeta?.latestVersion, Constants.expoConfig.version:",Constants.expoConfig.version, appVersionMeta?.latestVersion)
+
+  const deletAccount = () => {
+    deleteData(
+      { url: "/Account/Delete" },
+      (response) => {
+        console.log("🚀 line 67 ~ deletAccount ~ response:", response);
+        onLogOut();
+      },
+      (error) => {}
+    );
+  };
+  
 
   return (
     <View style={[styles.innerContainer]}>
@@ -68,6 +81,11 @@ export default function ProfileScreen({ navigation }) {
             <Pressable style={styles.exitBtn} onPress={() => onLogOut()}>
               {/* <Ionicons name="exit-outline" size={34} color="white" /> */}
               <Text style={{ color: "white", fontSize: 18 }}>Logout</Text>
+              {HOST_URL !== "https://torranceapi.eztrak.net" && (
+                <Text style={{ color: "red", fontSize: 10, width: 100, textAlign: 'center', top:5 }}>
+                  (Demo Server)
+                </Text>
+              )}
             </Pressable>
           </>
         }
@@ -92,6 +110,33 @@ export default function ProfileScreen({ navigation }) {
             {compareVersions(Constants.expoConfig.version, appVersionMeta?.latestVersion) && <Buttonx onPress={() => openAppStore()} title="Update" style={{padding: 3, marginLeft:10, top: -5}}/>}
           </View>
         </View>
+        {/* Delete account button */}
+        <View style={[styles.section, {paddingBottom: 15}]}>
+          <Buttonx
+            title="Delete Account"
+            onPress={() => {
+              Alert.alert(
+                "Delete Account",
+                "Are you sure you want to delete your account?",
+                [
+                  {
+                    text: "Cancel",
+                    style: "cancel",
+                  },
+                  {
+                    text: "Delete",
+                    onPress: () => {
+                      deletAccount();
+                    },
+                    style: "destructive",
+                  },
+                ]
+              );
+            }}
+            style={{ backgroundColor: "#f44336", borderWidth: 0 }}
+          />
+        </View>
+
         {!isApprover ? (
           <>
             <View style={[appStyles.my1, styles.section]}>

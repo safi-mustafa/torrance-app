@@ -35,14 +35,21 @@ export default function SingleSubmissionScreen({
   route,
   ...otherProps
 }) {
+
+  const actionTypes = {
+    APPROVE: "Approve",
+    REJECT: "Reject",
+  }
+
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState({ show: false, data: "" });
   const [data, setData] = useState({});
   const { id, apiUrl, isApproval = false, ...otherRouteItems } = route.params;
   const { role = "", userMeta } = useUserMeta();
   const [fcoComment, setFcoComment] = useState("");
-  const [rejectionNote, setRejectionNote] = useState("");
-  const [showRejectionModal, setShowRejectionModal] = useState(false);
+  const [actionNote, setActionNote] = useState("");
+  const [showActionModal, setShowActionModal] = useState(false);
+  const [actionType, setActionType] = useState(actionTypes.APPROVE);
 
   const isManager = USER_ROLE.COMPANY_MANAGER == role;
   const isApprover = USER_ROLE.APPROVER == role;
@@ -166,17 +173,20 @@ export default function SingleSubmissionScreen({
     );
   };
 
-  const handleReject = () => {
-    // if (!rejectionNote.trim()) {
+  const handleActionSubmission = () => {
+    // if (!actionNote.trim()) {
     //   Toast.show({
     //     type: "error",
     //     text1: "Error",
-    //     text2: "Please provide a rejection reason",
+    //     text2: "Please provide a {actionType} reason",
     //   });
     //   return;
     // }
-    // setShowRejectionModal(false);
-    onApproveUpdate(STATUS.REJECTED, rejectionNote);
+    // setShowActionModal(false);
+
+    // onApproveUpdate(STATUS.REJECTED, actionNote);
+    const status = actionType == actionTypes.APPROVE ? STATUS.APPROVED : STATUS.REJECTED;
+    onApproveUpdate(status, actionNote);
   };
 
   const onFCOStatusUpdate = (status, approverType = "BusinessTeamLeader") => {
@@ -217,13 +227,19 @@ export default function SingleSubmissionScreen({
     );
   };
 
+  const onActionTrigger = (actionType) => {
+    setActionType(actionType);
+    setShowActionModal(true);
+    setActionNote("");
+  };
+
   const ApprovalSection = () => (
     <>
       {isApproval && data?.canProcess && !isFCO && (
         <>
           <View style={styles.approvalWrapper}>
             <Buttonx
-              onPress={() => onApproveUpdate(STATUS.APPROVED)}
+              onPress={() => onActionTrigger(actionTypes.APPROVE)}
               style={{
                 ...styles.approveButtons,
                 backgroundColor: "green",
@@ -237,7 +253,7 @@ export default function SingleSubmissionScreen({
               }
             />
             <Buttonx
-              onPress={() => setShowRejectionModal(true)}
+              onPress={() => onActionTrigger(actionTypes.REJECT)}
               style={{
                 ...styles.approveButtons,
                 backgroundColor: "red",
@@ -339,12 +355,12 @@ export default function SingleSubmissionScreen({
         </View>
       )}
 
-      {/* Rejection Modal */}
+      {/* Action Modal */}
       <Modal
         animationType="slide"
         transparent={true}
-        visible={showRejectionModal}
-        onRequestClose={() => setShowRejectionModal(false)}
+        visible={showActionModal}
+        onRequestClose={() => setShowActionModal(false)}
       >
         <TouchableOpacity
           activeOpacity={1}
@@ -356,32 +372,32 @@ export default function SingleSubmissionScreen({
             onPress={(e) => e.stopPropagation()}
           >
             <View style={styles.modalView}>
-              <Text style={styles.modalTitle}>Confirm Rejection</Text>
-              <Text style={styles.modalText}>Please provide a reason for rejection</Text>
+              <Text style={styles.modalTitle}>Confirm {actionType}</Text>
+              <Text style={styles.modalText}>Please provide a reason for {actionType}</Text>
 
               <TextInput
                 style={styles.modalInput}
                 multiline
                 numberOfLines={4}
-                placeholder="Enter rejection reason"
-                value={rejectionNote}
-                onChangeText={setRejectionNote}
+                placeholder={`Enter ${actionType} reason`}
+                value={actionNote}
+                onChangeText={setActionNote}
                 blurOnSubmit={false}
               />
 
               <View style={styles.modalButtonContainer}>
                 <TouchableOpacity
                   style={[styles.modalButton, styles.cancelButton]}
-                  onPress={() => setShowRejectionModal(false)}
+                  onPress={() => setShowActionModal(false)}
                 >
                   <Text style={styles.buttonText}>Cancel</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  style={[styles.modalButton, styles.rejectButton]}
-                  onPress={handleReject}
+                  style={[styles.modalButton, actionType == actionTypes.APPROVE ? {backgroundColor: 'green'} : styles.rejectButton]}
+                  onPress={handleActionSubmission}
                 >
-                  <Text style={styles.buttonText}>Reject</Text>
+                  <Text style={styles.buttonText}>{actionType}</Text>
                 </TouchableOpacity>
               </View>
             </View>
